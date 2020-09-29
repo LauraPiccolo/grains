@@ -1,52 +1,82 @@
-.row {
-    display: flex;
-}
+// .row {
+//     display: flex;
+// }
 
-$margin: 0.5vw;
-$margin2: $margin * 2;
+// $margin: 0.5vw;
+// $margin2: $margin * 2;
 
-.col-1,
-.col-2,
-.col-3,
-.col-4,
-.col-5,
-.col-6,
-.col-7,
-.col-8,
-.col-9,
-.col-10,
-.col-11,
-.col-12 {
-    background-color: lightcyan;
-}
+// .col-1,
+// .col-2,
+// .col-3,
+// .col-4,
+// .col-5,
+// .col-6,
+// .col-7,
+// .col-8,
+// .col-9,
+// .col-10,
+// .col-11,
+// .col-12 {
+//     background-color: lightcyan;
+// }
 
-.col-1 {
-    width: calc((100% / 12 * 1) - #{$margin2});
-    margin-left: $margin;
-    margin-right: $margin; 
-}
-.col-2 {
-    width: calc((100% / 12 * 2) - #{$margin2});
-    margin-left: $margin;
-    margin-right: $margin; 
-}
-.col-3 {
-    width: calc((100% / 12 * 3) - #{$margin2});
-    margin-left: $margin;
-    margin-right: $margin; 
-}
-.col-4 {
-    width: calc((100% / 12 * 4) - #{$margin2});
-    margin-left: $margin;
-    margin-right: $margin; 
-}
-.col-5 {
-    width: calc((100% / 12 * 5) - #{$margin2});
-    margin-left: $margin;
-    margin-right: $margin; 
-}
-.col-6 {
-    width: calc((100% / 12 * 6) - #{$margin2});
-    margin-left: $margin;
-    margin-right: $margin; 
-}
+// .col-1 {
+//     width: calc((100% / 12 * 1) - #{$margin2});
+//     margin-left: $margin;
+//     margin-right: $margin; 
+// }
+// .col-2 {
+//     width: calc((100% / 12 * 2) - #{$margin2});
+//     margin-left: $margin;
+//     margin-right: $margin; 
+// }
+// .col-3 {
+//     width: calc((100% / 12 * 3) - #{$margin2});
+//     margin-left: $margin;
+//     margin-right: $margin; 
+// }
+// .col-4 {
+//     width: calc((100% / 12 * 4) - #{$margin2});
+//     margin-left: $margin;
+//     margin-right: $margin; 
+// }
+// .col-5 {
+//     width: calc((100% / 12 * 5) - #{$margin2});
+//     margin-left: $margin;
+//     margin-right: $margin; 
+// }
+// .col-6 {
+//     width: calc((100% / 12 * 6) - #{$margin2});
+//     margin-left: $margin;
+//     margin-right: $margin; 
+// }
+// .col-7 {
+//     width: calc((100% / 12 * 6) - #{$margin2});
+//     margin-left: $margin;
+//     margin-right: $margin; 
+// }
+// .col-8 {
+//     width: calc((100% / 12 * 6) - #{$margin2});
+//     margin-left: $margin;
+//     margin-right: $margin; 
+// }
+// .col-9 {
+//     width: calc((100% / 12 * 6) - #{$margin2});
+//     margin-left: $margin;
+//     margin-right: $margin; 
+// }
+// .col-10 {
+//     width: calc((100% / 12 * 6) - #{$margin2});
+//     margin-left: $margin;
+//     margin-right: $margin; 
+// }
+// .col-11 {
+//     width: calc((100% / 12 * 6) - #{$margin2});
+//     margin-left: $margin;
+//     margin-right: $margin; 
+// }
+// .col-12 {
+//     width: calc((100% / 12 * 6) - #{$margin2});
+//     margin-left: $margin;
+//     margin-right: $margin; 
+// }
