@@ -1,4 +1,5 @@
 import Layout from '../components/layout'
+import Sections from '../components/sections/sections'
 import { getHome } from '../lib/api'
 
 const Home = ({ content }) => {
@@ -9,17 +10,11 @@ const Home = ({ content }) => {
         <>
         <Layout>
             <main>
-                <section>
-                Hey this is Version Nr. 2
-                </section>
-                <section className="" >
-                    <div className="textarea"></div>
-                    <div className="imagegrid">
-                        <article className="imagegrid__item">
-
-                        </article>
-                    </div>
-                </section>
+                <div className="intro">
+                </div>
+                <div className="anker">
+                    <Sections content={content} />
+                </div>
             </main>
         </Layout>
         </>
