@@ -9,12 +9,15 @@ const BlockColumns = ({ content }) => {
     return (
         <div className="block--columns">
           {
-            content.items.map((column) => {
-            let rte = Storyblok.richTextResolver.render(content.rte)
+            content.items.map((column, index) => {
+            let text = Storyblok.richTextResolver.render(column.text);
             return (
-              <div className="column">
-                <h4>TITLE</h4>
-                <p className="rte" dangerouslySetInnerHTML={{ __html: rte }} /> 
+              <div className="column" style={{
+                gridColumnStart: index,
+                gridColumnEnd: index+1,
+              }}>
+                <h4>{`TITLE`}</h4>
+                <p className="rte" dangerouslySetInnerHTML={{ __html: text }} /> 
               </div>
             )})
           }
