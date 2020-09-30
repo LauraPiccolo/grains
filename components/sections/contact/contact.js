@@ -1,4 +1,4 @@
-import ContactForm from './ContactForm'
+import ContactForm from './contactForm'
 import Mailchimp from 'react-mailchimp-form'
 
 const Contact = ({ content }) => {
