@@ -1,4 +1,5 @@
 import '../components/reset.css'
+import '../components/utils/image.css'
 import '../components/style.css'
 import '../components/grid.scss'
 
