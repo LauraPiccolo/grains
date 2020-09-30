@@ -10,13 +10,13 @@ const Blocks = ({ blocks }) => {
         {blocks.map((block) => {
             switch(block.component) {
                 case 'textarea':
-                    return <BlockTextarea content={block} />
+                    return <BlockTextarea content={block} key={block._uid} />
                     break
                 case 'grid':
-                    return <BlockGrid content={block} />
+                    return <BlockGrid content={block} key={block._uid} />
                     break
                 case 'columns':
-                    return <BlockColumns content={block} />
+                    return <BlockColumns content={block} key={block._uid} />
                     break
                 default:
                     return
