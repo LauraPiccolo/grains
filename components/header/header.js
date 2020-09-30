@@ -1,10 +1,9 @@
 import Link from 'next/link';
-import { useRef } from 'react';
-
 
 const Header = ({ settings }) => {
 
-    const navLinks = useRef(null)
+    const sectionsBig = ['Businessfotografie','Bewerbungsfotos','Industriereportage'];
+    const sectionsSmall = ['Studio', 'Preise', 'Kontakt']
 
     const displayMenu = () => {
         // Display menu
@@ -12,8 +11,18 @@ const Header = ({ settings }) => {
 
     const scrollToSection = (event) => {
         // scroll to desired section
+        event.preventDefault();
+        const anchor = document.querySelector(event.target.dataset.href);
+
+        window.scroll({
+            behavior: 'smooth',
+            left: 0,
+            top: anchor.offsetTop
+        });
+
         // put little dot
-        event.target.className = ""
+        document.querySelector('.nav__section.active').className = 'nav__section';
+        event.target.className = "nav__section active";
     }
 
     return (
@@ -21,16 +30,28 @@ const Header = ({ settings }) => {
         <div className="header__brand">Kopf & Kragen</div>
         <nav className="header__nav header__nav--big">
             <ul>
-                <li className="nav__section"><a ref={navLinks} href="">Businessfotografie</a></li>
-                <li className="nav__section"><a ref={navLinks} href="">Bewerbungsfotos</a></li>
-                <li className="nav__section"><a ref={navLinks} href="">Industriereportage</a></li>
+                {
+                    sectionsBig.map((sectionName, index) => (
+                        <li className={`nav__section ${index === 0 ? 'active':''}`}>
+                            <a onClick={(event) => scrollToSection(event)} data-href={`.${sectionName.toLowerCase()}`}>         
+                                {sectionName}
+                            </a>
+                        </li>
+                    ))
+                }
             </ul> 
         </nav>
         <nav className="header__nav header__nav--small">
             <ul>
-                <li className="nav__section"><a ref={navLinks} href="">Studio</a></li>
-                <li className="nav__section"><a ref={navLinks} href="">Preise</a></li>
-                <li className="nav__section"><a ref={navLinks} href="">Kontakt</a></li>
+                {
+                    sectionsSmall.map((sectionName) => (
+                        <li className="nav__section">
+                            <a onClick={(event) => scrollToSection(event)} data-href={`.${sectionName.toLowerCase()}`}>
+                                {sectionName}
+                            </a>
+                        </li>
+                    ))
+                }
             </ul>    
         </nav>   
         <button onClick={displayMenu} className="nav__menu col-3">Menu</button> 
