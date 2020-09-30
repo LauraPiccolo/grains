@@ -8,12 +8,18 @@ import Footer from '../components/footer/footer'
 
 const Home = ({ content }) => {
 
+    console.log(content.Bewerbungsfotos)
+
     return (
         <>
         <Layout>
             <main>
             <Intro content={content} />
             <Work content={content.Businessfotografie} />
+            <Work content={content.Bewerbungsfotos} />
+            <Work content={content.Industriereportage} />
+            <Work content={content.Studio} />
+            <Work content={content.Preise} />
             <Contact content={content} />
             </main>
         </Layout>
