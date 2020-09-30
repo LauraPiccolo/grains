@@ -1,6 +1,6 @@
 /* INTRO COMPONENT + CONTACT COMPONENT */
 
-.intro, .contact {
+.intro, .kontakt {
     display: block;
     padding: 5px 10px;
     height: fit-content;
@@ -10,7 +10,7 @@
     margin-top: 22px;
 }
 
-.intro__newsletter input[type=EMAIL], .intro__newsletter button, .contact__newsletter input[type=EMAIL], .contact__newsletter button {
+.intro__newsletter input[type=EMAIL], .intro__newsletter button, .kontakt__newsletter input[type=EMAIL], .kontakt__newsletter button {
     border: none;
     outline: none;
     background-color: transparent;
@@ -19,17 +19,17 @@
     text-align: left;
 }
 
-.intro__newsletter button, .contact__newsletter button {
+.intro__newsletter button, .kontakt__newsletter button {
     margin-top: 10px;
 }
 
-.intro__newsletter input[type=email]::placeholder, .contact__newsletter input[type=email]::placeholder {
+.intro__newsletter input[type=email]::placeholder, .kontakt__newsletter input[type=email]::placeholder {
     opacity: 0.3;
 }
 
 /* Small display */
 
-.intro__address, .intro__contact, .intro__newsletter, .contact__address, .contact__contact, .contact__newsletter {
+.intro__address, .intro__kontakt, .intro__newsletter, .kontakt__address, .kontakt__kontakt, .kontakt__newsletter {
     margin-bottom: 10px;
 }
 
@@ -37,27 +37,35 @@
 
 @media screen and (min-width: 750px) {
 
-    .intro__address, .contact__address {
+    .intro__address, .kontakt__address {
         grid-area: address;
     }
     
-    .intro__contact, .contact__contact {
-        grid-area: contact;
+    .intro__kontakt, .kontakt__kontakt {
+        grid-area: kontakt;
     }
     
-    .intro__newsletter, .contact__newsletter {
+    .intro__newsletter, .kontakt__newsletter {
         grid-area: newsletter;
     }
 
-    .intro, .contact {
+    .intro {
         display: grid;
         grid-template-columns: repeat(12, 1fr);
         grid-template-rows: repeat(2, 50px);
         grid-template-areas: "address address address address form form form form . newsletter newsletter newsletter"
-        "contact contact contact contact form form form form . . . .";
+        "kontakt kontakt kontakt kontakt form form form form . . . .";
     }
 
-    .contact main {
+    .kontakt {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        grid-template-rows: auto;
+        grid-template-areas: "address address address address form form form form . newsletter newsletter newsletter"
+        "kontakt kontakt kontakt kontakt form form form form . . . .";
+    }
+
+    .kontakt main {
         grid-area: form;
     }
 
@@ -67,11 +75,11 @@
 
 @media screen and (min-width: 900px) {
 
-    .intro, .contact {
-        grid-template-areas: "address address contact contact form form form form . newsletter newsletter newsletter";
+    .intro, .kontakt {
+        grid-template-areas: "address address kontakt kontakt form form form form . newsletter newsletter newsletter";
     }
 
-    .contact main {
+    .kontakt main {
         grid-area: form;
     }
 

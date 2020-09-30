@@ -8,7 +8,7 @@ const Intro = ({ content }) => {
                 Sanderstr. 29–30
                 <br/>12047 Berlin, Germany
             </div>
-            <div className="intro__contact">
+            <div className="intro__kontakt">
                 info@kopfundkragen.eu 
                 <br/>+49 (0)30 89 56 69 41
                 <br/>@kopfundkragen_fotografie

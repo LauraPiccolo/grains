@@ -9,4 +9,14 @@
 .block--columns {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
+    padding: 35px 15px;
+}
+
+.column {
+    padding-right: 35px;
+}
+
+.column h4 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
 }

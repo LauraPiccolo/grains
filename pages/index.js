@@ -15,11 +15,11 @@ const Home = ({ content }) => {
         <Layout>
             <main>
             <Intro content={content} />
-            <Work content={content.Businessfotografie} />
-            <Work content={content.Bewerbungsfotos} />
-            <Work content={content.Industriereportage} />
-            <Work content={content.Studio} />
-            <Work content={content.Preise} />
+            <Work content={content.Businessfotografie} anchor="businessfotografie"/>
+            <Work content={content.Bewerbungsfotos} anchor="bewerbungsfotos"/>
+            <Work content={content.Industriereportage} anchor="industriereportage"/>
+            <Work content={content.Studio} anchor="studio"/>
+            <Work content={content.Preise} anchor="preise"/>
             <Contact content={content} />
             </main>
         </Layout>

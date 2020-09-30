@@ -1,9 +1,9 @@
 import Blocks from '../blocks/blocks'
 
-const Work = ({ content }) => {
+const Work = ({ content, anchor }) => {
 console.log.content;
     return (
-        <section className={`work`}>
+        <section className={`work ${anchor}`}>
             <Blocks blocks={content} />
         </section>
     )

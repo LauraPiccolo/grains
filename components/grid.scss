@@ -87,3 +87,19 @@
     grid-column-start: 8;
     grid-column-end: 13;
 }
+
+@media screen and (max-width: 800px) {
+    .griditem {
+        width: 100%;
+    }
+
+
+    .block--grid {
+        display: block;
+    }
+
+    .gridrow {
+        display: block;
+    }
+
+}

@@ -6,20 +6,17 @@ let Storyblok = new StoryblokClient({
 
 const BlockColumns = ({ content }) => {
 
-    console.log(content)
-
     return (
         <div className="block--columns">
         {
             content.Columns.map((column, index) => {
-            let text = Storyblok.richTextResolver.render(column.text);
+            let text = Storyblok.richTextResolver.render(column.Rte);
             return (
               <div className="column" style={{
-                gridColumnStart: index,
-                gridColumnEnd: index+1,
+                gridColumnStart: index+1,
+                gridColumnEnd: index+2,
               }}>
-                <h4>{`TITLE`}</h4>
-                <p className="rte" dangerouslySetInnerHTML={{ __html: text }} /> 
+                <div className="rte" dangerouslySetInnerHTML={{ __html: text }} /> 
               </div>
             )})
         }

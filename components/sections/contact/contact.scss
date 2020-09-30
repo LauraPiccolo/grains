@@ -1,8 +1,8 @@
-.contact, .studio, .preise {
+.kontakt, .studio, .preise {
     background-color: #FFFF64;
 }
 
-.contact main input:-webkit-autofill, .contact main textarea:-webkit-autofill,.contact main button:-webkit-autofill, .contact main input, .contact main textarea,.contact main button {
+.kontakt main input:-webkit-autofill, .kontakt main textarea:-webkit-autofill,.kontakt main button:-webkit-autofill, .kontakt main input, .kontakt main textarea,.kontakt main button {
     display: block;
     font-size: 1.2rem;
     background-color: transparent;
@@ -31,15 +31,20 @@
     margin-left: 0;
 }
 
-.contact, .contact main {
+.kontakt, .kontakt main {
     height: fit-content;
 }
 
-.contact main {
+.kontakt main {
     display: inline;
     width: fit-content;
 }
 
-.contact main input::placeholder, .contact main textarea::placeholder {
+.kontakt main input::placeholder, .kontakt main textarea::placeholder {
     opacity: 0.3;
+}
+
+.kontakt {
+    padding-top: 50px;
+    padding-bottom: 150px;
 }

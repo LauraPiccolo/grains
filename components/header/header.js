@@ -17,7 +17,7 @@ const Header = ({ settings }) => {
         window.scroll({
             behavior: 'smooth',
             left: 0,
-            top: anchor.offsetTop
+            top: anchor.offsetTop - 25
         });
 
         // put little dot

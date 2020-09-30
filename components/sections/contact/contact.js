@@ -4,18 +4,18 @@ import Mailchimp from 'react-mailchimp-form'
 const Contact = ({ content }) => {
 
     return (
-        <section className="contact">
-            <div className="contact__address">
+        <section className="kontakt">
+            <div className="kontakt__address">
                 Sanderstr. 29–30
                 <br/>12047 Berlin, Germany
             </div>
-            <div className="contact__contact">
+            <div className="kontakt__kontakt">
                 info@kopfundkragen.eu 
                 <br/>+49 (0)30 89 56 69 41
                 <br/>@kopfundkragen_fotografie
             </div>
             <ContactForm />
-            <div className="contact__newsletter">
+            <div className="kontakt__newsletter">
                 Newsletter
                 <Mailchimp
                 action='https://googlemail.us4.list-manage.com/subscribe/post?u=42451f8640431cce08fcfc879&amp;id=70d98ca351'
