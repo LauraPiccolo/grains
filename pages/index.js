@@ -6,8 +6,6 @@ import Work from '../components/sections/work'
 
 const Home = ({ content }) => {
 
-    console.log(content)
-
     return (
         <>
         <Layout>

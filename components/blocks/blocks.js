@@ -4,8 +4,6 @@ import BlockGrid from './block/grid'
 
 const Blocks = ({ blocks }) => {
 
-    console.log(blocks)
-
     return (
         <div>
         {blocks.map((block) => {

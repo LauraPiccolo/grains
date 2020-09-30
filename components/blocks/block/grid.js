@@ -4,7 +4,7 @@ import Image from '../../utils/image'
 
 const SectionGrid = ({ content }) => {
 
-    console.log(content.items[0]);
+    console.log(content.items);
 
     return (
         <div className="section--grid" style={{
