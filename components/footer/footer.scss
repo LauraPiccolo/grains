@@ -1,0 +1,26 @@
+/* FOOTER */
+
+footer {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    font-size: 14px;
+    padding: 3px 5px;
+}
+
+.footer__brand {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    cursor: default;
+}
+
+.footer__top {
+    grid-column-start: 3;
+    grid-column-end: 5;
+    cursor: pointer;
+}
+
+.footer__impressum {
+    grid-column-start: 10;
+    grid-column-end: 13;
+    cursor: pointer;
+}

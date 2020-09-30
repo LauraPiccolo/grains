@@ -1,0 +1,87 @@
+/* HEADER */
+
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(255,255,255,0.6);
+    display: grid;
+    grid-template-columns:  repeat(12, 1fr);
+    grid-template-rows:  20px;
+    grid-template-areas: "brand brand brand brand brand brand . . . menu menu menu";
+    padding: 5px 10px;
+
+}
+
+.header__brand {
+    grid-area: brand;
+    text-transform: uppercase;
+    grid-column-start: 1;
+    grid-column-end: 7;
+}
+
+.nav__section {
+    cursor: pointer;
+}
+
+/* Change font-size here */
+
+.header, .nav__menu, .grid-item__description {
+
+}
+
+/* Dot before active section */
+
+.nav__section.active::before {
+    content: "•";
+    margin-left: -14px;
+    font-size: 27px;
+    margin-top: -8px;
+    position: absolute;
+}
+
+/* Small display */
+
+.header__nav--big {
+    display: none;
+    grid-area: navdesk;
+}
+
+.header__nav--small {
+    display: none;
+    grid-area: menu;
+}
+
+.header__nav--big ul, .header__nav--small ul {
+    grid-template-columns:  repeat(3, 1fr);
+    display: grid;
+}
+
+.nav__menu {
+    display: block; 
+    grid-area: menu;
+    background-color: transparent;
+    height: fit-content;
+    text-align: left;
+    width: fit-content;
+    padding: 0;
+}
+
+/* Big display */
+
+@media screen and (min-width: 900px) {
+    
+    .nav__menu {
+        display: none;
+    }
+
+    .header__nav {
+        display: block;
+    }
+
+    .header {
+        grid-template-areas: "brand brand navdesk navdesk navdesk navdesk navdesk navdesk . menu menu menu";
+    }
+
+}

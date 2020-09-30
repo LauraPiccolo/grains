@@ -1,7 +1,7 @@
 import Layout from '../components/layout'
 import { getHome } from '../lib/api'
 
-import Intro from '../components/sections/intro'
+import Intro from '../components/sections/intro/intro'
 import Work from '../components/sections/work'
 import Contact from '../components/sections/contact/contact'
 import Footer from '../components/footer/footer'

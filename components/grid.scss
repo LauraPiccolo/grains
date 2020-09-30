@@ -1,82 +1,89 @@
-// .row {
-//     display: flex;
-// }
+/* GRID COMPONENT */
 
-// $margin: 0.5vw;
-// $margin2: $margin * 2;
+.block--grid {
+    display: grid;
+    padding: 5px 10px;
+}
 
-// .col-1,
-// .col-2,
-// .col-3,
-// .col-4,
-// .col-5,
-// .col-6,
-// .col-7,
-// .col-8,
-// .col-9,
-// .col-10,
-// .col-11,
-// .col-12 {
-//     background-color: lightcyan;
-// }
+/* Change spaces between rows here */
 
-// .col-1 {
-//     width: calc((100% / 12 * 1) - #{$margin2});
-//     margin-left: $margin;
-//     margin-right: $margin; 
-// }
-// .col-2 {
-//     width: calc((100% / 12 * 2) - #{$margin2});
-//     margin-left: $margin;
-//     margin-right: $margin; 
-// }
-// .col-3 {
-//     width: calc((100% / 12 * 3) - #{$margin2});
-//     margin-left: $margin;
-//     margin-right: $margin; 
-// }
-// .col-4 {
-//     width: calc((100% / 12 * 4) - #{$margin2});
-//     margin-left: $margin;
-//     margin-right: $margin; 
-// }
-// .col-5 {
-//     width: calc((100% / 12 * 5) - #{$margin2});
-//     margin-left: $margin;
-//     margin-right: $margin; 
-// }
-// .col-6 {
-//     width: calc((100% / 12 * 6) - #{$margin2});
-//     margin-left: $margin;
-//     margin-right: $margin; 
-// }
-// .col-7 {
-//     width: calc((100% / 12 * 6) - #{$margin2});
-//     margin-left: $margin;
-//     margin-right: $margin; 
-// }
-// .col-8 {
-//     width: calc((100% / 12 * 6) - #{$margin2});
-//     margin-left: $margin;
-//     margin-right: $margin; 
-// }
-// .col-9 {
-//     width: calc((100% / 12 * 6) - #{$margin2});
-//     margin-left: $margin;
-//     margin-right: $margin; 
-// }
-// .col-10 {
-//     width: calc((100% / 12 * 6) - #{$margin2});
-//     margin-left: $margin;
-//     margin-right: $margin; 
-// }
-// .col-11 {
-//     width: calc((100% / 12 * 6) - #{$margin2});
-//     margin-left: $margin;
-//     margin-right: $margin; 
-// }
-// .col-12 {
-//     width: calc((100% / 12 * 6) - #{$margin2});
-//     margin-left: $margin;
-//     margin-right: $margin; 
-// }
+.griditem {
+    margin-bottom: 100px;
+}
+
+.grid-item__description {
+    margin-top: 5px;
+}
+
+.gridrow {
+    grid-column-start: 1;
+    grid-column-end: 12;
+    display: grid;
+    grid-template-columns: repeat(12,1fr);
+}
+
+/* 1-12 */
+.griditem--1-12 {
+    grid-column-start: 1;
+    grid-column-end: 13;
+}
+
+/* 1-6 */
+.griditem--1-6 {
+    grid-column-start: 5;
+    grid-column-end: 11;
+}
+
+/* 1-4 */
+
+.griditem--1-4 {
+    grid-column-start: 4;
+    grid-column-end: 8;
+}
+
+/* 2-4-6 */
+
+.griditem--2-4-6 .griditem:first-child {
+    grid-column-start: 1;
+    grid-column-end: 7;
+}
+
+.griditem--2-4-6 .griditem:last-child {
+    grid-column-start: 9;
+    grid-column-end: 13;
+}
+
+/* 2-6-4 */
+
+.griditem--2-6-4 .griditem:first-child {
+    grid-column-start: 1;
+    grid-column-end: 5;
+}
+
+.griditem--2-6-4 .griditem:last-child {
+    grid-column-start: 7;
+    grid-column-end: 13;
+}
+/* 2-3-5 */
+
+.griditem--2-3-5 .griditem:first-child {
+    grid-column-start: 1;
+    grid-column-end: 6;
+}
+
+.griditem--2-3-5 .griditem:last-child {
+    grid-column-start: 9;
+    grid-column-end: 12;
+}
+
+/* 2-5-3 */
+
+.griditem--2-5-3 .griditem:first-child {
+    grid-column-start: 2;
+    grid-column-end: 5;
+}
+
+.griditem--2-5-3 .griditem:last-child {
+    grid-column-start: 8;
+    grid-column-end: 13;
+}

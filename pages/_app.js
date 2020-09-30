@@ -1,9 +1,13 @@
 import '../components/reset.css'
-import '../components/grid.scss'
 import '../components/style.css'
+import '../components/grid.scss'
 
 import '../components/header/header.scss'
+import '../components/footer/footer.scss'
+
+import '../components/sections/intro/intro.scss'
 import '../components/sections/contact/contact.scss'
+import '../components/blocks/blocks.scss'
 
 
 function MyApp({ Component, pageProps }) {
