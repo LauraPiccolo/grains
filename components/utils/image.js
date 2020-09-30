@@ -9,7 +9,8 @@ const resize = (image, option) => {
 
 const Image = (props) => {
     const data = props.data 
-    var url = data.filename  
+    // if(!data) return;
+    var url = data.filename
     // const alt = data.alt
     let dimensions = {
         width: url.split('/')[5].split('x')[0],

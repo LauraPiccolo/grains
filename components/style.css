@@ -87,15 +87,15 @@ body {
 
 }
 
-/* INTRO COMPONENT */
+/* INTRO COMPONENT + CONTACT COMPONENT */
 
-.intro {
+.intro, .contact {
     display: block;
     padding: 5px 10px;
     height: fit-content;
 }
 
-.intro__newsletter input[type=EMAIL], .intro__newsletter button {
+.intro__newsletter input[type=EMAIL], .intro__newsletter button, .contact__newsletter input[type=EMAIL], .contact__newsletter button {
     border: none;
     outline: none;
     background-color: transparent;
@@ -105,17 +105,17 @@ body {
     text-align: left;
 }
 
-.intro__newsletter button {
+.intro__newsletter button, .contact__newsletter button {
     margin-top: 10px;
 }
 
-.intro__newsletter input[type=email]::placeholder {
+.intro__newsletter input[type=email]::placeholder, .contact__newsletter input[type=email]::placeholder {
     opacity: 0.3;
 }
 
 /* Small display */
 
-.intro__address, .intro__contact, .intro__newsletter {
+.intro__address, .intro__contact, .intro__newsletter, .contact__address, .contact__contact, .contact__newsletter {
     margin-bottom: 10px;
 }
 
@@ -123,24 +123,28 @@ body {
 
 @media screen and (min-width: 750px) {
 
-    .intro__address {
+    .intro__address, .contact__address {
         grid-area: address;
     }
     
-    .intro__contact {
+    .intro__contact, .contact__contact {
         grid-area: contact;
     }
     
-    .intro__newsletter {
+    .intro__newsletter, .contact__newsletter {
         grid-area: newsletter;
     }
 
-    .intro {
+    .intro, .contact {
         display: grid;
         grid-template-columns: repeat(12, 1fr);
         grid-template-rows: repeat(2, 50px);
-        grid-template-areas: "address address address address . . . . . newsletter newsletter newsletter"
-        "contact contact contact contact . . . . . . . .";
+        grid-template-areas: "address address address address form form form form . newsletter newsletter newsletter"
+        "contact contact contact contact form form form form . . . .";
+    }
+
+    .contact main {
+        grid-area: form;
     }
 
 }
@@ -149,8 +153,12 @@ body {
 
 @media screen and (min-width: 900px) {
 
-    .intro {
-        grid-template-areas: "address address contact contact . . . . . newsletter newsletter newsletter";
+    .intro, .contact {
+        grid-template-areas: "address address contact contact form form form form . newsletter newsletter newsletter";
+    }
+
+    .contact main {
+        grid-area: form;
     }
 
 }
@@ -201,7 +209,7 @@ body {
 /* 2-4-6 */
 
 .griditem--2-4-6:first-of-type {
-    grid-column-start: 2;
+    grid-column-start: 1;
     grid-column-end: 7;
 }
 
@@ -250,4 +258,31 @@ body {
 .block--columns {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
+}
+
+/* FOOTER */
+
+footer {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    font-size: 14px;
+    padding: 3px 5px;
+}
+
+.footer__brand {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    cursor: default;
+}
+
+.footer__top {
+    grid-column-start: 3;
+    grid-column-end: 5;
+    cursor: pointer;
+}
+
+.footer__impressum {
+    grid-column-start: 10;
+    grid-column-end: 13;
+    cursor: pointer;
 }
