@@ -110,7 +110,7 @@ body {
 }
 
 .intro__newsletter input[type=email]::placeholder {
-  opacity: 0.3;
+    opacity: 0.3;
 }
 
 /* Small display */
@@ -154,4 +154,5 @@ body {
     }
 
 }
+
 
