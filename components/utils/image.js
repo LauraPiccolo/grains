@@ -32,7 +32,7 @@ const Image = (props) => {
     }
 
     return (
-        <div className={["image__container","mode--"+props.mode].join(' '),`griditem--${props.class}`} style={{paddingBottom: padding, ...props.style}}>
+        <div className={["image__container","mode--"+props.mode].join(' ')} style={{paddingBottom: padding}}>
             <div className="image__wrapper">
                 <img 
                     data-sizes="auto"

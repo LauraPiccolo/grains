@@ -12,7 +12,7 @@ body {
     grid-template-columns:  repeat(12, 1fr);
     grid-template-rows:  20px;
     grid-template-areas: "brand brand brand brand brand brand . . . menu menu menu";
-    padding: 5px 15px;
+    padding: 5px 10px;
 }
 
 .header__brand {
@@ -28,7 +28,7 @@ body {
 
 /* Change font-size here */
 
-.header, .nav__menu {
+.header, .nav__menu, .grid-item__description {
     font-size: 16px;;
 }
 
@@ -91,7 +91,7 @@ body {
 
 .intro {
     display: block;
-    padding: 5px 15px;
+    padding: 5px 10px;
     height: fit-content;
 }
 
@@ -155,21 +155,34 @@ body {
 
 }
 
-/* GRID COMPONENT */
+/* TEXTAREA COMPONENT */
 
-.section--grid {
-    display: grid;
+.block--textarea {
+    padding: 5px 10px;
+    font-size: 25px;
 }
 
-.raw {
-    grid-column-start: 1;
-    grid-column-end: 12;
+/* GRID COMPONENT */
+
+.block--grid {
+    display: grid;
+    padding: 5px 10px;
+}
+
+/* Change spaces between rows here */
+
+.griditem {
+    margin-bottom: 100px;
+}
+
+.grid-item__description {
+    margin-top: 5px;
 }
 
 /* 1-12 */
 .griditem--1-12 {
     grid-column-start: 1;
-    grid-column-end: 12;
+    grid-column-end: 13;
 }
 
 /* 1-6 */
@@ -232,3 +245,9 @@ body {
     grid-column-end: 13;
 }
 
+/* COLUMN COMPONENT */
+
+.block--columns {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}

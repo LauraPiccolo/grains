@@ -2,29 +2,32 @@
 import Image from '../../utils/image'
 
 
-const SectionGrid = ({ content }) => {
+const BlockGrid = ({ content }) => {
 
     console.log(content.items);
 
     return (
-        <div className="section--grid" style={{
+        <div className="block--grid" style={{
             gridTemplateColumns: `repeat(12, 1fr)`,
             gridTemplateRows: `repeat(${content.items.length}, auto)`
         }}>
             {
-                content.items.map((raw, index) => (
-                    raw.images.length === 1 ? (
-                        <Image data={raw.images[0]} mode={""} class={raw.mode} style={{
-                            gridRowStart:index+1, gridRowEnd:index+2
-                        }}/>
+                content.items.map((row, index) => (
+                    row.images.length === 1 ? (
+                        <div className={`griditem griditem--${row.mode}`} style={{ gridRowStart:index+1, gridRowEnd:index+2}}>
+                            <Image data={row.images[0]} mode={"cover"}/>
+                            <p className="grid-item__description">description</p>
+                        </div>
                     ):(
                         <>
-                        <Image data={raw.images[0]} mode={""} class={raw.mode} style={{
-                            gridRowStart:index+1, gridRowEnd:index+2
-                        }}/>
-                        <Image data={raw.images[1]} mode={""} class={raw.mode} style={{
-                            gridRowStart:index+1, gridRowEnd:index+2
-                        }}/>
+                        <div className={`griditem griditem--${row.mode}`} style={{ gridRowStart:index+1, gridRowEnd:index+2}}>
+                            <Image data={row.images[0]} mode={"cover"}/>
+                            <p className="grid-item__description">description</p>
+                        </div>
+                        <div className={`griditem griditem--${row.mode}`} style={{ gridRowStart:index+1, gridRowEnd:index+2}}>
+                            <Image data={row.images[2]} mode={"cover"}/>
+                            <p className="grid-item__description">description</p>
+                        </div>
                         </>
                     )
                 ))
@@ -35,4 +38,4 @@ const SectionGrid = ({ content }) => {
     )
 }
 
-export default SectionGrid
+export default BlockGrid

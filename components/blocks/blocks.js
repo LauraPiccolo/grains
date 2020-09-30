@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import BlockTextarea from './block/textarea'
 import BlockGrid from './block/grid'
+import BlockColumns from './block/columns'
 
 const Blocks = ({ blocks }) => {
 
@@ -13,6 +14,9 @@ const Blocks = ({ blocks }) => {
                     break
                 case 'grid':
                     return <BlockGrid content={block} />
+                    break
+                case 'columns':
+                    return <BlockColumns content={block} />
                     break
                 default:
                     return
