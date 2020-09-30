@@ -4,17 +4,17 @@ let Storyblok = new StoryblokClient({
     accessToken: 'zpjVfToBDoqLTFrpreoYMwtt'
 })
 
-const SectionTextarea = ({ content }) => {
+const BlockTextarea = ({ content }) => {
 
     console.log(content)
 
     let rte = Storyblok.richTextResolver.render(content.rte)
 
     return (
-        <section className="section--textarea">
+        <div className="block--textarea">
             <div className="rte" dangerouslySetInnerHTML={{ __html: rte }} /> 
-        </section>
+        </div>
     )
 }
 
-export default SectionTextarea
+export default BlockTextarea
