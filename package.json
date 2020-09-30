@@ -8,12 +8,14 @@
     "start": "next start"
   },
   "dependencies": {
+    "axios": "^0.20.0",
     "lazysizes": "^5.2.2",
     "next": "9.5.3",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-mailchimp-form": "^1.0.2",
     "sass": "^1.26.11",
-    "storyblok-js-client": "^2.5.2"
+    "storyblok-js-client": "^2.5.2",
+    "postcss-url": "^8.0.0"
   }
 }

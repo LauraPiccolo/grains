@@ -3,6 +3,7 @@ import { getHome } from '../lib/api'
 
 import Intro from '../components/sections/intro'
 import Work from '../components/sections/work'
+import Contact from '../components/sections/contact/contact'
 
 const Home = ({ content }) => {
 
@@ -12,7 +13,7 @@ const Home = ({ content }) => {
             <main>
             <Intro content={content} />
             <Work content={content.Businessfotografie} />
-
+            <Contact content={content} />
             </main>
         </Layout>
         </>
