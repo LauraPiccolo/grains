@@ -2,6 +2,9 @@ import React, { useState } from 'react'
 import axios from 'axios'
 
 export default () => {
+
+  const [agreed, setAgreed] = useState(false);
+
   const [status, setStatus] = useState({
     submitted: false,
     submitting: false,
@@ -20,7 +23,10 @@ export default () => {
       })
       setInputs({
         email: '',
-        message: ''
+        message: '',
+        name: '',
+        telefonnummer: '',
+        betreff: '',
       })
     } else {
       setStatus({
@@ -42,6 +48,7 @@ export default () => {
   }
   const handleOnSubmit = e => {
     e.preventDefault()
+    if(!agreed) return;
     setStatus(prevStatus => ({ ...prevStatus, submitting: true }))
     axios({
       method: 'POST',
@@ -62,12 +69,12 @@ export default () => {
     <main>
       <form onSubmit={handleOnSubmit}>
         <input
-          id="email"
-          type="email"
+          id="name"
+          type="text"
           name="_replyto"
           onChange={handleOnChange}
           required
-          value={inputs.email}
+          value={inputs.name}
           placeholder='Name'
         />
         <input
@@ -79,20 +86,49 @@ export default () => {
           value={inputs.email}
           placeholder='Email'
         />
+        <input
+          id="telefonnummer"
+          type="text"
+          name="_replyto"
+          onChange={handleOnChange}
+          required
+          value={inputs.telefonnummer}
+          placeholder='Telefonnummer'
+        />
+        <input
+          id="betreff"
+          type="text"
+          name="_replyto"
+          onChange={handleOnChange}
+          required
+          value={inputs.betreff}
+          placeholder='Betreff'
+        />
         <textarea
           id="message"
-          name="message"
+          name="Nachricht"
           onChange={handleOnChange}
           required
           value={inputs.message}
           placeholder='Nachricht'
         />
+        <input 
+          type="checkbox" 
+          id="agreement" 
+          name="agreement" 
+          checked={agreed}
+          onChange={(event) => {
+            setAgreed(!agreed);
+            console.log('checking');
+          }}
+        />
+        <label for="agreement">Ich habe die Datenschutzerklärung zur Kenntnis genommen und akzeptiert sie.</label>
         <button type="submit" disabled={status.submitting}>
           {!status.submitting
             ? !status.submitted
-              ? 'Submit'
-              : 'Submitted'
-            : 'Submitting...'}
+              ? 'Senden'
+              : 'Gesendet'
+            : 'Senden...'}
         </button>
       </form>
       {status.info.error && (

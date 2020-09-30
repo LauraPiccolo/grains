@@ -1,3 +1,45 @@
-.contact {
+.contact, .studio, .preise {
     background-color: #FFFF64;
+}
+
+.contact main input:-webkit-autofill, .contact main textarea:-webkit-autofill,.contact main button:-webkit-autofill, .contact main input, .contact main textarea,.contact main button {
+    display: block;
+    font-size: 1.2rem;
+    background-color: transparent;
+    outline: none;
+    border: none;
+    font-family: 'font';
+    resize: none;
+    text-align: left;
+    padding: 0;
+    -webkit-text-fill-color: black;
+    -webkit-box-shadow: 0 0 0 30px #FFFF64 inset;
+    width: 100%;
+    margin-right: 0;
+}
+
+#agreement {
+    width: 7px;
+    height: 7px;
+    vertical-align: top;
+    margin-top: 4px;
+    margin-right: 5px;
+    display: inline-block;
+    border: solid 1.5px black !important;
+    -webkit-box-shadow: 0 0 0 30px black inset;
+    border-radius: 50%;
+    margin-left: 0;
+}
+
+.contact, .contact main {
+    height: fit-content;
+}
+
+.contact main {
+    display: inline;
+    width: fit-content;
+}
+
+.contact main input::placeholder, .contact main textarea::placeholder {
+    opacity: 0.3;
 }
