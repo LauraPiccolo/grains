@@ -6,8 +6,6 @@ let Storyblok = new StoryblokClient({
 
 const BlockTextarea = ({ content }) => {
 
-    console.log(content)
-
     let rte = Storyblok.richTextResolver.render(content.rte)
 
     return (

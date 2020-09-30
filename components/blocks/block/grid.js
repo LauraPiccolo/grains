@@ -4,7 +4,7 @@ import Image from '../../utils/image'
 
 const SectionGrid = ({ content }) => {
 
-    console.log(content.items[0]);
+    console.log(content.items);
 
     return (
         <div className="section--grid" style={{
@@ -13,6 +13,7 @@ const SectionGrid = ({ content }) => {
         }}>
             {
                 content.items.map((raw, index) => {
+                    console.log(raw)
                     raw.images.length === 1 ? (
                         <Image data={raw.images[0]} mode={""} class={raw.mode} style={{
                             gridRowStart:index+1, gridRowEnd:index+2
