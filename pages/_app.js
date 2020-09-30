@@ -2,6 +2,7 @@ import '../components/reset.css'
 import '../components/grid.scss'
 import '../components/style.css'
 
+import '../components/header/header.scss'
 import '../components/sections/contact/contact.scss'
 
 
