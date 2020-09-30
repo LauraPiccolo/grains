@@ -60,10 +60,7 @@ export default () => {
   }
   return (
     <main>
-      <h1>React and Formspree</h1>
-      <hr />
       <form onSubmit={handleOnSubmit}>
-        <label htmlFor="email">Email</label>
         <input
           id="email"
           type="email"
@@ -71,14 +68,24 @@ export default () => {
           onChange={handleOnChange}
           required
           value={inputs.email}
+          placeholder='Name'
         />
-        <label htmlFor="message">Message</label>
+        <input
+          id="email"
+          type="email"
+          name="_replyto"
+          onChange={handleOnChange}
+          required
+          value={inputs.email}
+          placeholder='Email'
+        />
         <textarea
           id="message"
           name="message"
           onChange={handleOnChange}
           required
           value={inputs.message}
+          placeholder='Nachricht'
         />
         <button type="submit" disabled={status.submitting}>
           {!status.submitting

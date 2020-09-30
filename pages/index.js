@@ -4,6 +4,7 @@ import { getHome } from '../lib/api'
 import Intro from '../components/sections/intro'
 import Work from '../components/sections/work'
 import Contact from '../components/sections/contact/contact'
+import Footer from '../components/footer/footer'
 
 const Home = ({ content }) => {
 

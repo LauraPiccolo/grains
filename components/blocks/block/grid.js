@@ -16,17 +16,17 @@ const BlockGrid = ({ content }) => {
                     row.images.length === 1 ? (
                         <div className={`griditem griditem--${row.mode}`} style={{ gridRowStart:index+1, gridRowEnd:index+2}}>
                             <Image data={row.images[0]} mode={"cover"}/>
-                            <p className="grid-item__description">description</p>
+                            <p className="grid-item__description">{row.images[0].caption}</p>
                         </div>
                     ):(
                         <>
                         <div className={`griditem griditem--${row.mode}`} style={{ gridRowStart:index+1, gridRowEnd:index+2}}>
                             <Image data={row.images[0]} mode={"cover"}/>
-                            <p className="grid-item__description">description</p>
+                            <p className="grid-item__description">{row.images[0].caption}</p>
                         </div>
                         <div className={`griditem griditem--${row.mode}`} style={{ gridRowStart:index+1, gridRowEnd:index+2}}>
-                            <Image data={row.images[2]} mode={"cover"}/>
-                            <p className="grid-item__description">description</p>
+                            <Image data={row.images[1]} mode={"cover"}/>
+                            <p className="grid-item__description">{row.images[1].caption}</p>
                         </div>
                         </>
                     )
