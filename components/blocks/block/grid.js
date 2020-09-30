@@ -12,8 +12,7 @@ const SectionGrid = ({ content }) => {
             gridTemplateRows: `repeat(${content.items.length}, auto)`
         }}>
             {
-                content.items.map((raw, index) => {
-                    console.log(raw)
+                content.items.map((raw, index) => (
                     raw.images.length === 1 ? (
                         <Image data={raw.images[0]} mode={""} class={raw.mode} style={{
                             gridRowStart:index+1, gridRowEnd:index+2
@@ -28,7 +27,7 @@ const SectionGrid = ({ content }) => {
                         }}/>
                         </>
                     )
-                })
+                ))
                 
             }
             
