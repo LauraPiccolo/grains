@@ -1,13 +1,16 @@
 import Link from 'next/link';
+import { useState } from 'react';
 
 const Header = ({ settings }) => {
 
     const sectionsBig = ['Businessfotografie','Bewerbungsfotos','Industriereportage'];
     const sectionsSmall = ['Studio', 'Preise', 'Kontakt'];
+    const [menu, setMenu] = useState(false);
 
     const toggleMenu = () => {
         // Display menu
         const menuIsOpen = document.querySelector('.menu').clientHeight > 10 ? true : false;
+        setMenu(!menuIsOpen);
         document.querySelector('.menu').style.height = menuIsOpen ? 0 : 'calc(100% - 24px)';
         document.querySelector('.menu *').style.opacity = menuIsOpen ? 0 : 1;
         document.querySelector('.menu footer').style.opacity = menuIsOpen ? 0 : 1;
@@ -58,7 +61,7 @@ const Header = ({ settings }) => {
                 }
             </ul>    
         </nav>   
-        <button onClick={toggleMenu} className="nav__menu col-3">Menu</button> 
+        <button onClick={toggleMenu} className="nav__menu col-3">{menu ? 'Close':'Menu'}</button> 
     </header>
     )
 }
