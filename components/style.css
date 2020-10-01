@@ -17,4 +17,8 @@ button, input {
     font-family: "font", sans-serif;
 }
 
+button:focus {
+    outline: 0;
+}
+
 

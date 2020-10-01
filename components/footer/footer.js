@@ -1,6 +1,3 @@
-import Link from 'next/link'
-
-
 const Footer = ({ settings }) => {
 
     const scrollTop = () => {
@@ -17,8 +14,9 @@ const Footer = ({ settings }) => {
 
     return (
         <footer>
+            <p className="footer__top footer__top--mobile" onClick={scrollTop}>Zurück zum Anfang</p>
             <p className="footer__brand">Kopf & Kragen ©2020</p>
-            <p className="footer__top" onClick={scrollTop}>Zurück zum Anfang</p>
+            <p className="footer__top footer__top--desktop" onClick={scrollTop}>Zurück zum Anfang</p>
             <p className="footer__impressum" onClick={displayImpressum}>Impressum/Datenschutz</p>
         </footer>
     )

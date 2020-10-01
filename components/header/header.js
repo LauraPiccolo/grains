@@ -3,10 +3,14 @@ import Link from 'next/link';
 const Header = ({ settings }) => {
 
     const sectionsBig = ['Businessfotografie','Bewerbungsfotos','Industriereportage'];
-    const sectionsSmall = ['Studio', 'Preise', 'Kontakt']
+    const sectionsSmall = ['Studio', 'Preise', 'Kontakt'];
 
-    const displayMenu = () => {
+    const toggleMenu = () => {
         // Display menu
+        const menuIsOpen = document.querySelector('.menu').clientHeight > 10 ? true : false;
+        document.querySelector('.menu').style.height = menuIsOpen ? 0 : 'calc(100% - 24px)';
+        document.querySelector('.menu *').style.opacity = menuIsOpen ? 0 : 1;
+        document.querySelector('.menu footer').style.opacity = menuIsOpen ? 0 : 1;
     }
 
     const scrollToSection = (event) => {
@@ -17,7 +21,7 @@ const Header = ({ settings }) => {
         window.scroll({
             behavior: 'smooth',
             left: 0,
-            top: anchor.offsetTop - 25
+            top: anchor.offsetTop - 24
         });
 
         // put little dot
@@ -32,7 +36,7 @@ const Header = ({ settings }) => {
             <ul>
                 {
                     sectionsBig.map((sectionName, index) => (
-                        <li className={`nav__section ${index === 0 ? 'active':''}`}>
+                        <li key={`bigSection--${index}`} className={`nav__section ${index === 0 ? 'active':''}`}>
                             <a onClick={(event) => scrollToSection(event)} data-href={`.${sectionName.toLowerCase()}`}>         
                                 {sectionName}
                             </a>
@@ -44,8 +48,8 @@ const Header = ({ settings }) => {
         <nav className="header__nav header__nav--small">
             <ul>
                 {
-                    sectionsSmall.map((sectionName) => (
-                        <li className="nav__section">
+                    sectionsSmall.map((sectionName, index) => (
+                        <li key={`smallSection--${index}`} className="nav__section">
                             <a onClick={(event) => scrollToSection(event)} data-href={`.${sectionName.toLowerCase()}`}>
                                 {sectionName}
                             </a>
@@ -54,7 +58,7 @@ const Header = ({ settings }) => {
                 }
             </ul>    
         </nav>   
-        <button onClick={displayMenu} className="nav__menu col-3">Menu</button> 
+        <button onClick={toggleMenu} className="nav__menu col-3">Menu</button> 
     </header>
     )
 }

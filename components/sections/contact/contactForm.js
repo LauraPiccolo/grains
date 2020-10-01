@@ -117,12 +117,10 @@ export default () => {
           id="agreement" 
           name="agreement" 
           checked={agreed}
-          onChange={(event) => {
-            setAgreed(!agreed);
-            console.log('checking');
-          }}
+          onChange={()=>setAgreed(!agreed)}
         />
-        <label for="agreement">Ich habe die Datenschutzerklärung zur Kenntnis genommen und akzeptiert sie.</label>
+        <button type="button" className={`agreement-secret ${agreed ? 'checked':'unchecked'}`} />
+        <label htmlFor="agreement">Ich habe die Datenschutzerklärung zur Kenntnis genommen und akzeptiert sie.</label>
         <button type="submit" disabled={status.submitting}>
           {!status.submitting
             ? !status.submitted

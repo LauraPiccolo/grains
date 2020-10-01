@@ -40,6 +40,7 @@ const Image = (props) => {
                     data-expand="1000"
                     data-srcset={[w640,w768,w1024,w1366,w1600,w1920].join(', ')}
                     className={["lazyload"].join(' ')}
+                    alt={props.title}
                 />
             </div>
         </div>
