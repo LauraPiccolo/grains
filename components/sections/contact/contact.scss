@@ -47,6 +47,7 @@
 .kontakt main {
     display: inline;
     width: fit-content;
+    padding-bottom: 120px;
 }
 
 .kontakt main input::placeholder, .kontakt main textarea::placeholder {
@@ -110,6 +111,7 @@ label[for=agreement] {
 
     .kontakt {
         display: grid;
+        grid-template-rows: repeat(2, 40px auto);
         grid-template-areas: "address address address address form form form form . newsletter newsletter newsletter"
         "kontakt kontakt kontakt kontakt form form form form . . . .";
     }

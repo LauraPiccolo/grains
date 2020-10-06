@@ -35,6 +35,14 @@
     position: absolute;
 }
 
+.nav__section:hover::before {
+    content: "•";
+    margin-left: -14px;
+    font-size: 1.5em;
+    margin-top: -0.24em;
+    position: absolute;
+}
+
 /* Big display */
 
 .header__nav {
