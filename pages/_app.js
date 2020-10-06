@@ -4,6 +4,7 @@ import '../components/style.css'
 import '../components/grid.scss'
 
 import '../components/header/header.scss'
+import '../components/menu/menu.scss'
 import '../components/footer/footer.scss'
 
 import '../components/sections/intro/intro.scss'

@@ -18,17 +18,26 @@
     margin-right: 0;
 }
 
+.kontakt__newsletter button {
+    margin-top: 10px;
+}
+
+
+.kontakt__address, .kontakt__kontakt, .kontakt__newsletter {
+    margin-bottom: 10px;
+}
+
+.kontakt__newsletter input[type=EMAIL], .kontakt__newsletter button {
+    border: none;
+    outline: none;
+    background-color: transparent;
+    width: 100%;
+    padding-left: 0;
+    text-align: left;
+}
+
 #agreement {
-    width: 7px;
-    height: 7px;
-    vertical-align: top;
-    margin-top: 4px;
-    margin-right: 5px;
-    display: inline-block;
-    border: solid 1.5px black !important;
-    -webkit-box-shadow: 0 0 0 30px black inset;
-    border-radius: 50%;
-    margin-left: 0;
+    display: none;
 }
 
 .kontakt, .kontakt main {
@@ -47,4 +56,69 @@
 .kontakt {
     padding-top: 50px;
     padding-bottom: 150px;
+    grid-template-areas: "address address kontakt kontakt form form form form . newsletter newsletter newsletter";
+    display: grid;
+    padding: 5px 10px;
+    height: fit-content;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: auto;
+}
+
+.agreement-secret {
+    width: 7px !important;
+    height: 7px;
+    margin-top: 4px;
+    display: inline-block !important;
+    border: solid 1.5px black !important;
+    -webkit-text-fill-color: inherit !important;
+    -webkit-box-shadow: inherit !important;
+    border-radius: 50%;
+    display: inline-block;
+    margin-left: 0;
+    vertical-align: top;
+}   
+
+.agreement-secret.checked {
+    background-color: black;
+}
+
+label[for=agreement] {
+    display: inline-block;
+    width: calc(100% - 12px);
+    margin-left: 5px;
+    margin-bottom: 15px;
+}
+
+.kontakt__address {
+    grid-area: address;
+}
+
+.kontakt__kontakt {
+    grid-area: kontakt;
+}
+
+.kontakt__newsletter {
+    grid-area: newsletter;
+}
+
+.kontakt main {
+    grid-area: form;
+}
+
+@media screen and (max-width: 900px) {
+
+    .kontakt {
+        display: grid;
+        grid-template-areas: "address address address address form form form form . newsletter newsletter newsletter"
+        "kontakt kontakt kontakt kontakt form form form form . . . .";
+    }
+
+}
+
+@media screen and (max-width: 700px) {
+
+    .kontakt {
+        display: block;
+    }
+
 }

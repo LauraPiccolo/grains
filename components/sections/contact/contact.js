@@ -1,10 +1,27 @@
 import ContactForm from './contactForm'
 import Mailchimp from 'react-mailchimp-form'
+import { useInView } from 'react-intersection-observer';
+import { useEffect } from 'react'
 
 const Contact = ({ content }) => {
 
+    const { ref, inView, entry } = useInView({
+        /* Optional options */
+        threshold: 0,
+    });
+
+    // Function to call after current section className has been found
+    const changeActiveSection = (sectionClass) => {
+        document.querySelector('.nav__section.active').className = 'nav__section';
+        document.querySelector(`a[data-href='.${sectionClass}']`).className = "nav__section active";
+    }
+
+    useEffect(() => {
+        if(inView) changeActiveSection('kontakt');
+    },[inView])
+
     return (
-        <section className="kontakt">
+        <section className="kontakt" ref={ref}>
             <div className="kontakt__address">
                 Sanderstr. 29–30
                 <br/>12047 Berlin, Germany

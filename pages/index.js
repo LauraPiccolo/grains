@@ -8,12 +8,10 @@ import Footer from '../components/footer/footer'
 
 const Home = ({ content }) => {
 
-    console.log(content.Bewerbungsfotos)
-
     return (
         <>
         <Layout>
-            <main>
+            <main className="viewport-block">
             <Intro content={content} />
             <Work content={content.Businessfotografie} anchor="businessfotografie"/>
             <Work content={content.Bewerbungsfotos} anchor="bewerbungsfotos"/>

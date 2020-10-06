@@ -1,16 +1,19 @@
 /* INTRO COMPONENT + CONTACT COMPONENT */
 
-.intro, .kontakt {
-    display: block;
+.intro {
     padding: 5px 10px;
     height: fit-content;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: repeat(2, 50px);
+    grid-template-areas: "address address kontakt kontakt form form form form . newsletter newsletter newsletter";
 }
 
 .intro {
     margin-top: 22px;
 }
 
-.intro__newsletter input[type=EMAIL], .intro__newsletter button, .kontakt__newsletter input[type=EMAIL], .kontakt__newsletter button {
+.intro__newsletter input[type=EMAIL], .intro__newsletter button {
     border: none;
     outline: none;
     background-color: transparent;
@@ -19,7 +22,7 @@
     text-align: left;
 }
 
-.intro__newsletter button, .kontakt__newsletter button {
+.intro__newsletter button {
     margin-top: 10px;
 }
 
@@ -29,58 +32,41 @@
 
 /* Small display */
 
-.intro__address, .intro__kontakt, .intro__newsletter, .kontakt__address, .kontakt__kontakt, .kontakt__newsletter {
+.intro__address, .intro__kontakt, .intro__newsletter {
     margin-bottom: 10px;
+}
+
+.intro__address {
+    grid-area: address;
+}
+
+.intro__kontakt {
+    grid-area: kontakt;
+}
+
+.intro__newsletter {
+    grid-area: newsletter;
 }
 
 /* Middle display */
 
-@media screen and (min-width: 750px) {
+@media screen and (max-width: 900px) {
 
-    .intro__address, .kontakt__address {
-        grid-area: address;
-    }
-    
-    .intro__kontakt, .kontakt__kontakt {
-        grid-area: kontakt;
-    }
-    
-    .intro__newsletter, .kontakt__newsletter {
-        grid-area: newsletter;
-    }
 
     .intro {
         display: grid;
-        grid-template-columns: repeat(12, 1fr);
-        grid-template-rows: repeat(2, 50px);
         grid-template-areas: "address address address address form form form form . newsletter newsletter newsletter"
         "kontakt kontakt kontakt kontakt form form form form . . . .";
-    }
-
-    .kontakt {
-        display: grid;
-        grid-template-columns: repeat(12, 1fr);
-        grid-template-rows: auto;
-        grid-template-areas: "address address address address form form form form . newsletter newsletter newsletter"
-        "kontakt kontakt kontakt kontakt form form form form . . . .";
-    }
-
-    .kontakt main {
-        grid-area: form;
     }
 
 }
 
 /* Big display */
 
-@media screen and (min-width: 900px) {
+@media screen and (max-width: 800px) {
 
-    .intro, .kontakt {
-        grid-template-areas: "address address kontakt kontakt form form form form . newsletter newsletter newsletter";
-    }
-
-    .kontakt main {
-        grid-area: form;
+    .intro {
+        display: block;
     }
 
 }

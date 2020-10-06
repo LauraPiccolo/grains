@@ -12,7 +12,7 @@ const BlockColumns = ({ content }) => {
             content.Columns.map((column, index) => {
             let text = Storyblok.richTextResolver.render(column.Rte);
             return (
-              <div className="column" style={{
+              <div key={`column--${Math.random()}`} className="column" style={{
                 gridColumnStart: index+1,
                 gridColumnEnd: index+2,
               }}>

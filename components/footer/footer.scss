@@ -12,7 +12,7 @@ footer {
     cursor: default;
 }
 
-.footer__top {
+.footer__top--desktop {
     grid-column-start: 3;
     grid-column-end: 5;
     cursor: pointer;
@@ -22,4 +22,25 @@ footer {
     grid-column-start: 10;
     grid-column-end: 13;
     cursor: pointer;
+}
+
+.footer__top--mobile {
+    display: none;
+}
+
+@media screen and (max-width: 800px) { 
+    footer {
+        display: block;
+        padding: 5px 10px;
+    }
+
+    .footer__top--desktop {
+        display: none;
+    }
+
+    .footer__top--mobile {
+        display: block;
+        margin-bottom: 10px;
+    }
+
 }

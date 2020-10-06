@@ -20,3 +20,14 @@
     font-size: 1.5rem;
     margin-bottom: 10px;
 }
+
+@media screen and (max-width: 800px) {
+    .block--columns {
+        display: block;
+    }
+
+    .column {
+        padding-right: 0;
+        padding-bottom: 40px;
+    }
+}
