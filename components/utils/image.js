@@ -23,6 +23,8 @@ const Image = (props) => {
     let w1366 = (resize(url, '1366x'))+" 1366w"
     let w1600 = (resize(url, '1600x'))+" 1600w"
     let w1920 = (resize(url, '1920x'))+" 1920w"
+    let w3672 = (resize(url, '3672x'))+" 3672w"
+    let w4096 = (resize(url, '4096x'))+" 4096w"
 
     switch(props.mode) {
         case "cover":
@@ -38,7 +40,7 @@ const Image = (props) => {
                 <img 
                     data-sizes="auto"
                     data-expand="1000"
-                    data-srcset={[w640,w768,w1024,w1366,w1600,w1920].join(', ')}
+                    data-srcset={[w640,w768,w1024,w1366,w1600,w1920,w3672,w4096].join(', ')}
                     className={["lazyload"].join(' ')}
                     alt={props.title}
                 />

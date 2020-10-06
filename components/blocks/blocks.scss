@@ -2,7 +2,7 @@
 /* TEXTAREA COMPONENT */
 .block--textarea {
     padding: 5px 10px;
-    font-size: 25px;
+    font-size: 1.5rem;
 }
 
 /* COLUMN COMPONENT */
@@ -26,9 +26,12 @@
     .block--columns {
         display: block;
     }
-
     .column {
         padding-right: 0;
         padding-bottom: 40px;
+    }
+    .block--textarea {
+        padding: 5px 10px;
+        font-size: 1.125rem;
     }
 }

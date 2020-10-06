@@ -26,6 +26,12 @@ button:focus {
     padding-bottom: 80px;
 }
 
+a:hover {
+    color: #FFFF64;
+}
+button:hover {
+    color: #FFFF64;
+}
 
 
 /* 
