@@ -10,7 +10,7 @@ const Home = ({ content }) => {
 
     return (
         <>
-        <Layout>
+        <Layout content={content}>
             <main className="viewport-block">
             <Intro content={content} />
             <Work content={content.Businessfotografie} anchor="businessfotografie"/>

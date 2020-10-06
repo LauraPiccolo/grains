@@ -1,18 +1,21 @@
 import Mailchimp from 'react-mailchimp-form'
 
+const StoryblokClient = require('storyblok-js-client')
+
+let Storyblok = new StoryblokClient({
+    accessToken: 'zpjVfToBDoqLTFrpreoYMwtt'
+})
+
+
 const Intro = ({ content }) => {
+
+    let address = Storyblok.richTextResolver.render(content.contact_address)
+    let info = Storyblok.richTextResolver.render(content.contact_info)
 
     return (
         <section className="intro">
-            <div className="intro__address">
-                Sanderstr. 29–30
-                <br/>12047 Berlin, Germany
-            </div>
-            <div className="intro__kontakt">
-                info@kopfundkragen.eu 
-                <br/>+49 (0)30 89 56 69 41
-                <br/>@kopfundkragen_fotografie
-            </div>
+            <div className="intro__address" dangerouslySetInnerHTML={{ __html: address }}></div>
+            <div className="intro__kontakt" dangerouslySetInnerHTML={{ __html: info }}></div>
             <div className="intro__newsletter">
                 Newsletter
                 <Mailchimp
