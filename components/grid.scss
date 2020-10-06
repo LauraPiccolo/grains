@@ -3,12 +3,14 @@
 .block--grid {
     display: grid;
     padding: 5px 10px;
+    grid-gap: 10px;
+    gap: 10px;
 }
 
 /* Change spaces between rows here */
 
 .griditem {
-    margin-bottom: 100px;
+    margin-bottom: 20px;
 }
 
 .grid-item__description {
@@ -91,6 +93,7 @@
 @media screen and (max-width: 800px) {
     .griditem {
         width: 100%;
+        margin-bottom: 20px;
     }
 
 

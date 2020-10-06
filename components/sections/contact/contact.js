@@ -28,35 +28,39 @@ const Contact = ({ content }) => {
 
     let address = Storyblok.richTextResolver.render(content.contact_address)
     let info = Storyblok.richTextResolver.render(content.contact_info)
+    let text = Storyblok.richTextResolver.render(content.contact_text)
 
     return (
         <section className="kontakt" ref={ref}>
-            <div className="kontakt__address" dangerouslySetInnerHTML={{ __html: address }}></div>
-            <div className="kontakt__kontakt" dangerouslySetInnerHTML={{ __html: info }}></div>
-            <div className="kontakt__newsletter">
-                Newsletter
-                <Mailchimp
-                action='https://googlemail.us4.list-manage.com/subscribe/post?u=42451f8640431cce08fcfc879&amp;id=70d98ca351'
-                fields={[
-                {
-                    name: 'EMAIL',
-                    placeholder: 'Enter email address',
-                    type: 'email',
-                    required: true
-                }]}
-                messages = {
+            <div className="kontakt__text" dangerouslySetInnerHTML={{ __html: text }}></div>
+            <div className="kontakt__grid">
+                <div className="kontakt__address" dangerouslySetInnerHTML={{ __html: address }}></div>
+                <div className="kontakt__kontakt" dangerouslySetInnerHTML={{ __html: info }}></div>
+                <div className="kontakt__newsletter">
+                    Newsletter
+                    <Mailchimp
+                    action='https://googlemail.us4.list-manage.com/subscribe/post?u=42451f8640431cce08fcfc879&amp;id=70d98ca351'
+                    fields={[
                     {
-                        // sending: "Sending...",
-                        success: "Thank you for subscribing!",
-                        error: "An unexpected internal error has occurred.",
-                        empty: "You must write an e-mail.",
-                        // duplicate: "Too many subscribe attempts for this email address",
-                        button: "Subscribe"
+                        name: 'EMAIL',
+                        placeholder: 'Enter email address',
+                        type: 'email',
+                        required: true
+                    }]}
+                    messages = {
+                        {
+                            // sending: "Sending...",
+                            success: "Thank you for subscribing!",
+                            error: "An unexpected internal error has occurred.",
+                            empty: "You must write an e-mail.",
+                            // duplicate: "Too many subscribe attempts for this email address",
+                            button: "Subscribe"
+                        }
                     }
-                }
-                />
+                    />
+                </div>
+                <ContactForm />
             </div>
-            <ContactForm />
         </section>
     )
 }
