@@ -2,7 +2,7 @@
 
 footer {
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(12, 1fr);
     padding: 3px 5px;
 }
 
@@ -20,7 +20,7 @@ footer {
 
 .footer__impressum {
     grid-column-start: 10;
-    grid-column-end: 13;
+    grid-column-end: 12;
     cursor: pointer;
 }
 
