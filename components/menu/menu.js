@@ -1,7 +1,7 @@
 import Intro from '../sections/intro/intro';
 import Footer from '../footer/footer';
 
-const Menu = ({ settings }) => {
+const Menu = ({ content }) => {
 
   const sectionsBig = ['Businessfotografie','Bewerbungsfotos','Industriereportage'];
   const sectionsSmall = ['Studio', 'Preise', 'Kontakt']
@@ -32,7 +32,7 @@ const Menu = ({ settings }) => {
 
   return (
   <div className="menu">
-      <Intro />
+      <Intro content={content} />
       <nav className="menu__nav menu__nav--big">
           <ul>
               {

@@ -2,12 +2,12 @@ import Header from './header/header'
 import Menu from './menu/menu'
 import Footer from './footer/footer'
 
-const Layout = ({ children }) => {
+const Layout = ({ content, children }) => {
 
     return (
         <div className="container">
             <Header />
-            <Menu />
+            <Menu content={content} />
             {children}
             <Footer />
         </div>

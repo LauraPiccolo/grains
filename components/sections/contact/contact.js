@@ -3,6 +3,12 @@ import Mailchimp from 'react-mailchimp-form'
 import { useInView } from 'react-intersection-observer';
 import { useEffect } from 'react'
 
+const StoryblokClient = require('storyblok-js-client')
+
+let Storyblok = new StoryblokClient({
+    accessToken: 'zpjVfToBDoqLTFrpreoYMwtt'
+})
+
 const Contact = ({ content }) => {
 
     const { ref, inView, entry } = useInView({
@@ -20,18 +26,13 @@ const Contact = ({ content }) => {
         if(inView) changeActiveSection('kontakt');
     },[inView])
 
+    let address = Storyblok.richTextResolver.render(content.contact_address)
+    let info = Storyblok.richTextResolver.render(content.contact_info)
+
     return (
         <section className="kontakt" ref={ref}>
-            <div className="kontakt__address">
-                Sanderstr. 29–30
-                <br/>12047 Berlin, Germany
-            </div>
-            <div className="kontakt__kontakt">
-                info@kopfundkragen.eu 
-                <br/>+49 (0)30 89 56 69 41
-                <br/>@kopfundkragen_fotografie
-            </div>
-            <ContactForm />
+            <div className="kontakt__address" dangerouslySetInnerHTML={{ __html: address }}></div>
+            <div className="kontakt__kontakt" dangerouslySetInnerHTML={{ __html: info }}></div>
             <div className="kontakt__newsletter">
                 Newsletter
                 <Mailchimp
@@ -55,6 +56,7 @@ const Contact = ({ content }) => {
                 }
                 />
             </div>
+            <ContactForm />
         </section>
     )
 }
