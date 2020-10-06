@@ -21,7 +21,12 @@ button, input {
 button:focus {
     outline: 0;
 }
-
+a:hover {
+    color: #FFFF64;
+}
+button:hover {
+    color: #FFFF64;
+}
 
 
 /* 
