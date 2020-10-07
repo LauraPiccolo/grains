@@ -1,4 +1,4 @@
-const Footer = ({ settings }) => {
+const Footer = ({ }) => {
 
     const scrollTop = () => {
         window.scroll({
@@ -9,7 +9,12 @@ const Footer = ({ settings }) => {
     }
 
     const displayImpressum = () => {
-        // Display impressum
+        document.querySelector('.impressum').style.display = 'grid';
+        window.scroll({
+            behavior: 'smooth',
+            left: 0,
+            top: document.querySelector('.impressum').offsetTop - 24
+        });
     }
 
     return (

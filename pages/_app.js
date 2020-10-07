@@ -10,6 +10,7 @@ import '../components/footer/footer.scss'
 import '../components/sections/intro/intro.scss'
 import '../components/sections/contact/contact.scss'
 import '../components/blocks/blocks.scss'
+import '../components/impressum/impressum.scss'
 
 
 function MyApp({ Component, pageProps }) {

@@ -1,0 +1,30 @@
+.impressum {
+  display: none;
+  padding: 5px 10px;
+  grid-template-areas: "impressum impressum impressum impressum impressum impressum impressum impressum impressum close . .";
+  grid-template-columns: repeat(12, 1fr);
+  align-items: start;
+}
+
+.impressum__close {
+  border: none;
+  grid-area: close;
+  background-color: transparent;
+  padding: 0;
+  text-align: left;
+}
+
+.impressum p {
+  grid-area: impressum;
+}
+
+@media screen and (max-width: 800px) { 
+  .impressum {
+    grid-template-rows: 0px auto;
+    grid-template-areas: ". . . . . . . . . . . close"
+    "impressum impressum impressum impressum impressum impressum impressum impressum impressum impressum impressum impressum";
+  }
+
+
+}
+

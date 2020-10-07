@@ -1,6 +1,7 @@
 import Header from './header/header'
 import Menu from './menu/menu'
 import Footer from './footer/footer'
+import Impressum from './impressum/impressum'
 
 const Layout = ({ content, children }) => {
 
@@ -10,6 +11,7 @@ const Layout = ({ content, children }) => {
             <Menu content={content} />
             {children}
             <Footer />
+            <Impressum content={content}/>
         </div>
     )
 }
