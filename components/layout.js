@@ -3,6 +3,8 @@ import Menu from './menu/menu'
 import Footer from './footer/footer'
 import Impressum from './impressum/impressum'
 
+import StoryblokService from '../lib/storyblok-service'
+
 const Layout = ({ content, children }) => {
 
     return (
@@ -12,6 +14,7 @@ const Layout = ({ content, children }) => {
             {children}
             <Footer />
             <Impressum content={content}/>
+            {StoryblokService.bridge()}
         </div>
     )
 }
