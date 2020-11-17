@@ -12,9 +12,11 @@
   background-color: transparent;
   padding: 0;
   text-align: left;
+  font-size: 1em;
+  line-height: 116%;
 }
 
-.impressum p {
+.impressum div {
   grid-area: impressum;
 }
 

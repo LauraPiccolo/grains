@@ -28,6 +28,7 @@ const Contact = ({ content }) => {
 
     let address = Storyblok.richTextResolver.render(content.contact_address)
     let info = Storyblok.richTextResolver.render(content.contact_info)
+    console.log(info);
     let text = Storyblok.richTextResolver.render(content.contact_text)
 
     return (

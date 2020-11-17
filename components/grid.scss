@@ -2,7 +2,7 @@
 
 .block--grid {
     display: grid;
-    padding: 5px 10px;
+    padding: 0 10px;
     grid-gap: 10px;
     gap: 10px;
 }
@@ -10,11 +10,12 @@
 /* Change spaces between rows here */
 
 .griditem {
-    margin-bottom: 20px;
+    margin-bottom: 40px;
 }
 
+
 .grid-item__description {
-    margin-top: 5px;
+    // margin-top: 5px;
 }
 
 .gridrow {
@@ -66,26 +67,26 @@
     grid-column-start: 7;
     grid-column-end: 13;
 }
-/* 2-3-5 */
+/* 2-5-3 */
 
-.griditem--2-3-5 .griditem:first-child {
+.griditem--2-5-3 .griditem:first-child {
     grid-column-start: 1;
     grid-column-end: 6;
 }
 
-.griditem--2-3-5 .griditem:last-child {
+.griditem--2-5-3 .griditem:last-child {
     grid-column-start: 9;
     grid-column-end: 12;
 }
 
-/* 2-5-3 */
+/* 2-3-5 */
 
-.griditem--2-5-3 .griditem:first-child {
+.griditem--2-3-5 .griditem:first-child {
     grid-column-start: 2;
     grid-column-end: 5;
 }
 
-.griditem--2-5-3 .griditem:last-child {
+.griditem--2-3-5 .griditem:last-child {
     grid-column-start: 8;
     grid-column-end: 13;
 }
@@ -93,7 +94,7 @@
 @media screen and (max-width: 800px) {
     .griditem {
         width: 100%;
-        margin-bottom: 20px;
+        margin-bottom: 10px;
     }
 
 

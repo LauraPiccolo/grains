@@ -20,7 +20,7 @@ const Impressum = ({ content }) => {
   return (
       <section className="impressum">
             <button className="impressum__close" onClick={closeImpressum}>Close</button>
-            <p dangerouslySetInnerHTML={{ __html: impressumText }}></p>
+            <div dangerouslySetInnerHTML={{ __html: impressumText }}></div>
       </section>
   )
 }

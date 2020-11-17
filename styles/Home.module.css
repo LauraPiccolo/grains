@@ -60,6 +60,7 @@
 .description {
   line-height: 1.5;
   font-size: 1.5rem;
+  line-height: 110%;
 }
 
 .code {
@@ -67,6 +68,7 @@
   border-radius: 5px;
   padding: 0.75rem;
   font-size: 1.1rem;
+  line-height: 116%;
   font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
     Bitstream Vera Sans Mono, Courier New, monospace;
 }
@@ -103,12 +105,13 @@
 .card h3 {
   margin: 0 0 1rem 0;
   font-size: 1.5rem;
+  line-height: 110%;
 }
 
 .card p {
   margin: 0;
   font-size: 1.25rem;
-  line-height: 1.5;
+  line-height: 110%;
 }
 
 .logo {
