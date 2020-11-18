@@ -5,10 +5,10 @@ import Intro from '../components/sections/intro/intro'
 import Work from '../components/sections/work'
 import Contact from '../components/sections/contact/contact'
 
+
 const Home = ({ content }) => {
 
     return (
-        <>
         <Layout content={content}>
             <main className="viewport-block">
             <Intro content={content} />
@@ -20,7 +20,6 @@ const Home = ({ content }) => {
             <Contact content={content} />
             </main>
         </Layout>
-        </>
     )
 }
 

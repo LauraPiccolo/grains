@@ -34,17 +34,12 @@ button:hover {
     color:  rgba(0, 0, 0, 0.2);
 }
 
-
-/* 
---color-white: #fff;
-    --color-black: rgba(0, 0, 0, 0.87);
-    --color-black-blend: #d0d0d0;
-    --color-grey-blend: #2f2f2f;
-    --grid-gap: 10px;
-    --grid-columns: 6;
-    --header-height: 20px;
-    --z-index-header: 1;
-} */
+.rte p {
+    margin-bottom: 20px;
+}
+.rte p:last-child {
+    margin-bottom: 0px;
+}
 
 @media screen and (max-width: 800px) {
 

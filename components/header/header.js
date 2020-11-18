@@ -1,5 +1,7 @@
 import Link from 'next/link';
+import CookieConsent from "react-cookie-consent"
 import { useState } from 'react';
+import Cookiebar from '../utils/cookiebar'
 
 const Header = ({ settings }) => {
 
@@ -33,36 +35,39 @@ const Header = ({ settings }) => {
     }
 
     return (
-    <header className="header">
-        <div className="header__brand">Kopf & Kragen</div>
-        <nav className="header__nav header__nav--big">
-            <ul>
-                {
-                    sectionsBig.map((sectionName, index) => (
-                        <li key={`bigSection--${index}`} className={`nav__section ${index === 0 ? 'active':''}`}>
-                            <a onClick={(event) => scrollToSection(event)} data-href={`.${sectionName.toLowerCase()}`}>         
-                                {sectionName}
-                            </a>
-                        </li>
-                    ))
-                }
-            </ul> 
-        </nav>
-        <nav className="header__nav header__nav--small">
-            <ul>
-                {
-                    sectionsSmall.map((sectionName, index) => (
-                        <li key={`smallSection--${index}`} className="nav__section">
-                            <a onClick={(event) => scrollToSection(event)} data-href={`.${sectionName.toLowerCase()}`}>
-                                {sectionName}
-                            </a>
-                        </li>
-                    ))
-                }
-            </ul>    
-        </nav>   
-        <button onClick={toggleMenu} className="nav__menu col-3">{menu ? 'Close':'Menu'}</button> 
-    </header>
+    <div className="header__wrapper">
+        <Cookiebar />
+        <header className="header">
+            <div className="header__brand"><h1>Kopf & Kragen</h1></div>
+            <nav className="header__nav header__nav--big">
+                <ul>
+                    {
+                        sectionsBig.map((sectionName, index) => (
+                            <li key={`bigSection--${index}`} className={`nav__section ${index === 0 ? 'active':''}`}>
+                                <a onClick={(event) => scrollToSection(event)} data-href={`.${sectionName.toLowerCase()}`}>         
+                                    {sectionName}
+                                </a>
+                            </li>
+                        ))
+                    }
+                </ul> 
+            </nav>
+            <nav className="header__nav header__nav--small">
+                <ul>
+                    {
+                        sectionsSmall.map((sectionName, index) => (
+                            <li key={`smallSection--${index}`} className="nav__section">
+                                <a onClick={(event) => scrollToSection(event)} data-href={`.${sectionName.toLowerCase()}`}>
+                                    {sectionName}
+                                </a>
+                            </li>
+                        ))
+                    }
+                </ul>    
+            </nav>   
+            <button onClick={toggleMenu} className="nav__menu col-3">{menu ? 'Close':'Menu'}</button> 
+        </header>
+    </div>
     )
 }
   

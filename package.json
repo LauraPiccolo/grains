@@ -13,11 +13,13 @@
     "next": "9.5.3",
     "postcss-url": "^8.0.0",
     "react": "16.13.1",
+    "react-cookie-consent": "^6.1.0",
     "react-dom": "16.13.1",
     "react-in-viewport": "^1.0.0-alpha.14",
     "react-intersection-observer": "^8.29.0",
     "react-mailchimp-form": "^1.0.2",
     "sass": "^1.26.11",
-    "storyblok-js-client": "^2.5.2"
+    "storyblok-js-client": "^2.5.2",
+    "storyblok-react": "^0.1.1"
   }
 }

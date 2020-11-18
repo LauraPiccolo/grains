@@ -1,4 +1,5 @@
 import Mailchimp from 'react-mailchimp-form'
+import SbEditable from 'storyblok-react'
 
 const StoryblokClient = require('storyblok-js-client')
 
@@ -13,6 +14,7 @@ const Intro = ({ content }) => {
     let info = Storyblok.richTextResolver.render(content.contact_info)
 
     return (
+        <SbEditable content={content}>
         <section className="intro">
             <div className="intro__address" dangerouslySetInnerHTML={{ __html: address }}></div>
             <div className="intro__kontakt" dangerouslySetInnerHTML={{ __html: info }}></div>
@@ -40,6 +42,7 @@ const Intro = ({ content }) => {
                 />
             </div>
     </section>
+    </SbEditable>
     )
 }
   
