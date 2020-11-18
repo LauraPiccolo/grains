@@ -24,6 +24,10 @@
     line-height: 110%;
 }
 
+.column li::before {
+    content: '•'
+}
+
 @media screen and (max-width: 800px) {
     .block--columns {
         display: block;
