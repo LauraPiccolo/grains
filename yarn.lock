@@ -3022,6 +3022,11 @@ jest-worker@24.9.0:
     merge-stream "^2.0.0"
     supports-color "^6.1.0"
 
+js-cookie@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/js-cookie/-/js-cookie-2.2.1.tgz#69e106dc5d5806894562902aa5baec3744e9b2b8"
+  integrity sha512-HvdH2LzI/EAZcUwA8+0nKNtWHqS+ZmijLA30RwZA0bo7ToCckjK5MkGhjED9KoRcXO6BaGI3I9UIzSA1FKFPOQ==
+
 "js-tokens@^3.0.0 || ^4.0.0", js-tokens@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-4.0.0.tgz#19203fb59991df98e3a287050d4647cdeaf32499"
@@ -3889,7 +3894,7 @@ promise-inflight@^1.0.1:
   resolved "https://registry.yarnpkg.com/promise-inflight/-/promise-inflight-1.0.1.tgz#98472870bf228132fcbdd868129bad12c3c029e3"
   integrity sha1-mEcocL8igTL8vdhoEputEsPAKeM=
 
-prop-types@15.7.2, prop-types@^15.6.2:
+prop-types@15.7.2, prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -3984,6 +3989,14 @@ randomfill@^1.0.3:
   dependencies:
     randombytes "^2.0.5"
     safe-buffer "^5.1.0"
+
+react-cookie-consent@^6.1.0:
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/react-cookie-consent/-/react-cookie-consent-6.1.0.tgz#1662431013433c9f15ba483d902d3585604c51c7"
+  integrity sha512-IQDT6DGESjv7E5v4iCeGSh3NvZP2BhSdg8R9FNuQzWkEuFPXSoQlCTuOxSzbLsH3lzgIgGly415tN9iHFD+lGQ==
+  dependencies:
+    js-cookie "^2.2.1"
+    prop-types "^15.7.2"
 
 react-dom@16.13.1:
   version "16.13.1"
@@ -4472,6 +4485,11 @@ storyblok-js-client@^2.5.2:
     "@babel/runtime-corejs3" "^7.4.5"
     axios "^0.19.0"
     qs "^6.5.2"
+
+storyblok-react@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/storyblok-react/-/storyblok-react-0.1.1.tgz#3299aaa6c808e980f2547464deb9e15a63f88b32"
+  integrity sha512-/M620xSJQKBbDkxFQLG2zrTLXOxZG7ZcYjuaYlR9f7zMzSj+gFoQMXyMpJ2ASXI+MlhPXNnzrGk0a8hPF06YQg==
 
 stream-browserify@3.0.0:
   version "3.0.0"
