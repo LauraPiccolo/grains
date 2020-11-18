@@ -14,17 +14,17 @@ const BlockGrid = ({ content }) => {
                     row.images.length === 1 ? (
                         <div className={`griditem griditem--${row.mode}`} key={`row--${index}`} style={{ gridRowStart:index+1, gridRowEnd:index+2}}>
                             <Image data={row.images[0]} mode={""}/>
-                            <p className="grid-item__description">{row.images[0].title}</p>
+                            {(row.images[0].title && row.images[0].title.length > 0) && (<p className="grid-item__description">{row.images[0].title}</p>)}
                         </div>
                     ):(
                         <div className={`gridrow griditem--${row.mode}`} key={`row--${index}`}>
                             <div className='griditem' style={{ gridRowStart:index+1, gridRowEnd:index+2}}>
                                 <Image data={row.images[0]} mode={""}/>
-                                <p className="grid-item__description">{row.images[0].title}</p>
+                                {(row.images[0].title && row.images[0].title.length > 0) && (<p className="grid-item__description">{row.images[0].title}</p>)}
                             </div>
                             <div className='griditem' style={{ gridRowStart:index+1, gridRowEnd:index+2}}>
                                 <Image data={row.images[1]} mode={""}/>
-                                <p className="grid-item__description">{row.images[1].title}</p>
+                                {(row.images[1].title && row.images[1].title.length > 0) && (<p className="grid-item__description">{row.images[1].title}</p>)}
                             </div>
                         </div>
                     )
