@@ -34,7 +34,7 @@ const Intro = ({ content }) => {
                         // sending: "Sending...",
                         success: "Danke!",
                         error: "Fehler",
-                        empty: "You must write an e-mail.",
+                        empty: "E-Mail Adresse eingeben.",
                         // duplicate: "Too many subscribe attempts for this email address",
                         button: "Abonnieren"
                     }
