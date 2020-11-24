@@ -48,7 +48,6 @@ const Header = ({ settings }) => {
 
     return (
     <div className="header__wrapper">
-        <Cookiebar />
         <header className="header">
             <div className="header__brand">
                 <h1 onClick={scrollTop} 
@@ -82,6 +81,8 @@ const Header = ({ settings }) => {
             </nav>   
             <button onClick={toggleMenu} className="nav__menu col-3">{menu ? 'Close':'Menu'}</button> 
         </header>
+        <Cookiebar />
+        <Cookiebar />
     </div>
     )
 }

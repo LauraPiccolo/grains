@@ -20,7 +20,7 @@
     text-indent: -10px; 
 }
 
-.column h4 {
+.column h3 {
     font-size: 1.5rem;
     margin-bottom: 10px;
     line-height: 110%;
@@ -31,6 +31,14 @@
     content: '•';
     display: inline-block;
     margin-left: 10px;
+}
+
+.column p:last-child {
+    margin-top: -10px;
+}
+
+.column li p:last-child {
+    margin-top: initial;
 }
 
 @media screen and (max-width: 800px) {

@@ -1,15 +1,19 @@
 // Cookiebar 
 .CookieConsent {
     position: fixed;
-    bottom: 0;
-    left: 0;
+    top: 0;
+    margin-top: 22px;
     width: 100%;
     height: 20px;
     line-height: 20px;
     z-index: 400;
-    background-color:rgba(255, 255, 255, 0.85);
+    // background-color:rgba(134, 134, 134, 0.85);
+    background-color: rgba(134, 134, 134, 0.35);
     backdrop-filter: blur(25px);
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(12,1fr);
+    grid-template-areas: "info info info info info info info . . accept accept accept";
+    grid-gap: 10px;
     padding: 0 10px;
     z-index: 200;
 
@@ -17,9 +21,29 @@
         height: 20px;
         line-height: 20px;
         background-color: rgba(255,255,255,0);
+        grid-area: 'accept';
+        padding: 0;
     }
 }
 
+.CookieConsent div:first-child {
+    grid-area: info;
+}
+
+
+.CookieConsent div:last-child {
+    grid-area: accept;
+}
+
+.CookieConsent:last-child {
+    height: 0px;
+    position: relative;
+    opacity: 0;
+}
+
+.CookieConsent a {
+    cursor: pointer;
+}
 
 /* HEADER */
 .header {
