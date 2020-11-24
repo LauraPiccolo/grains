@@ -7,6 +7,7 @@
     grid-template-columns: repeat(12, 1fr);
     grid-template-rows: repeat(2, 50px);
     grid-template-areas: "address address kontakt kontakt form form form form . newsletter newsletter newsletter";
+    column-gap: 10px;
 }
 
 .intro {
