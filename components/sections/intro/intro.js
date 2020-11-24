@@ -17,7 +17,11 @@ const Intro = ({ content }) => {
         <SbEditable content={content}>
         <section className="intro">
             <div className="intro__address" dangerouslySetInnerHTML={{ __html: address }}></div>
-            <div className="intro__kontakt" dangerouslySetInnerHTML={{ __html: info }}></div>
+            <div className="intro__kontakt">
+                <a href="mailto:info@kopfundkragen.eu">info@kopfundkragen.eu</a>
+                <a href="tel:00493089566941">+49 (0) 30 89 56 69 41</a>
+                <a href="https://www.instagram.com/kopfundkragen_fotografie/" target="_blank">@kopfundkragen_fotografie</a>
+            </div>
             <div className="intro__newsletter">
                 Newsletter
                 <Mailchimp

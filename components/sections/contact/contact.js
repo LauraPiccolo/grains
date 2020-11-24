@@ -36,7 +36,11 @@ const Contact = ({ content }) => {
             <div className="kontakt__text" dangerouslySetInnerHTML={{ __html: text }}></div>
             <div className="kontakt__grid">
                 <div className="kontakt__address" dangerouslySetInnerHTML={{ __html: address }}></div>
-                <div className="kontakt__kontakt" dangerouslySetInnerHTML={{ __html: info }}></div>
+                <div className="kontakt__kontakt">
+                    <a href="mailto:info@kopfundkragen.eu">info@kopfundkragen.eu</a>
+                    <a href="tel:00493089566941">+49 (0) 30 89 56 69 41</a>
+                    <a href="https://www.instagram.com/kopfundkragen_fotografie/" target="_blank">@kopfundkragen_fotografie</a>
+                </div>
                 <div className="kontakt__newsletter">
                     Newsletter
                     <Mailchimp
