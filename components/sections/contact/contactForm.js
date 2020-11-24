@@ -61,7 +61,7 @@ export default () => {
       .then(response => {
         handleServerResponse(
           true,
-          'Thank you, your message has been submitted.'
+          // 'Thank you, your message has been submitted.'
         )
       })
       .catch(error => {

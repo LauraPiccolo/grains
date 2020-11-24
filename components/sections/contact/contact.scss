@@ -66,6 +66,12 @@
     opacity: 0.3;
 }
 
+.kontakt main textarea {
+    height: 52px;
+    margin-bottom: 0px;
+    overflow-y: scroll;
+}
+
 .kontakt__grid {
     padding-top: 50px;
     padding-bottom: 150px;
@@ -81,7 +87,7 @@
 .agreement-secret {
     width: 7px !important;
     height: 7px;
-    margin-top: 4px;
+    margin-top: 2.7px;
     display: inline-block !important;
     border: solid 1.5px black !important;
     -webkit-text-fill-color: inherit !important;
