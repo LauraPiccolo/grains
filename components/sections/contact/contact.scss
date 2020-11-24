@@ -5,12 +5,14 @@
 .kontakt__text {
     padding: 0px 10px 10px 10px;
     font-size: 1.5rem;
+    letter-spacing: initial;
     line-height: 110%;
 }
 
 .kontakt main input:-webkit-autofill, .kontakt main textarea:-webkit-autofill,.kontakt main button:-webkit-autofill, .kontakt main input, .kontakt main textarea,.kontakt main button {
     display: block;
     font-size: 2em;
+    letter-spacing: initial;
     line-height: 110%;
     background-color: transparent;
     outline: none;
@@ -73,6 +75,7 @@
     height: fit-content;
     grid-template-columns: repeat(12, 1fr);
     grid-template-rows: auto;
+    column-gap: 10px;
 }
 
 .agreement-secret {
@@ -87,6 +90,7 @@
     display: inline-block;
     margin-left: 0;
     vertical-align: top;
+    pointer-events: none;
 }   
 
 .agreement-secret.checked {
@@ -96,7 +100,8 @@
 label[for=agreement] {
     display: inline-block;
     width: calc(100% - 12px);
-    margin-left: 5px;
+    padding-left: 10px;
+    margin-left: -5px;
     margin-bottom: 15px;
     cursor: pointer;
 }
@@ -116,6 +121,11 @@ label[for=agreement] {
 
 .kontakt main {
     grid-area: form;
+}
+
+.form__send:hover {
+    color:rgba(0, 0, 0, 0.2);
+    -webkit-text-fill-color: unset;
 }
 
 @media screen and (max-width: 900px) {

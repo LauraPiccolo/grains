@@ -1,5 +1,5 @@
 import Blocks from '../blocks/blocks'
-import { useInView } from 'react-intersection-observer';
+import { useInView } from 'react-intersection-observer'
 import { useEffect } from 'react'
 
 const Work = ({ content, anchor }) => {
@@ -11,12 +11,12 @@ const Work = ({ content, anchor }) => {
 
     // Function to call after current section className has been found
     const changeActiveSection = (sectionClass) => {
-        document.querySelector('.nav__section.active').className = 'nav__section';
-        document.querySelector(`a[data-href='.${sectionClass}']`).className = "nav__section active";
+        document.querySelector('.nav__section.active').className = 'nav__section'
+        document.querySelector(`a[data-href='.${sectionClass}']`).className = "nav__section active"
     }
 
     useEffect(() => {
-        if(inView) changeActiveSection(anchor);
+        if(inView) changeActiveSection(anchor)
     },[inView])
 
     return (

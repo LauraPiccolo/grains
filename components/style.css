@@ -11,12 +11,14 @@ body {
     line-height: 116%;
     color: #1E1E1E;
     -webkit-font-smoothing: antialiased;
+    letter-spacing: 0.004rem;
 }
 
 button, input {
     font-size: 0.75rem;
     line-height: 116%;
     font-family: "font", sans-serif;
+    letter-spacing: 0.004rem;
 }
 
 button:focus {

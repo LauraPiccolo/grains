@@ -4,6 +4,7 @@ footer {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
     padding: 3px 10px;
+    column-gap: 10px;
 }
 
 .footer__brand {

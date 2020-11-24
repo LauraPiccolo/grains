@@ -31,13 +31,15 @@
     line-height: 22px;
     display: grid;
     grid-template-columns:  repeat(12, 1fr);
-    column-gap: 20px;
+    // grid-template-rows: 20px;
+    column-gap: 10px;
     padding: 0 10px;
     z-index: 10;
     grid-template-areas: "brand brand navdesk navdesk navdesk navdesk navdesk navdesk . menu menu menu";
     background-color:rgba(255, 255, 255, 0.85);
     backdrop-filter: blur(25px);
-    background-color: yellow;
+    // background-color: yellow;
+    letter-spacing: 0.004rem;
 }
 
 .header__brand {
@@ -82,6 +84,7 @@
 .header__nav--big ul, .header__nav--small ul {
     grid-template-columns:  repeat(3, 1fr);
     display: grid;
+    column-gap: 10px;
 }
 
 .nav__menu {
@@ -95,7 +98,11 @@
 }
 
 .header a:hover {
-    color:  rgba(0, 0, 0, 0.2);
+    color: #1E1E1E;
+}
+
+h1 {
+    cursor: pointer;
 }
 
 /* Small display */

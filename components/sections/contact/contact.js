@@ -44,7 +44,7 @@ const Contact = ({ content }) => {
                     fields={[
                     {
                         name: 'EMAIL',
-                        placeholder: 'Enter email address',
+                        placeholder: 'E-Mail Adresse eingeben',
                         type: 'email',
                         required: true
                     }]}
@@ -55,7 +55,7 @@ const Contact = ({ content }) => {
                             error: "An unexpected internal error has occurred.",
                             empty: "You must write an e-mail.",
                             // duplicate: "Too many subscribe attempts for this email address",
-                            button: "Subscribe"
+                            button: "Abonnieren"
                         }
                     }
                     />

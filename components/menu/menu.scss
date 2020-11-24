@@ -18,8 +18,13 @@
   display: none;
 }
 
+.nav__menu {
+  line-height: 22px !important;
+}
+
 .menu__nav {
   font-size: 2em;
+  letter-spacing: initial;
   line-height: 110%;
   padding: 30px 10px 5px 10px;
 }
@@ -38,16 +43,6 @@
 
 .menu .footer__top {
   display: none;
-}
-
-.menu *, .menu footer {
-  // transition-duration: .5s;
-  // transition-property: opacity;
-}
-
-.menu {
-  // transition-duration: 1s;
-  // transition-property: height;
 }
 
 @media screen and (min-width: 800px) {

@@ -48,7 +48,10 @@ export default () => {
   }
   const handleOnSubmit = e => {
     e.preventDefault()
-    if(!agreed) return;
+    if(!agreed) {
+      document.querySelector('.agreement').style.color = 'red';
+      return;
+    }
     setStatus(prevStatus => ({ ...prevStatus, submitting: true }))
     axios({
       method: 'POST',
@@ -117,15 +120,15 @@ export default () => {
           id="agreement" 
           name="agreement" 
           checked={agreed}
-          onChange={()=>setAgreed(!agreed)}
+          onChange={()=> { setAgreed(!agreed), document.querySelector('.agreement').style.color = '#1E1E1E';}}
         />
         <button type="button" className={`agreement-secret ${agreed ? 'checked':'unchecked'}`} />
-        <label htmlFor="agreement">Ich habe die Datenschutzerklärung zur Kenntnis genommen und akzeptiert sie.</label>
-        <button type="submit" disabled={status.submitting}>
+        <label htmlFor="agreement" className='agreement'>Ich habe die Datenschutzerklärung zur Kenntnis genommen und akzeptiert sie.</label>
+        <button type="submit" className="form__send" disabled={status.submitting}>
           {!status.submitting
             ? !status.submitted
               ? 'Senden'
-              : 'Gesendet'
+              : 'Danke'
             : 'Senden...'}
         </button>
       </form>

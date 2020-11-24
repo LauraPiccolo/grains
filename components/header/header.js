@@ -34,11 +34,26 @@ const Header = ({ settings }) => {
         event.target.className = "nav__section active";
     }
 
+    const scrollTop = () => {
+        // scroll to desired section
+        event.preventDefault();
+        const anchor = document.querySelector('.businessfotografie');
+
+        window.scroll({
+            behavior: 'smooth',
+            left: 0,
+            top: anchor.offsetTop - 24
+        });
+    }
+
     return (
     <div className="header__wrapper">
         <Cookiebar />
         <header className="header">
-            <div className="header__brand"><h1>Kopf & Kragen</h1></div>
+            <div className="header__brand">
+                <h1 onClick={scrollTop} 
+                data-href='.businessfotografie'>Kopf & Kragen</h1>
+            </div>
             <nav className="header__nav header__nav--big">
                 <ul>
                     {
