@@ -1,5 +1,6 @@
 import Intro from '../sections/intro/intro';
 import Footer from '../footer/footer';
+import $ from 'jquery';
 
 const Menu = ({ content }) => {
 
@@ -19,11 +20,9 @@ const Menu = ({ content }) => {
       closeMenu();
       const anchor = document.querySelector(event.target.dataset.href);
 
-      window.scroll({
-          behavior: 'auto',
-          left: 0,
-          top: anchor.offsetTop - 24
-      });
+      $('html, body').animate({
+        scrollTop: $(anchor).offset().top - 24
+    }, 800)
 
       // put little dot
       document.querySelector('.nav__section.active').className = 'nav__section';

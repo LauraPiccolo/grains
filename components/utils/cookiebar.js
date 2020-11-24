@@ -1,4 +1,5 @@
 import CookieConsent from "react-cookie-consent"
+import $ from 'jquery';
 
 const Cookiebar = () => {
 
@@ -7,11 +8,9 @@ const Cookiebar = () => {
 
     const displayImpressum = () => {
         document.querySelector('.impressum').style.display = 'grid';
-        window.scroll({
-            behavior: 'smooth',
-            left: 0,
-            top: document.querySelector('.impressum').offsetTop - 44
-        });
+        $('html, body').animate({
+            scrollTop: $('.impressum').offset().top - 44
+        }, 800)
     }
 
     const removeCookie = () => {

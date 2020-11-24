@@ -1,4 +1,5 @@
 const StoryblokClient = require('storyblok-js-client')
+import $ from 'jquery';
 
 let Storyblok = new StoryblokClient({
     accessToken: 'zpjVfToBDoqLTFrpreoYMwtt'
@@ -7,11 +8,12 @@ let Storyblok = new StoryblokClient({
 const Impressum = ({ content }) => {
 
   const closeImpressum = () => {
-    window.scroll({
-        behavior: 'smooth',
-        left: 0,
-        top: document.querySelector('.container > footer').offsetTop - window.innerHeight + document.querySelector('.container > footer').clientHeight,
-    });
+    const top = document.querySelector('.container > footer').offsetTop - window.innerHeight + document.querySelector('.container > footer').clientHeight;
+
+    $('html, body').animate({
+      scrollTop: top
+    }, 800)
+
     setTimeout(() => { document.querySelector('.impressum').style.display = 'none'; }, 500);
   }
 

@@ -1,20 +1,18 @@
+import $ from 'jquery';
+
 const Footer = ({ }) => {
 
     const scrollTop = () => {
-        window.scroll({
-            behavior: 'smooth',
-            left: 0,
-            top: 0
-        });
+        $('html, body').animate({
+            scrollTop: 0
+        }, 800)
     }
 
     const displayImpressum = () => {
         document.querySelector('.impressum').style.display = 'grid';
-        window.scroll({
-            behavior: 'smooth',
-            left: 0,
-            top: document.querySelector('.impressum').offsetTop - 24
-        });
+        $('html, body').animate({
+            scrollTop: $('.impressum').offset().top - 24
+        }, 800)
     }
 
     return (

@@ -2,6 +2,7 @@ import Link from 'next/link';
 import CookieConsent from "react-cookie-consent"
 import { useState } from 'react';
 import Cookiebar from '../utils/cookiebar'
+import $ from 'jquery';
 
 const Header = ({ settings }) => {
 
@@ -23,11 +24,9 @@ const Header = ({ settings }) => {
         event.preventDefault();
         const anchor = document.querySelector(event.target.dataset.href);
 
-        window.scroll({
-            behavior: 'smooth',
-            left: 0,
-            top: anchor.offsetTop - 24
-        });
+        $('html, body').animate({
+            scrollTop: $(anchor).offset().top - 24
+        }, 800)
 
         // put little dot
         document.querySelector('.nav__section.active').className = 'nav__section';
@@ -39,11 +38,9 @@ const Header = ({ settings }) => {
         event.preventDefault();
         const anchor = document.querySelector('.businessfotografie');
 
-        window.scroll({
-            behavior: 'smooth',
-            left: 0,
-            top: anchor.offsetTop - 24
-        });
+        $('html, body').animate({
+            scrollTop: $(anchor).offset().top - 24
+        }, 800)
     }
 
     return (
