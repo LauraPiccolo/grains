@@ -24,6 +24,12 @@
     line-height: 110%;
 }
 
+.column li p::before {
+    content: '•';
+    display: inline-block;
+    margin-left: 10px;
+}
+
 @media screen and (max-width: 800px) {
     .block--columns {
         display: block;
