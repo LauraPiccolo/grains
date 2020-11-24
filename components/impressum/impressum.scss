@@ -4,6 +4,7 @@
   grid-template-areas: "impressum impressum impressum impressum impressum impressum impressum impressum impressum close . .";
   grid-template-columns: repeat(12, 1fr);
   align-items: start;
+  column-gap: 10px;
 }
 
 .impressum__close {

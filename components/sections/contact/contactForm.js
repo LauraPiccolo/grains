@@ -128,7 +128,7 @@ export default () => {
           {!status.submitting
             ? !status.submitted
               ? 'Senden'
-              : 'Danke'
+              : 'Danke!'
             : 'Senden...'}
         </button>
       </form>

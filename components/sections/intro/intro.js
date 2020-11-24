@@ -32,8 +32,8 @@ const Intro = ({ content }) => {
                 messages = {
                     {
                         // sending: "Sending...",
-                        success: "Thank you for subscribing!",
-                        error: "An unexpected internal error has occurred.",
+                        success: "Danke!",
+                        error: "Fehler",
                         empty: "You must write an e-mail.",
                         // duplicate: "Too many subscribe attempts for this email address",
                         button: "Abonnieren"
