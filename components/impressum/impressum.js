@@ -1,5 +1,6 @@
 const StoryblokClient = require('storyblok-js-client')
 import $ from 'jquery';
+import { useEffect } from 'react';
 
 let Storyblok = new StoryblokClient({
     accessToken: 'zpjVfToBDoqLTFrpreoYMwtt'
@@ -16,6 +17,15 @@ const Impressum = ({ content }) => {
 
     setTimeout(() => { document.querySelector('.impressum').style.display = 'none'; }, 500);
   }
+
+  const scrollClose = () => {
+    const closeTop = document.querySelector('.impressum').getBoundingClientRect().top;
+    document.querySelector('.impressum__close').className = closeTop <= 22 ? 'impressum__close--fixed impressum__close' : 'impressum__close';
+  }
+
+  useEffect(() => {
+    window.addEventListener('scroll', scrollClose)
+  });
 
   let impressumText = Storyblok.richTextResolver.render(content.impressum)
 

@@ -7,6 +7,17 @@ footer {
     column-gap: 10px;
 }
 
+footer p:hover {
+    color: rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
+.footer__brand:hover {
+    color: black;
+    cursor: default;
+}
+
+
 .footer__brand {
     grid-column-start: 1;
     grid-column-end: 3;

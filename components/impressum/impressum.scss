@@ -17,6 +17,13 @@
   line-height: 116%;
 }
 
+.impressum__close--fixed {
+  position: fixed;
+  top: 25px;
+  left: calc(100vw * 0.75);
+  margin-left: 2.5px;
+}
+
 .impressum div {
   grid-area: impressum;
 }
@@ -24,7 +31,7 @@
 @media screen and (max-width: 800px) { 
   .impressum {
     grid-template-rows: 0px auto;
-    grid-template-areas: ". . . . . . . . . . . close"
+    grid-template-areas: ". . . . . . . . . close . ."
     "impressum impressum impressum impressum impressum impressum impressum impressum impressum impressum impressum impressum";
   }
 

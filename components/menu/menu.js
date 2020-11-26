@@ -2,7 +2,7 @@ import Intro from '../sections/intro/intro';
 import Footer from '../footer/footer';
 import $ from 'jquery';
 
-const Menu = ({ content }) => {
+const Menu = ({ content, menu, setMenu }) => {
 
   const sectionsBig = ['Businessfotografie','Bewerbungsfotos','Industriereportage'];
   const sectionsSmall = ['Studio', 'Preise', 'Kontakt']
@@ -12,6 +12,7 @@ const Menu = ({ content }) => {
       document.querySelector('.menu').style.height = 0;
       document.querySelector('.menu *').style.opacity = 0;
       document.querySelector('.menu footer').style.opacity = 0;
+      setMenu(false);
   }
 
   const scrollToSection = (event) => {

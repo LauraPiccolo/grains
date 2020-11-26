@@ -8,7 +8,7 @@
     line-height: 20px;
     z-index: 400;
     // background-color:rgba(134, 134, 134, 0.85);
-    background-color: rgba(134, 134, 134, 0.35);
+    background-color: #FFFF64;
     backdrop-filter: blur(25px);
     display: grid;
     grid-template-columns: repeat(12,1fr);
@@ -20,7 +20,7 @@
     button {
         height: 20px;
         line-height: 20px;
-        background-color: rgba(255,255,255,0);
+        background-color: transparent;
         grid-area: 'accept';
         padding: 0;
     }
@@ -60,7 +60,7 @@
     padding: 0 10px;
     z-index: 10;
     grid-template-areas: "brand brand navdesk navdesk navdesk navdesk navdesk navdesk . menu menu menu";
-    background-color:rgba(255, 255, 255, 0.85);
+    background-color:white;
     backdrop-filter: blur(25px);
     // background-color: yellow;
     letter-spacing: 0.004rem;

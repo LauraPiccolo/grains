@@ -4,17 +4,17 @@ import { useState } from 'react';
 import Cookiebar from '../utils/cookiebar'
 import $ from 'jquery';
 
-const Header = ({ settings }) => {
+const Header = ({ menu, setMenu }) => {
 
     const sectionsBig = ['Businessfotografie','Bewerbungsfotos','Industriereportage'];
     const sectionsSmall = ['Studio', 'Preise', 'Kontakt'];
-    const [menu, setMenu] = useState(false);
 
     const toggleMenu = () => {
         // Display menu
         const menuIsOpen = document.querySelector('.menu').clientHeight > 10 ? true : false;
         setMenu(!menuIsOpen);
-        document.querySelector('.menu').style.height = menuIsOpen ? 0 : 'calc(100% - 24px)';
+        console.log(!menuIsOpen);
+        document.querySelector('.menu').style.height = menuIsOpen ? 0 : 'calc(100% - 20px)';
         document.querySelector('.menu *').style.opacity = menuIsOpen ? 0 : 1;
         document.querySelector('.menu footer').style.opacity = menuIsOpen ? 0 : 1;
     }
