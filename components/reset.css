@@ -74,7 +74,7 @@ hr { color: #222; background-color: #222; height:1px; border: none; }
 
 
 
-button { -webkit-appearance: button; cursor: pointer; border:none; }
+button { -webkit-appearance: button; cursor: pointer; border:none; padding: none; background-color: transparent;}
 button::-moz-focus-inner { border: 0; padding: 0; }    
 
 button::-moz-focus-inner,

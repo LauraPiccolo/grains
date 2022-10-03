@@ -4501,6 +4501,11 @@ storyblok-react@^0.1.1:
   resolved "https://registry.yarnpkg.com/storyblok-react/-/storyblok-react-0.1.1.tgz#3299aaa6c808e980f2547464deb9e15a63f88b32"
   integrity sha512-/M620xSJQKBbDkxFQLG2zrTLXOxZG7ZcYjuaYlR9f7zMzSj+gFoQMXyMpJ2ASXI+MlhPXNnzrGk0a8hPF06YQg==
 
+storyblok-rich-text-react-renderer@^2.6.1:
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/storyblok-rich-text-react-renderer/-/storyblok-rich-text-react-renderer-2.6.1.tgz#e19f319062d870eb4780deaaa2506659703046d1"
+  integrity sha512-8TJGoy7o9viysyylyxi7+ADYKslMHQXlqQYlect3g8gyGeNto9K2ILIyYL1szHP4Ljn0/Kp1EB6NMmHiTlE5xg==
+
 stream-browserify@3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/stream-browserify/-/stream-browserify-3.0.0.tgz#22b0a2850cdf6503e73085da1fc7b7d0c2122f2f"

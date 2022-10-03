@@ -1,60 +1,21 @@
 @font-face {
-    font-family: "font";
-    src: url("/fonts/font.woff") format("woff");
-    font-weight: 300;
+    font-family: 'next';
+    src: url('../public/fonts/UniversNextProBold.ttf');
 }
   
 body {
-    font-family: "font", sans-serif;
-    font-size: 0.75rem;
+    font-family: "next", sans-serif;
+    background-color: white;
+    /* font-size: 0.75rem;
     line-height: 116%;
     color: #1E1E1E;
     -webkit-font-smoothing: antialiased;
     letter-spacing: 0.004rem;
-    scroll-behavior: smooth;
+    scroll-behavior: smooth; */
 }
 
-button, input {
-    font-size: 0.75rem;
-    line-height: 116%;
-    font-family: "font", sans-serif;
-    letter-spacing: 0.004rem;
-}
-
-button:focus {
-    outline: 0;
-}
-
-.work {
-    padding: 20px 0 120px 0;
-}
-
-a:hover {
-    color: rgba(0, 0, 0, 0.2);
-}
-button:hover {
-    color:  rgba(0, 0, 0, 0.2);
-}
-
-.rte p {
-    margin-bottom: 20px;
-}
-.rte p:last-child {
-    margin-bottom: 0px;
-}
-
-@media screen and (max-width: 800px) {
-
-    .work {
-        padding: 60px 0 60px 0;
-    }
-
-    .work.studio {
-        padding: 20px 0 60px 0;
-    }
-
-    .work.industriereportage, .work.preise {
-        padding: 60px 0 120px 0;
-    }
-
+a:hover, button:hover {
+    text-decoration: underline;
+    color: #9E9E9E;
+    cursor: pointer;
 }

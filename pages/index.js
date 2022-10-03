@@ -1,16 +1,19 @@
 import Layout from '../components/layout'
 import { getHome } from '../lib/api'
-
-import Intro from '../components/sections/intro/intro'
-import Work from '../components/sections/work'
-import Contact from '../components/sections/contact/contact'
+import Wrapper from '../components/block/wrapper'
+import { useState } from 'react'
+import Header from '../components/header/header'
+import Information from '../components/information/information'
 
 
 const Home = ({ content }) => {
+    console.log(content)
+
+    const [lang, setLang] = useState('en')
 
     return (
         <Layout content={content}>
-            <main className="viewport-block">
+            {/* <main className="viewport-block">
             <Intro content={content} />
             <Work content={content.Businessfotografie} anchor="businessfotografie"/>
             <Work content={content.Bewerbungsfotos} anchor="bewerbungsfotos"/>
@@ -18,7 +21,10 @@ const Home = ({ content }) => {
             <Work content={content.Studio} anchor="studio"/>
             <Work content={content.Preise} anchor="preise"/>
             <Contact content={content} />
-            </main>
+            </main> */}
+            <Header lang={lang} setLang={setLang} />
+            <Wrapper blocks={content.blocks} lang={lang}/>
+            <Information lang={lang} />
         </Layout>
     )
 }

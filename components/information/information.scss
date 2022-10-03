@@ -1,0 +1,56 @@
+.blur--1 {
+    height: 95vh;
+    width: 100vw;
+    background-color: rgba(255,255,255,0.3);
+}
+
+
+.blur--2 {
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(255,255,255,0.3);
+}
+
+.information--modal {
+    height: 100vh;
+    overflow-y: scroll;
+    margin-top: -100vh;
+    width: 100vw;
+    position: absolute;
+    top: 0;
+}
+
+.information {
+    width: 100vw;
+    height: 100vh;
+    background-color: black;
+    padding: 55px 20px 20px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: s-resize;
+
+    * {
+        color: white;
+        text-transform: uppercase;
+    }
+}
+
+.information__social {
+    font-size: 11px;
+    line-height: 125%;
+    & li {
+        margin-top: 4px;
+    }
+}
+
+.information__text {
+    font-size: 22px;
+    line-height: 125%
+}
+
+@media (max-width: 800px) {
+    .information {
+        padding: 12px;
+    }
+}
