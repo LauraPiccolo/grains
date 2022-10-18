@@ -6,7 +6,7 @@ const Description = ({content}) => {
     console.log(content)
 
     return (
-       <div className='block__description'>
+       <div className='block__meta'>
         {render(content)}
        </div>
     )

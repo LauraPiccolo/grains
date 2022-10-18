@@ -2,12 +2,20 @@
     position: relative;
 }
 
-.projects {
+.wrapper{
+    // position: relative;
+    // height: 100vh;
+    // width: 100vw;
+    // overflow-y: scroll;
+}
+
+#block-container {
     position: relative;
 }
 
 .project {
     margin-bottom: 92px;
+    z-index: -1;
 }
 
 .block {
@@ -16,11 +24,17 @@
     height: fit-content;
 }
 
+#scroll-wrapper {
+    padding-bottom: 100vh;
+}
+
 .block__media {
-    // background-color: red;
+    // background-color: orangered;
     height: fit-content;
-    border: solid 1px orange;
+    // border: solid 1px orange;
     overflow: hidden;
+    // height: 90vh;
+    // width: 90vh;
 }
 
 video {
@@ -111,7 +125,7 @@ video {
     }
 }
 
-.block__description * {
+.block__meta * {
     font-size: 11px;
     font-family: 'next';
     text-transform: uppercase;
@@ -172,7 +186,7 @@ video {
         }
     }
 
-    .block__description * {
+    .block__meta * {
         padding: 12px 12px 0 12px;
     }
 }

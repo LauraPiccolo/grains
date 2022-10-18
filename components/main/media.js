@@ -17,8 +17,8 @@ const Media = ({src, poster}) => {
 
     useEffect(() => {
         if(!isImage(src)) {
-            if(inView) videoElement.current.play();
-            else videoElement.current.pause();
+            // if(inView) videoElement.current.play();
+            // else videoElement.current.pause();
         }
     }, [inView])
 
