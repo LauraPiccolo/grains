@@ -25,7 +25,16 @@
 }
 
 #scroll-wrapper {
-    padding-bottom: 100vh;
+    height: 100vh;
+    overflow-y: scroll;
+}
+
+#scroll-wrapper  {
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+    scrollbar-width: none;  /* Firefox */
+}
+#scroll-wrapper::-webkit-scrollbar { 
+    display: none;  /* Safari and Chrome */
 }
 
 .block__media {

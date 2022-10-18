@@ -10,7 +10,13 @@ header {
     color: white;
     mix-blend-mode: difference;
     // background-color: white;
-    z-index: 100;
+    z-index: 10;
+}
+
+.header--absolute {
+    position: absolute;
+    top: 0px;
+    left: 0px;
 }
 
 header button {

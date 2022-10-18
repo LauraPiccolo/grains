@@ -23,6 +23,7 @@
     "react-locomotive-scroll": "^0.2.2",
     "react-mailchimp-form": "^1.0.2",
     "sass": "^1.26.11",
+    "smoothscroll-polyfill": "^0.4.4",
     "storyblok-js-client": "^2.5.2",
     "storyblok-react": "^0.1.1",
     "storyblok-rich-text-react-renderer": "^2.6.1"

@@ -1,13 +1,28 @@
-const Header = ({lang, setLang}) => {
+const Header = ({lang, setLang, fixed}) => {
 
     const information = {
         en: 'Information',
         ja: '情報'
     }
 
+    const toInfo = () => {
+        document.querySelector('#scroll-wrapper').scrollTo({
+            left: 0, 
+            top: 100000,
+            // behavior: 'smooth'
+        })
+        setTimeout(() => { 
+            document.querySelector('.information--modal').scrollTo({
+                left: 0, 
+                top: window.innerHeight,
+                behavior: 'smooth'
+            })
+        }, 10);
+    }
+
     return (
-        <header>
-            <a className="header__information">
+        <header className={`header header--${fixed ? 'fixed':'absolute'}`}>
+            <a className="header__information" onClick={() => {fixed && toInfo()}}>
                 {information[lang]}
             </a>
             <div className="header__language">

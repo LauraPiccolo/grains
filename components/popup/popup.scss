@@ -1,0 +1,41 @@
+.popup {
+    background-color: rgba(49,49,49,0.6);
+    position: fixed;
+    z-index: 5;
+    bottom: 0;
+    padding: 12px;
+    border-radius: 12px;
+    margin: 12px;
+    text-transform: uppercase;
+    font-size: 11px !important;
+    line-height: 125% !important;
+    font-family: 'next';
+    max-width: 300px;
+    right: -300px;
+    transition-duration: .5s;
+    transition-property: right;
+
+    h2 {
+        color: #9E9E9E;
+        margin-bottom: 6px;
+    }
+
+    .text {
+        color: #F5F5F5;
+    }
+
+    .popup__close {
+        background-image: url('/close.png');
+        background-size: contain;
+        right: 8px;
+        width: 12px;
+        height: 12px;
+        margin-top: -4px;
+        position: absolute;
+        color: transparent;
+
+        &:hover {
+            background-image: url('/closehover.png');
+        }
+    }
+}
