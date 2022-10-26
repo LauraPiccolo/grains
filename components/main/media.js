@@ -8,11 +8,10 @@ const Media = ({src, poster}) => {
     const videoElement = useRef()
 
     const { ref, inView, entry } = useInView({
-        /* Optional options */
-        // threshold: createTreshold(),
         threshold: 0.1,
         trackVisibility: true,
-        delay: 100
+        delay: 100,
+        triggerOnce: true
     });
 
     useEffect(() => {

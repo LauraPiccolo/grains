@@ -7,10 +7,9 @@ const resize = (image, option) => {
     return imageService + option + path
 }
 
-const Image = ({data, inView}) => {
-    // if(!data) return;
+const Image = ({data}) => {
+
     var url = data
-    // const alt = data.alt
     let dimensions = {
         width: url.split('/')[5].split('x')[0],
         height: url.split('/')[5].split('x')[1]
@@ -26,14 +25,6 @@ const Image = ({data, inView}) => {
     let w3672 = (resize(url, '3672x'))+" 3672w"
     let w4096 = (resize(url, '4096x'))+" 4096w"
 
-    // switch(props.mode) {
-    //     case "cover":
-    //         padding = ""
-    //       break
-    //     default:
-
-    // }
-
     return (
         <div className="image__container" style={{paddingBottom: padding }}>
             <div className="image__wrapper">
@@ -41,10 +32,8 @@ const Image = ({data, inView}) => {
                     src={resize(url, '10x')}
                     data-sizes="auto"
                     data-expand="1000"
-                    // data-srcset={!inView ? w10 : [w640,w768,w1024,w1366,w1600,w1920,w3672,w4096].join(', ')}
                     data-srcset={[w640,w768,w1024,w1366,w1600,w1920,w3672,w4096].join(', ')}
                     className={["lazyload"].join(' ')}
-                    // alt={props.title}
                 />
             </div>
         </div>
