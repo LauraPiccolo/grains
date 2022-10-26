@@ -29,6 +29,8 @@ const Home = ({ content, about }) => {
         for(let i = 0; i < vphList.length; i++) {
             vphList[i].style.height = `${window.innerHeight}px`;
         }
+        document.querySelector('.wrapper--1').scrollTo(0, document.querySelector('.wrapper--2').scrollTop);
+        document.querySelector('.wrapper--1').style.backdropFilter = `blur(0px)`;
     }
 
     const syncScroll = (click) => {
