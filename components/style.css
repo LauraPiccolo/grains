@@ -26,7 +26,7 @@ a:hover, button:hover {
     position: fixed;
     top: 0;
     left: 0;
-    padding-top: 20px;
+    padding-top: 50px;
 }
 
 .wrapper--2 {
@@ -44,6 +44,6 @@ a:hover, button:hover {
 
 @media (max-width: 800px) {
     .wrapper {
-        padding-top: 12px;
+        padding-top: 35px;
     }
 }

@@ -12,8 +12,8 @@
     font-family: 'next';
     max-width: 300px;
     right: -300px;
-    transition-duration: .5s;
-    transition-property: right;
+    transition-duration: .5s .5s;
+    transition-property: right opacity;
 
     h2 {
         color: #9E9E9E;

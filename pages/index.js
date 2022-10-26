@@ -37,14 +37,13 @@ const Home = ({ content, about }) => {
             setInfoBlock(true);
             document.querySelector('.wrapper--1').scrollTo({
                 left: 0, 
-                top: document.querySelector('.wrapper--2 #scroll-wrapper').clientHeight + 112,
+                top: document.querySelector('.wrapper--1 .information--modal').offsetTop,
                 behavior: 'smooth'
                 
             });
-            return
         }
         else {
-
+            console.log(infoBlock)
             if(!scrollBack && !infoBlock) {
                 document.querySelector('.wrapper--2').scrollTo(0, document.querySelector('.wrapper--1').scrollTop);
         
@@ -52,32 +51,44 @@ const Home = ({ content, about }) => {
                 if(document.querySelector('.wrapper--1').scrollTop > (document.querySelector('.wrapper--2 #scroll-wrapper').clientHeight - window.innerHeight + 10)) {
                     const blurValue = (document.querySelector('.wrapper--1').scrollTop - (document.querySelector('.wrapper--2 #scroll-wrapper').clientHeight) + window.innerHeight) / window.innerHeight * 20 - 5;
                     document.querySelector('.wrapper--1').style.backdropFilter = `blur(${blurValue}px)`;
+                    document.querySelector('.header--fixed').style.zIndex = 2;
                 }
     
                 // If scrolled to bottom of footer, scroll up
-                if(document.querySelector('.wrapper--1').scrollTop > document.querySelector('.wrapper--2 #scroll-wrapper').clientHeight + 50) {
+                if(document.querySelector('.wrapper--1').scrollTop > document.querySelector('.wrapper--2 #scroll-wrapper').clientHeight + 112) {
                     document.querySelector('.wrapper--2').scrollTo(0,0);
                     setScrollBack(true);
+                }
+
+                if(document.querySelector('.wrapper--1').scrollTop < (document.querySelector('.wrapper--2 #scroll-wrapper').clientHeight - window.innerHeight - 10)) {
+                    document.querySelector('.wrapper--1').style.backdropFilter = `blur(0px)`;
+                    document.querySelector('.header--fixed').style.zIndex = 10;
                 }
             }
             else {
                 // If scrolling back up, unlock scroll
-                if(document.querySelector('.wrapper--1').scrollTop < document.querySelector('.wrapper--2 #scroll-wrapper').clientHeight - 2) {
+                if(document.querySelector('.wrapper--1').scrollTop < document.querySelector('.wrapper--2 #scroll-wrapper').clientHeight + 112 && !infoBlock) {
                     document.querySelector('.wrapper--2').scrollTo(0, document.querySelector('.wrapper--1').scrollTop);
+                    document.querySelector('.wrapper--1').style.backdropFilter = `blur(0px)`;
                     setScrollBack(false);
+                }
+
+                else {
+                    // Unblur
+                    const blurValue = window.innerHeight / (document.querySelector('.wrapper--1').scrollTop - (document.querySelector('.wrapper--2 #scroll-wrapper').clientHeight) + window.innerHeight) * 20 - 10;
+                    console.log('BLUR:'+blurValue)
+                    document.querySelector('.wrapper--1').style.backdropFilter = `blur(${blurValue}px)`;
                 }
     
                 // Restart website
-                if(document.querySelector('.wrapper--1').scrollTop === document.querySelector('.wrapper--1').scrollHeight - window.innerHeight) {
-                    document.querySelector('.wrapper--1').scrollTo(0,0);
+                if(document.querySelector('.wrapper--1').scrollTop >= document.querySelector('.wrapper--1').scrollHeight - window.innerHeight) {
+                    if(infoBlock) document.querySelector('.wrapper--1').scrollTo(0, document.querySelector('.wrapper--2').scrollTop);
+                    else document.querySelector('.wrapper--1').scrollTo(0,0);
+
+                    document.querySelector('.header--fixed').style.zIndex = 10;
                     setScrollBack(false)
-                    setInfoBlock(false);
+                    setTimeout(() => setInfoBlock(false), 10);
                 }
-    
-                // Unblur
-                const blurValue = window.innerHeight / (document.querySelector('.wrapper--1').scrollTop - (document.querySelector('.wrapper--2 #scroll-wrapper').clientHeight) + window.innerHeight) * 20 - 10;
-                console.log('BLUR:'+blurValue)
-                document.querySelector('.wrapper--1').style.backdropFilter = `blur(${blurValue}px)`;
             }
         }
     }
