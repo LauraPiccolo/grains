@@ -44,7 +44,6 @@ const Home = ({ content, about }) => {
             return
         }
         else {
-            console.log('INFO:'+infoBlock)
 
             if(!scrollBack && !infoBlock) {
                 document.querySelector('.wrapper--2').scrollTo(0, document.querySelector('.wrapper--1').scrollTop);
