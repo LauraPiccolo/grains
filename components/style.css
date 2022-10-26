@@ -3,12 +3,12 @@
     src: url('../public/fonts/UniversNextProBold.ttf');
 }
 
-* {
-    font-family: 'next', sans-serif;
+*, a, h1, h2, h3, p, div {
+    font-family: 'next' !important;
 }
   
 body {
-    font-family: "next", sans-serif;
+    font-family: "next" !important;
     background-color: white;
 }
 
