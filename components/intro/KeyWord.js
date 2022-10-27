@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react';
 
 export default function KeyWord ({word}) {
 
-  // console.log(transitioning);
-
     const [finalWord, setFinalWord] = useState(word);
 
     const theLetters = "abcdefghijklmnopqrstuvwxyz#%&^+=-"; //You can customize what letters it will cycle through
@@ -49,7 +47,6 @@ export default function KeyWord ({word}) {
         si = 0;
       }
 
-    //   console.log('changing final : '+fixed + block);
       setFinalWord(fixed + block);
       block = "";
     }

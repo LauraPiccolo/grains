@@ -45,7 +45,6 @@ const Home = ({ content, about }) => {
             });
         }
         else {
-            console.log(infoBlock)
             if(!scrollBack && !infoBlock) {
                 document.querySelector('.wrapper--2').scrollTo(0, document.querySelector('.wrapper--1').scrollTop);
         
@@ -78,7 +77,6 @@ const Home = ({ content, about }) => {
                 else {
                     // Unblur
                     const blurValue = window.innerHeight / (document.querySelector('.wrapper--1').scrollTop - (document.querySelector('.wrapper--2 #scroll-wrapper').clientHeight) + window.innerHeight) * 20 - 10;
-                    console.log('BLUR:'+blurValue)
                     document.querySelector('.wrapper--1').style.backdropFilter = `blur(${blurValue}px)`;
                 }
     
