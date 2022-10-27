@@ -9,7 +9,7 @@ const Head = () => {
             <title>VISUAL ASSOCIATES</title>
             <meta name="description" content="Global agency creating campaigns, identities and digital experiences for modern brands and individuals" />
             <meta name="viewport" content="width=device-width, initial-scale=1" />
-
+            <link rel="icon" href="/favicon.ico"></link>
             <meta property="og:title" content="VISUAL ASSOCIATES"></meta>
             <meta property="og:type" content="Global agency"></meta>
             <meta property="og:url" content="visual.associates"></meta>
