@@ -6,6 +6,7 @@ import Information from '../components/information/information'
 import smoothscroll from 'smoothscroll-polyfill';
 import Intro from '../components/intro/intro'
 import Popup from '../components/popup/popup'
+import Head from '../components/head'
 
 
 const Home = ({ content, about }) => {
@@ -95,6 +96,8 @@ const Home = ({ content, about }) => {
 
     return (
 
+        <>
+        <Head />
         <div className='container'>
             <Header lang={lang} setLang={setLang} fixed={true} syncScroll={syncScroll}/>
             <Intro />
@@ -108,6 +111,7 @@ const Home = ({ content, about }) => {
             </div>
             
         </div>
+        </>
 
     )
 }
