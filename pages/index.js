@@ -40,9 +40,15 @@ const Home = ({ content, about }) => {
             setInfoBlock(true);
             document.querySelector('.wrapper--1').scrollTo({
                 left: 0, 
+                top: document.querySelector('.wrapper--1 .information--modal').offsetTop - window.innerHeight,
+            });
+            setTimeout(() => {
+                document.querySelector('.wrapper--1').scrollTo({
+                left: 0, 
                 top: document.querySelector('.wrapper--1 .information--modal').offsetTop,
                 behavior: 'smooth'
             });
+            }, 100);
         }
         else {
             if(!scrollBack && !infoBlock) {
