@@ -97,6 +97,14 @@ const Home = ({ content, about }) => {
                     setScrollBack(false)
                     setTimeout(() => setInfoBlock(false), 10);
                 }
+
+                // If scrolled to top of footer, blur
+                if(infoBlock && document.querySelector('.wrapper--1').scrollTop > (document.querySelector('.wrapper--2 #scroll-wrapper').clientHeight - window.innerHeight + 10)) {
+                    const blurValue = (document.querySelector('.wrapper--1').scrollTop - (document.querySelector('.wrapper--2 #scroll-wrapper').clientHeight) + window.innerHeight) / window.innerHeight * 20 - 5;
+                    document.querySelector('.wrapper--1').style.backdropFilter = `blur(${blurValue}px)`;
+                    document.querySelector('.header--fixed').style.zIndex = 2;
+                    document.querySelector('.information--modal').style.scrollSnapAlign = 'start';
+                }
             }
         }
     }
