@@ -12,7 +12,7 @@ const Information = ({lang, setLang, content}) => {
     return (
         <footer className="information--modal">
             <div className='information vph'>
-                <Header lang={lang} setLang={setLang} fixed={false}/>
+                {/* <Header lang={lang} setLang={setLang} fixed={false}/> */}
                 <div className="information__text">
                     {render(content[`description_${lang}`])}
                 </div>

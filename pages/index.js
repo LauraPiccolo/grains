@@ -53,6 +53,7 @@ const Home = ({ content, about }) => {
                     const blurValue = (document.querySelector('.wrapper--1').scrollTop - (document.querySelector('.wrapper--2 #scroll-wrapper').clientHeight) + window.innerHeight) / window.innerHeight * 20 - 5;
                     document.querySelector('.wrapper--1').style.backdropFilter = `blur(${blurValue}px)`;
                     document.querySelector('.header--fixed').style.zIndex = 2;
+                    document.querySelector('.information--modal').style.scrollSnapAlign = 'start';
                 }
     
                 // If scrolled to bottom of footer, scroll up
@@ -78,6 +79,7 @@ const Home = ({ content, about }) => {
                     // Unblur
                     const blurValue = window.innerHeight / (document.querySelector('.wrapper--1').scrollTop - (document.querySelector('.wrapper--2 #scroll-wrapper').clientHeight) + window.innerHeight) * 20 - 10;
                     document.querySelector('.wrapper--1').style.backdropFilter = `blur(${blurValue}px)`;
+                    document.querySelector('.information--modal').style.scrollSnapAlign = 'unset';
                 }
     
                 // Restart website

@@ -43,6 +43,7 @@ header a:hover, header button:hover  {
 
 .wrapper--1 {
     z-index: 4;
+    scroll-snap-type: y mandatory;
 }
 
 @media (max-width: 800px) {
