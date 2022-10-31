@@ -118,6 +118,11 @@ video {
     }
 }
 
+#scroll-wrapper {
+    padding-top: 33vh;
+    padding-bottom: 33vh;
+}
+
 .block__meta {
     font-size: 11px;
     font-family: 'next';
@@ -181,6 +186,11 @@ video {
 
     .block__meta {
         padding: 12px 12px 0 12px;
+    }
+
+    #scroll-wrapper {
+        padding-top: 20 vh;
+        padding-bottom: 20 vh;
     }
 }
 

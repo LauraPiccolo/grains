@@ -29,7 +29,7 @@ const Media = ({src, poster}) => {
         <div className='media' ref={ref} style={{opacity: inView ? 1:0}}>
         {
             isImage(src) ? <Image data={src} inView={inView}/>
-            : <video muted loop ref={videoElement}>
+            : <video muted loop ref={videoElement} playsInline>
                 <source src={src} poster={poster}/>
             </video>
         }

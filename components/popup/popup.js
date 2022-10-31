@@ -16,7 +16,7 @@ const Popup = ({text, title}) => {
         //         behavior: 'smooth'
         //     })
         // }, 10);
-        document.querySelector('.popup').style.opacity = '0';
+        document.querySelector('.popup').style.right= "-300px";
     }
 
     return (

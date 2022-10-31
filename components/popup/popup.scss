@@ -1,5 +1,6 @@
 .popup {
     background-color: rgba(49,49,49,0.6);
+    backdrop-filter: blur(10px);
     position: fixed;
     z-index: 5;
     bottom: 0;
@@ -12,8 +13,8 @@
     font-family: 'next';
     max-width: 300px;
     right: -300px;
-    transition-duration: .5s .5s;
-    transition-property: right opacity;
+    transition-duration: 1s;
+    transition-property: right;
 
     h2 {
         color: #9E9E9E;
@@ -37,5 +38,11 @@
         &:hover {
             background-image: url('/closehover.png');
         }
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .popup {
+        display: none;
     }
 }

@@ -20,9 +20,9 @@ const Home = ({ content, about }) => {
         setTimeout(() => {
            handleResize()
         }, 1000)
-        window.addEventListener('scroll', handleResize)
+        window.addEventListener('resize', handleResize)
 
-        return window.removeEventListener('scroll', handleResize)
+        return window.removeEventListener('resize', handleResize)
     }, [])
 
     const handleResize = () => {
@@ -42,7 +42,6 @@ const Home = ({ content, about }) => {
                 left: 0, 
                 top: document.querySelector('.wrapper--1 .information--modal').offsetTop,
                 behavior: 'smooth'
-                
             });
         }
         else {
@@ -100,7 +99,7 @@ const Home = ({ content, about }) => {
         <Head />
         <div className='container'>
             <Header lang={lang} setLang={setLang} fixed={true} syncScroll={syncScroll}/>
-            <Intro />
+            <Intro text={about.intro}/>
             {about.title && about.text && <Popup title={about.title} text={about.text} />}
             <div className='wrapper wrapper--1 vph' onScroll={(event) => syncScroll(false)}>
                 <Wrapper blocks={content.blocks} lang={lang}/>

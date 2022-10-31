@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import KeyWord from "./KeyWord"
 
-const Intro = ({}) => {
+const Intro = ({ text }) => {
     
     const [start, setStart] = useState(false);
 
@@ -19,7 +19,9 @@ const Intro = ({}) => {
     const checkScroll = (event) => {
         if(event.target.scrollTop >= event.target.scrollHeight - window.innerHeight) {
             event.target.style.display = "none";
-            document.querySelector('.popup').style.right = '0px';
+            setTimeout(() => {
+                document.querySelector('.popup').style.right = '0px';
+            }, 3000);
         }
     }
 
@@ -27,7 +29,7 @@ const Intro = ({}) => {
         <div className="intro-wrapper vph" onScroll={(event) => checkScroll(event)}>
             <div className="intro vph">
                 <h1>
-                    {start && <KeyWord word="VISUAL ASSOCIATES" />}
+                    {start && <KeyWord word={text} />}
                 </h1>
             </div>
             <div className="blur--1" />
