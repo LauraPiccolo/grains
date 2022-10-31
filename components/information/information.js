@@ -22,10 +22,10 @@ const Information = ({lang, setLang, content}) => {
 
     const lock = () => {
         console.log('LOCK')
-        document.querySelector('.wrapper--1').style.overflowY = 'hidden';
-        setTimeout(() => {
-            document.querySelector('.wrapper--1').style.overflowY = 'scroll';
-        }, 1000)
+        // document.querySelector('.wrapper--1').style.overflowY = 'hidden';
+        // setTimeout(() => {
+        //     document.querySelector('.wrapper--1').style.overflowY = 'scroll';
+        // }, 1000)
     }
 
     return (
