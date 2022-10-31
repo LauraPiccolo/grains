@@ -5,32 +5,32 @@ import { useInView } from 'react-intersection-observer';
 
 const Information = ({lang, setLang, content}) => {
 
-    const { ref, inView, entry } = useInView({
-        threshold: 0.99,
-        trackVisibility: true,
-        delay: 100
-    });
+    // const { ref, inView, entry } = useInView({
+    //     threshold: 0.99,
+    //     trackVisibility: true,
+    //     delay: 100
+    // });
 
-    useEffect(() => {
-        if(inView) lock()
-    }, [inView])
+    // useEffect(() => {
+    //     if(inView) lock()
+    // }, [inView])
 
     const email = {
         en: 'Email',
         ja: '电子邮件'
     }
 
-    const lock = () => {
-        console.log('LOCK')
-        // document.querySelector('.wrapper--1').style.overflowY = 'hidden';
-        // setTimeout(() => {
-        //     document.querySelector('.wrapper--1').style.overflowY = 'scroll';
-        // }, 1000)
-    }
+    // const lock = () => {
+    //     console.log('LOCK')
+    //     // document.querySelector('.wrapper--1').style.overflowY = 'hidden';
+    //     // setTimeout(() => {
+    //     //     document.querySelector('.wrapper--1').style.overflowY = 'scroll';
+    //     // }, 1000)
+    // }
 
     return (
-        <footer className="information--modal">
-            <div className='information vph' ref={ref}>
+        <footer className="information--modal vph">
+            <div className='information vph'>
                 <Header lang={lang} setLang={setLang} fixed={false}/>
                 <div className="information__text">
                     {render(content[`description_${lang}`])}

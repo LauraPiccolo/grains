@@ -62,22 +62,26 @@ const Home = ({ content, about }) => {
                     const blurValue = (document.querySelector('.wrapper--1').scrollTop - (document.querySelector('.wrapper--2 #scroll-wrapper').clientHeight) + window.innerHeight) / window.innerHeight * 20 - 5;
                     document.querySelector('.wrapper--1').style.backdropFilter = `blur(${blurValue}px)`;
                     document.querySelector('.header--fixed').style.zIndex = 2;
+                    document.querySelector('.information--modal').style.position = 'sticky'
                     // document.querySelector('.information--modal').style.scrollSnapAlign = 'start';
                 }
     
                 // // If scrolled to bottom of footer, scroll up
                 // console.log(document.querySelector('.wrapper--1').scrollTop, document.querySelector('.wrapper--2 #scroll-wrapper').clientHeight + 60)
-                // if(!scrollBack && document.querySelector('.wrapper--1').scrollTop === document.querySelector('.wrapper--2 #scroll-wrapper').clientHeight + 112) {
-                //     console.log('LOCK SCROLL')
-                //     // document.querySelector('.wrapper--1').style.overflowY = 'hidden';
-                //     // setTimeout(() => {
-                //     //     document.querySelector('.wrapper--1').style.overflowY = 'scroll';
-                //     // }, 1000)
+                // if(!scrollBack && document.querySelector('.wrapper--1').scrollTop === document.querySelector('.wrapper--2 #scroll-wrapper').clientHeight + 60) {
+                //     document.querySelector('.wrapper--1').style.overflowY = 'hidden';
+                //     setTimeout(() => { 
+                //         document.querySelector('.information--modal').style.height = `${2*window.innerHeight}px` 
+                //         document.querySelector('.wrapper--1').style.overflowY = 'scroll';
+                //     }, 1000);
                 // }
     
                 // If scrolled to bottom of footer, scroll up
                 if(!scrollBack && document.querySelector('.wrapper--1').scrollTop > document.querySelector('.wrapper--2 #scroll-wrapper').clientHeight + 112) {
                     document.querySelector('.wrapper--2').scrollTo(0,0);
+                    setTimeout(() => {
+                        document.querySelector('.information--modal').style.position = 'relative';
+                    }, 1000)
                     setScrollBack(true);
                 }
 
@@ -113,7 +117,7 @@ const Home = ({ content, about }) => {
                 if(document.querySelector('.wrapper--1').scrollTop >= document.querySelector('.wrapper--1').scrollHeight - window.innerHeight) {
                     if(infoBlock) document.querySelector('.wrapper--1').scrollTo(0, document.querySelector('.wrapper--2').scrollTop);
                     else document.querySelector('.wrapper--1').scrollTo(0,0);
-
+                    setTimeout(() => { document.querySelector('.information--modal').style.height = `${2*window.innerHeight}px` }, 500);
                     document.querySelector('.header--fixed').style.zIndex = 10;
                     setScrollBack(false)
                     setTimeout(() => setInfoBlock(false), 10);
