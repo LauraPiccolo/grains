@@ -36,7 +36,6 @@ const Home = ({ content, about }) => {
 
     const syncScroll = (click) => {
         if(click) {
-            setScrollBack(true);
             setInfoBlock(true);
             if(document.querySelector('.wrapper--1').scrollTop < document.querySelector('.wrapper--2').scrollHeight) {
                 document.querySelector('.wrapper--1').scrollTo({
@@ -49,12 +48,13 @@ const Home = ({ content, about }) => {
                 left: 0, 
                 top: document.querySelector('.wrapper--1 .information--modal').offsetTop,
                 behavior: 'smooth'
-            });
+                });
+                setScrollBack(true);
             }, 100);
         }
         else {
-            if(!scrollBack && !infoBlock) {
-                document.querySelector('.wrapper--2').scrollTo(0, document.querySelector('.wrapper--1').scrollTop);
+            if(!scrollBack) {
+                if(!infoBlock) document.querySelector('.wrapper--2').scrollTo(0, document.querySelector('.wrapper--1').scrollTop);
         
                 // If scrolled to top of footer, blur
                 if(document.querySelector('.wrapper--1').scrollTop > (document.querySelector('.wrapper--2 #scroll-wrapper').clientHeight - window.innerHeight + 10)) {
@@ -65,20 +65,23 @@ const Home = ({ content, about }) => {
                 }
     
                 // If scrolled to bottom of footer, scroll up
-                if(document.querySelector('.wrapper--1').scrollTop > document.querySelector('.wrapper--2 #scroll-wrapper').clientHeight + 112) {
+                if(!scrollBack && document.querySelector('.wrapper--1').scrollTop > document.querySelector('.wrapper--2 #scroll-wrapper').clientHeight + 112) {
                     document.querySelector('.wrapper--2').scrollTo(0,0);
                     setScrollBack(true);
                 }
 
+                // If scrolled completely up, remove blur & show header on top
                 if(document.querySelector('.wrapper--1').scrollTop < (document.querySelector('.wrapper--2 #scroll-wrapper').clientHeight - window.innerHeight - 10)) {
                     document.querySelector('.wrapper--1').style.backdropFilter = `blur(0px)`;
                     document.querySelector('.header--fixed').style.zIndex = 10;
+                    setInfoBlock(false);
+                    if(infoBlock) document.querySelector('.wrapper--1').scrollTo(0, document.querySelector('.wrapper--2').scrollTop);
                 }
             }
             else {
                 // If scrolling back up, unlock scroll
-                if(document.querySelector('.wrapper--1').scrollTop < document.querySelector('.wrapper--2 #scroll-wrapper').clientHeight + 112 && !infoBlock) {
-                    document.querySelector('.wrapper--2').scrollTo(0, document.querySelector('.wrapper--1').scrollTop);
+                if(document.querySelector('.wrapper--1').scrollTop < document.querySelector('.wrapper--2 #scroll-wrapper').clientHeight + 112) {
+                    if(!infoBlock) document.querySelector('.wrapper--2').scrollTo(0, document.querySelector('.wrapper--1').scrollTop);
                     document.querySelector('.wrapper--1').style.backdropFilter = `blur(0px)`;
                     setScrollBack(false);
                 }
@@ -98,14 +101,6 @@ const Home = ({ content, about }) => {
                     document.querySelector('.header--fixed').style.zIndex = 10;
                     setScrollBack(false)
                     setTimeout(() => setInfoBlock(false), 10);
-                }
-
-                // If scrolled to top of footer, blur
-                if(infoBlock && document.querySelector('.wrapper--1').scrollTop > (document.querySelector('.wrapper--2 #scroll-wrapper').clientHeight - window.innerHeight + 10)) {
-                    const blurValue = (document.querySelector('.wrapper--1').scrollTop - (document.querySelector('.wrapper--2 #scroll-wrapper').clientHeight) + window.innerHeight) / window.innerHeight * 20 - 5;
-                    document.querySelector('.wrapper--1').style.backdropFilter = `blur(${blurValue}px)`;
-                    document.querySelector('.header--fixed').style.zIndex = 2;
-                    document.querySelector('.information--modal').style.scrollSnapAlign = 'start';
                 }
             }
         }
