@@ -38,10 +38,12 @@ const Home = ({ content, about }) => {
         if(click) {
             setScrollBack(true);
             setInfoBlock(true);
-            document.querySelector('.wrapper--1').scrollTo({
-                left: 0, 
-                top: document.querySelector('.wrapper--1 .information--modal').offsetTop - window.innerHeight,
-            });
+            if(document.querySelector('.wrapper--1').scrollTop < document.querySelector('.wrapper--2').scrollHeight) {
+                document.querySelector('.wrapper--1').scrollTo({
+                    left: 0, 
+                    top: document.querySelector('.wrapper--1 .information--modal').offsetTop - window.innerHeight,
+                });
+            }
             setTimeout(() => {
                 document.querySelector('.wrapper--1').scrollTo({
                 left: 0, 
