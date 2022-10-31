@@ -65,15 +65,15 @@ const Home = ({ content, about }) => {
                     // document.querySelector('.information--modal').style.scrollSnapAlign = 'start';
                 }
     
-                // If scrolled to bottom of footer, scroll up
-                console.log(document.querySelector('.wrapper--1').scrollTop, document.querySelector('.wrapper--2 #scroll-wrapper').clientHeight + 60)
-                if(!scrollBack && document.querySelector('.wrapper--1').scrollTop === document.querySelector('.wrapper--2 #scroll-wrapper').clientHeight + 112) {
-                    console.log('LOCK SCROLL')
-                    // document.querySelector('.wrapper--1').style.overflowY = 'hidden';
-                    // setTimeout(() => {
-                    //     document.querySelector('.wrapper--1').style.overflowY = 'scroll';
-                    // }, 1000)
-                }
+                // // If scrolled to bottom of footer, scroll up
+                // console.log(document.querySelector('.wrapper--1').scrollTop, document.querySelector('.wrapper--2 #scroll-wrapper').clientHeight + 60)
+                // if(!scrollBack && document.querySelector('.wrapper--1').scrollTop === document.querySelector('.wrapper--2 #scroll-wrapper').clientHeight + 112) {
+                //     console.log('LOCK SCROLL')
+                //     // document.querySelector('.wrapper--1').style.overflowY = 'hidden';
+                //     // setTimeout(() => {
+                //     //     document.querySelector('.wrapper--1').style.overflowY = 'scroll';
+                //     // }, 1000)
+                // }
     
                 // If scrolled to bottom of footer, scroll up
                 if(!scrollBack && document.querySelector('.wrapper--1').scrollTop > document.querySelector('.wrapper--2 #scroll-wrapper').clientHeight + 112) {
