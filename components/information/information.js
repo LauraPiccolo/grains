@@ -6,7 +6,7 @@ import { useInView } from 'react-intersection-observer';
 const Information = ({lang, setLang, content}) => {
 
     const { ref, inView, entry } = useInView({
-        threshold: 1,
+        threshold: 0.99,
         trackVisibility: true,
         delay: 100
     });
