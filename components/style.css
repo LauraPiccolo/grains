@@ -29,7 +29,7 @@ header a:hover, header button:hover  {
     position: fixed;
     top: 0;
     left: 0;
-    padding-top: 50px;
+    /* padding-top: 50px; */
 }
 
 .wrapper--2 {

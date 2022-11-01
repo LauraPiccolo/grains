@@ -6,7 +6,7 @@ const Wrapper = ({ blocks, lang }) => {
   return (
         <div data-scroll-section id="scroll-wrapper">
         {blocks.map((block, index) => (
-          <Block block={block} lang={lang} last={index === blocks.length - 1} index={index}/>
+          <Block block={block} lang={lang} last={index === blocks.length - 1} index={index} key={`block--${index}`}/>
         ))}
         </div>
 

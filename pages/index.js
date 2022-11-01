@@ -26,7 +26,6 @@ const Home = ({ content, about }) => {
     }, [])
 
     const handleResize = () => {
-        console.log('handle resize')
         let vphList = document.querySelectorAll('.vph');
         for(let i = 0; i < vphList.length; i++) {
             vphList[i].style.height = `${window.innerHeight}px`;
@@ -62,27 +61,21 @@ const Home = ({ content, about }) => {
                     const blurValue = (document.querySelector('.wrapper--1').scrollTop - (document.querySelector('.wrapper--2 #scroll-wrapper').clientHeight) + window.innerHeight) / window.innerHeight * 20 - 5;
                     document.querySelector('.wrapper--1').style.backdropFilter = `blur(${blurValue}px)`;
                     document.querySelector('.header--fixed').style.zIndex = 2;
-                    document.querySelector('.information--modal').style.position = 'sticky'
-                    // document.querySelector('.information--modal').style.scrollSnapAlign = 'start';
+                    document.querySelector('.information--modal').style.position = 'sticky';
                 }
     
-                // // If scrolled to bottom of footer, scroll up
-                // console.log(document.querySelector('.wrapper--1').scrollTop, document.querySelector('.wrapper--2 #scroll-wrapper').clientHeight + 60)
-                // if(!scrollBack && document.querySelector('.wrapper--1').scrollTop === document.querySelector('.wrapper--2 #scroll-wrapper').clientHeight + 60) {
-                //     document.querySelector('.wrapper--1').style.overflowY = 'hidden';
-                //     setTimeout(() => { 
-                //         document.querySelector('.information--modal').style.height = `${2*window.innerHeight}px` 
-                //         document.querySelector('.wrapper--1').style.overflowY = 'scroll';
-                //     }, 1000);
-                // }
-    
-                // If scrolled to bottom of footer, scroll up
-                if(!scrollBack && document.querySelector('.wrapper--1').scrollTop > document.querySelector('.wrapper--2 #scroll-wrapper').clientHeight + 112) {
+                // If scrolled to bottom of footer, scroll up && lock scroll
+                if(!scrollBack && document.querySelector('.wrapper--1').scrollTop > document.querySelector('.wrapper--2 #scroll-wrapper').clientHeight) {
                     document.querySelector('.wrapper--2').scrollTo(0,0);
-                    setTimeout(() => {
-                        document.querySelector('.information--modal').style.position = 'relative';
-                    }, 1000)
+                    document.querySelector('.wrapper--1').style.overflow = 'hidden';
                     setScrollBack(true);
+                    setTimeout(() => {
+                        // unlock scroll after 0.8 seconds
+                        document.querySelector('.wrapper--1').scrollTo(0, document.querySelector('.wrapper--2 #scroll-wrapper').clientHeight + 0.5);
+                        document.querySelector('.information--modal').style.position = 'relative';
+                        document.querySelector('.information--modal').style.height = `${2*window.innerHeight}px`
+                        document.querySelector('.wrapper--1').style.overflow = 'scroll';
+                    }, 800)
                 }
 
                 // If scrolled completely up, remove blur & show header on top
@@ -95,9 +88,11 @@ const Home = ({ content, about }) => {
             }
             else {
                 // If scrolling back up, unlock scroll
-                if(document.querySelector('.wrapper--1').scrollTop < document.querySelector('.wrapper--2 #scroll-wrapper').clientHeight + 112) {
+                if(document.querySelector('.wrapper--1').scrollTop < document.querySelector('.wrapper--2 #scroll-wrapper').clientHeight) {
                     if(!infoBlock) document.querySelector('.wrapper--2').scrollTo(0, document.querySelector('.wrapper--1').scrollTop);
                     document.querySelector('.wrapper--1').style.backdropFilter = `blur(0px)`;
+                    document.querySelector('.information--modal').style.position = 'sticky';
+                    document.querySelector('.information--modal').style.height = `${window.innerHeight}px` 
                     // document.querySelector('.wrapper--1').style.scrollSnapAlign = 'y proximity';
                     setScrollBack(false);
                 }
@@ -106,18 +101,15 @@ const Home = ({ content, about }) => {
                     // Unblur
                     const blurValue = window.innerHeight / (document.querySelector('.wrapper--1').scrollTop - (document.querySelector('.wrapper--2 #scroll-wrapper').clientHeight) + window.innerHeight) * 20 - 10;
                     document.querySelector('.wrapper--1').style.backdropFilter = `blur(${blurValue}px)`;
-                    // if(blurValue >= 10) document.querySelector('.wrapper--1').style.scrollSnapAlign = 'y mandatory';
-                    // if(blurValue < 10) {
-                    //     // document.querySelector('.information--modal').style.scrollSnapAlign = 'unset';
-                    //     // if(blurValue >= 10) document.querySelector('.wrapper--1').style.scrollSnapAlign = 'y proximity';
-                    // }
                 }
     
                 // Restart website
                 if(document.querySelector('.wrapper--1').scrollTop >= document.querySelector('.wrapper--1').scrollHeight - window.innerHeight) {
                     if(infoBlock) document.querySelector('.wrapper--1').scrollTo(0, document.querySelector('.wrapper--2').scrollTop);
                     else document.querySelector('.wrapper--1').scrollTo(0,0);
-                    setTimeout(() => { document.querySelector('.information--modal').style.height = `${2*window.innerHeight}px` }, 500);
+                    setTimeout(() => { 
+                        document.querySelector('.information--modal').style.height = `${window.innerHeight}px` 
+                    }, 500);
                     document.querySelector('.header--fixed').style.zIndex = 10;
                     setScrollBack(false)
                     setTimeout(() => setInfoBlock(false), 10);
