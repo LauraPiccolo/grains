@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 
-export default function KeyWord ({word}) {
+export default function KeyWord ({word, blockspeed}) {
 
     const [finalWord, setFinalWord] = useState(word);
 
-    const theLetters = "abcdefghijklmnopqrstuvwxyz#%&^+=-"; //You can customize what letters it will cycle through
+    const theLetters = "abcdefghijklmnopqrstuvwxyz"; //You can customize what letters it will cycle through
     let ctnt = word; // Your text goes here
-    let speed = 12; // ms per frame
+    let speed = 12/blockspeed; // ms per frame
     let increment = 3; // frames per step. Must be >2
     
     let clen = ctnt.length;       
@@ -32,7 +32,7 @@ export default function KeyWord ({word}) {
         //Random number
         let num = Math.floor(theLetters.length * Math.random());
         //Get random letter
-        let letter = theLetters.charAt(num);
+        let letter = word[i] === ' ' ? ' ' : theLetters.charAt(num);
         block = block + letter;
       }
       if (si == (increment-1)){

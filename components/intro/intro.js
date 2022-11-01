@@ -29,7 +29,7 @@ const Intro = ({ text }) => {
         <div className="intro-wrapper vph" onScroll={(event) => checkScroll(event)}>
             <div className="intro vph">
                 <h1>
-                    {start && <KeyWord word={text} />}
+                    {start && <KeyWord word={text} blockspeed={1}/>}
                 </h1>
             </div>
             <div className="blur--1" />

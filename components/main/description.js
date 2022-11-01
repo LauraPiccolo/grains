@@ -13,7 +13,8 @@ const Description = ({content}) => {
 
     return (
        <div className='block__meta' ref={ref}>
-        {inView && <KeyWord word={content} />}
+        {/* {content} */}
+        {inView && <KeyWord word={content} blockspeed={8}/>}
        </div>
     )
 

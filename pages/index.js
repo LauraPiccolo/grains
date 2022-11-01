@@ -20,18 +20,19 @@ const Home = ({ content, about }) => {
         setTimeout(() => {
            handleResize()
         }, 1000)
-        window.addEventListener('resize', () => handleResize())
+        window.addEventListener('resize', () => { handleResize()})
 
         return window.removeEventListener('resize', () => handleResize())
     }, [])
 
     const handleResize = () => {
         let vphList = document.querySelectorAll('.vph');
+        // console.log(vphList.length);
         for(let i = 0; i < vphList.length; i++) {
             vphList[i].style.height = `${window.innerHeight}px`;
         }
-        document.querySelector('.wrapper--1').scrollTo(0, document.querySelector('.wrapper--2').scrollTop);
-        document.querySelector('.wrapper--1').style.backdropFilter = `blur(0px)`;
+        if(window.innerWidth > 500) document.querySelector('.wrapper--1').scrollTo(0, document.querySelector('.wrapper--2').scrollTop);
+        if(window.innerWidth > 500) document.querySelector('.wrapper--1').style.backdropFilter = `blur(0px)`;
     }
 
     const syncScroll = (click) => {
@@ -104,7 +105,7 @@ const Home = ({ content, about }) => {
                 }
     
                 // Restart website
-                if(document.querySelector('.wrapper--1').scrollTop >= document.querySelector('.wrapper--1').scrollHeight - window.innerHeight) {
+                if(document.querySelector('.wrapper--1').scrollTop === document.querySelector('.wrapper--1').scrollHeight - window.innerHeight) {
                     if(infoBlock) document.querySelector('.wrapper--1').scrollTo(0, document.querySelector('.wrapper--2').scrollTop);
                     else document.querySelector('.wrapper--1').scrollTo(0,0);
                     setTimeout(() => { 

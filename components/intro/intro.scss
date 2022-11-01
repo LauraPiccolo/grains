@@ -25,3 +25,10 @@
 .intro-wrapper::-webkit-scrollbar { 
     display: none;  /* Safari and Chrome */
 }
+
+h1 {
+    max-width: 80vw;
+    word-break: keep-all;
+    text-align: center;
+    line-height: 125%;
+}

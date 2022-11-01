@@ -9,7 +9,6 @@
   
 body {
     font-family: "next" !important;
-    background-color: #FAFAFA;
 }
 
 a:hover, button:hover {
@@ -35,6 +34,7 @@ header a:hover, header button:hover  {
 .wrapper--2 {
     pointer-events: none;
     z-index: 1;
+    background-color: #FAFAFA;
 }
 
 .wrapper--1 #scroll-wrapper {
@@ -46,11 +46,11 @@ header a:hover, header button:hover  {
     /* scroll-snap-type: y proximity; */
 }
 
-@media (max-width: 800px) {
+/* @media (max-width: 800px) {
     .wrapper {
         padding-top: 35px;
     }
-}
+} */
 
 * {
     -webkit-font-smoothing: antialiased;

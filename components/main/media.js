@@ -11,7 +11,6 @@ const Media = ({src, poster}) => {
         threshold: 0.1,
         trackVisibility: true,
         delay: 100,
-        triggerOnce: true
     });
 
     useEffect(() => {
@@ -21,6 +20,12 @@ const Media = ({src, poster}) => {
         }
     }, [inView])
 
+    const resize = (image, option) => {
+        var imageService = 'https://img2.storyblok.com/'
+        var path = image.replace('https://a.storyblok.com', '')
+        return imageService + option + path
+    }
+
     const isImage = (string) => {
         return string.indexOf('.png') > -1 || string.indexOf('.jpeg') > -1 || string.indexOf('.jpg') > -1;
     }
@@ -29,8 +34,8 @@ const Media = ({src, poster}) => {
         <div className='media' ref={ref} style={{opacity: inView ? 1:0}}>
         {
             isImage(src) ? <Image data={src} inView={inView}/>
-            : <video muted loop ref={videoElement} playsInline>
-                <source src={src} poster={poster}/>
+            : <video muted loop ref={videoElement} playsInline poster={poster ? resize(poster, '10x'):undefined}>
+                <source src={src}/>
             </video>
         }
         </div>
