@@ -16,7 +16,7 @@ const Block = ({block, lang, index}) => {
             }>
                 <MediaWrapper block={block} />
             </div>
-            <Description content={block[`description_${lang}`]} />
+            <Description content={block[`description_${lang}`]} lang={lang} />
        </article>
     )
 

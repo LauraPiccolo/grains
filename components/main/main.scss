@@ -198,3 +198,12 @@ video {
     transition-duration: 1s;
     transition-property: opacity;
 }
+
+.block__meta__hidden {
+    opacity: 0;
+}
+
+.block__meta p{
+    position: absolute;
+    word-break: keep-all;
+}

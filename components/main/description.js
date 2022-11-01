@@ -2,7 +2,7 @@ import React from 'react'
 import { useInView } from 'react-intersection-observer';
 import KeyWord from '../intro/KeyWord';
 
-const Description = ({content}) => {
+const Description = ({content, lang}) => {
     
     const { ref, inView, entry } = useInView({
         threshold: 0.1,
@@ -13,8 +13,8 @@ const Description = ({content}) => {
 
     return (
        <div className='block__meta' ref={ref}>
-        {/* {content} */}
-        {inView && <KeyWord word={content} blockspeed={8}/>}
+        {inView && <KeyWord word={content} blockspeed={8} lang={lang}/>}
+        <div className='block__meta__hidden'>{content}</div>
        </div>
     )
 

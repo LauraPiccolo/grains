@@ -105,7 +105,7 @@ const Home = ({ content, about }) => {
                 }
     
                 // Restart website
-                if(document.querySelector('.wrapper--1').scrollTop === document.querySelector('.wrapper--1').scrollHeight - document.querySelector('.blur--2').clientHeight) {
+                if(document.querySelector('.wrapper--1').scrollTop >= document.querySelector('.wrapper--1').scrollHeight - document.querySelector('.blur--2').clientHeight -1) {
                     if(infoBlock) document.querySelector('.wrapper--1').scrollTo(0, document.querySelector('.wrapper--2').scrollTop);
                     else document.querySelector('.wrapper--1').scrollTo(0,0);
                     setTimeout(() => { 
@@ -125,7 +125,7 @@ const Home = ({ content, about }) => {
         <Head />
         <div className='container'>
             <Header lang={lang} setLang={setLang} fixed={true} syncScroll={syncScroll}/>
-            <Intro text={about.intro}/>
+            <Intro text={about.intro} lang={lang}/>
             {about.title && about.text && <Popup title={about.title} text={about.text} />}
             <div className='wrapper wrapper--1 vph' onScroll={(event) => syncScroll(false)}>
                 <Wrapper blocks={content.blocks} lang={lang}/>
