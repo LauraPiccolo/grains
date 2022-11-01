@@ -105,7 +105,7 @@ const Home = ({ content, about }) => {
                 }
     
                 // Restart website
-                if(document.querySelector('.wrapper--1').scrollTop === document.querySelector('.wrapper--1').scrollHeight - window.innerHeight) {
+                if(document.querySelector('.wrapper--1').scrollTop === document.querySelector('.wrapper--1').scrollHeight - document.querySelector('.blur--2').clientHeight) {
                     if(infoBlock) document.querySelector('.wrapper--1').scrollTo(0, document.querySelector('.wrapper--2').scrollTop);
                     else document.querySelector('.wrapper--1').scrollTo(0,0);
                     setTimeout(() => { 
