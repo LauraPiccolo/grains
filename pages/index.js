@@ -96,7 +96,7 @@ const Home = ({ content, about }) => {
                         document.querySelector('.information--modal').style.position = 'relative';
                         document.querySelector('.information--modal').style.height = `${2*window.innerHeight}px`
                         document.querySelector('.wrapper--1').style.overflow = 'scroll';
-                    }, 100)
+                    }, window.innerWidth < 500 ? 100 : 800);
                 }
 
             }
