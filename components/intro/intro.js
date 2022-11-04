@@ -17,7 +17,7 @@ const Intro = ({ text, lang }) => {
     }, [])
 
     const checkScroll = (event) => {
-        if(event.target.scrollTop >= event.target.scrollHeight - window.innerHeight) {
+        if(event.target.scrollTop >= window.innerHeight) {
             event.target.style.display = "none";
             setTimeout(() => {
                 document.querySelector('.popup').style.right = '0px';

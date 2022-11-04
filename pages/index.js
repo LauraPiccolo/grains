@@ -26,8 +26,8 @@ const Home = ({ content, about }) => {
     }, [])
 
     const handleResize = () => {
+        // alert("resize");
         let vphList = document.querySelectorAll('.vph');
-        // console.log(vphList.length);
         for(let i = 0; i < vphList.length; i++) {
             vphList[i].style.height = `${window.innerHeight}px`;
         }
@@ -35,8 +35,16 @@ const Home = ({ content, about }) => {
         if(window.innerWidth > 500) document.querySelector('.wrapper--1').style.backdropFilter = `blur(0px)`;
     }
 
+    useEffect(() => {
+        if(document.querySelector('.wrapper--1').scrollTop > document.querySelector('.wrapper--2 #scroll-wrapper') - window.clientHeight) {
+            document.querySelector('.wrapper--1').scrollTo(0, document.querySelector('.wrapper--2 #scroll-wrapper').clientHeight); 
+        }
+    }, [lang])
+
     const syncScroll = (click) => {
+
         if(click) {
+            // alert('INFO CLICKED');
             setInfoBlock(true);
             if(document.querySelector('.wrapper--1').scrollTop < document.querySelector('.wrapper--2').scrollHeight) {
                 document.querySelector('.wrapper--1').scrollTo({
@@ -55,7 +63,9 @@ const Home = ({ content, about }) => {
         }
         else {
             if(!scrollBack) {
-                if(!infoBlock) document.querySelector('.wrapper--2').scrollTo(0, document.querySelector('.wrapper--1').scrollTop);
+                if(!infoBlock) {
+                    document.querySelector('.wrapper--2').scrollTo(0, document.querySelector('.wrapper--1').scrollTop);
+                }
         
                 // If scrolled to top of footer, blur
                 if(document.querySelector('.wrapper--1').scrollTop > (document.querySelector('.wrapper--2 #scroll-wrapper').clientHeight - window.innerHeight + 10)) {
@@ -64,33 +74,38 @@ const Home = ({ content, about }) => {
                     document.querySelector('.header--fixed').style.zIndex = 2;
                     document.querySelector('.information--modal').style.position = 'sticky';
                 }
-    
-                // If scrolled to bottom of footer, scroll up && lock scroll
-                if(!scrollBack && document.querySelector('.wrapper--1').scrollTop > document.querySelector('.wrapper--2 #scroll-wrapper').clientHeight) {
-                    document.querySelector('.wrapper--2').scrollTo(0,0);
-                    document.querySelector('.wrapper--1').style.overflow = 'hidden';
-                    setScrollBack(true);
-                    setTimeout(() => {
-                        // unlock scroll after 0.8 seconds
-                        document.querySelector('.wrapper--1').scrollTo(0, document.querySelector('.wrapper--2 #scroll-wrapper').clientHeight + 0.5);
-                        document.querySelector('.information--modal').style.position = 'relative';
-                        document.querySelector('.information--modal').style.height = `${2*window.innerHeight}px`
-                        document.querySelector('.wrapper--1').style.overflow = 'scroll';
-                    }, 800)
-                }
 
-                // If scrolled completely up, remove blur & show header on top
-                if(document.querySelector('.wrapper--1').scrollTop < (document.querySelector('.wrapper--2 #scroll-wrapper').clientHeight - window.innerHeight - 10)) {
+                 // If scrolled completely up, remove blur & show header on top
+                 if(document.querySelector('.wrapper--1').scrollTop < (document.querySelector('.wrapper--2 #scroll-wrapper').clientHeight - window.innerHeight - 10)) {
                     document.querySelector('.wrapper--1').style.backdropFilter = `blur(0px)`;
                     document.querySelector('.header--fixed').style.zIndex = 10;
                     setInfoBlock(false);
                     if(infoBlock) document.querySelector('.wrapper--1').scrollTo(0, document.querySelector('.wrapper--2').scrollTop);
+                    return;
                 }
+    
+                // If scrolled to bottom of footer, scroll up && lock scroll
+                if(!scrollBack && document.querySelector('.wrapper--1').scrollTop > document.querySelector('.wrapper--2 #scroll-wrapper').clientHeight) {
+                    if(!infoBlock) document.querySelector('.wrapper--2').scrollTo(0,0);
+                    document.querySelector('.wrapper--1').style.overflow = 'hidden';
+                    setScrollBack(true);
+                    setTimeout(() => {
+                        // unlock scroll after 0.8 seconds
+                        // window.alert('Unlock');
+                        // document.querySelector('.wrapper--1').scrollTo(0, document.querySelector('.wrapper--2 #scroll-wrapper').clientHeight + 0.5);
+                        document.querySelector('.information--modal').style.position = 'relative';
+                        document.querySelector('.information--modal').style.height = `${2*window.innerHeight}px`
+                        document.querySelector('.wrapper--1').style.overflow = 'scroll';
+                    }, 100)
+                }
+
             }
             else {
                 // If scrolling back up, unlock scroll
                 if(document.querySelector('.wrapper--1').scrollTop < document.querySelector('.wrapper--2 #scroll-wrapper').clientHeight) {
-                    if(!infoBlock) document.querySelector('.wrapper--2').scrollTo(0, document.querySelector('.wrapper--1').scrollTop);
+                    if(!infoBlock) {
+                        document.querySelector('.wrapper--2').scrollTo(0, document.querySelector('.wrapper--1').scrollTop);
+                    }
                     document.querySelector('.wrapper--1').style.backdropFilter = `blur(0px)`;
                     document.querySelector('.information--modal').style.position = 'sticky';
                     document.querySelector('.information--modal').style.height = `${window.innerHeight}px` 
@@ -106,13 +121,14 @@ const Home = ({ content, about }) => {
     
                 // Restart website
                 if(document.querySelector('.wrapper--1').scrollTop >= document.querySelector('.wrapper--1').scrollHeight - document.querySelector('.blur--2').clientHeight -1) {
+                    // window.alert('Restart website');
                     if(infoBlock) document.querySelector('.wrapper--1').scrollTo(0, document.querySelector('.wrapper--2').scrollTop);
                     else document.querySelector('.wrapper--1').scrollTo(0,0);
                     setTimeout(() => { 
-                        document.querySelector('.information--modal').style.height = `${window.innerHeight}px` 
+                        document.querySelector('.information--modal').style.height = `${window.innerHeight}px` ;
+                        setScrollBack(false)
                     }, 500);
                     document.querySelector('.header--fixed').style.zIndex = 10;
-                    setScrollBack(false)
                     setTimeout(() => setInfoBlock(false), 10);
                 }
             }
