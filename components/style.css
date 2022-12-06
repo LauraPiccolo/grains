@@ -1,19 +1,25 @@
 @font-face {
-    font-family: 'next';
-    src: url('../public/fonts/UniversNextProBold.ttf');
+    font-family: 'Kern';
+    src: url('../public/fonts/Kern_Regular.otf');
+}
+
+@font-face {
+    font-family: 'Suisse';
+    src: url('../public/fonts/SuisseWorks-Book.otf');
 }
 
 *, a, h1, h2, h3, p, div {
-    font-family: 'next' !important;
+    font-family: 'Kern' !important;
 }
   
 body {
-    font-family: "next" !important;
+    font-family: "Kern" !important;
 }
+
+
 
 a:hover, button:hover {
     text-decoration: underline;
-    color: #9E9E9E;
     cursor: pointer;
 }
 

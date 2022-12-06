@@ -9,23 +9,21 @@
   },
   "dependencies": {
     "axios": "^0.20.0",
+    "eslint-config-next": "^13.0.6",
     "intersection-observer": "^0.11.0",
     "jquery": "^3.5.1",
     "lazysizes": "^5.2.2",
     "locomotive-scroll": "^4.1.4",
-    "next": "9.5.3",
+    "next": "^13.0.6",
     "postcss-url": "^8.0.0",
     "react": "^18.2.0",
     "react-cookie-consent": "^6.1.0",
     "react-dom": "^18.2.0",
-    "react-in-viewport": "^1.0.0-alpha.14",
-    "react-intersection-observer": "^8.29.0",
-    "react-locomotive-scroll": "^0.2.2",
-    "react-mailchimp-form": "^1.0.2",
+    "react-responsive-carousel": "3.2.21",
     "sass": "^1.26.11",
-    "smoothscroll-polyfill": "^0.4.4",
     "storyblok-js-client": "^2.5.2",
     "storyblok-react": "^0.1.1",
-    "storyblok-rich-text-react-renderer": "^2.6.1"
+    "storyblok-rich-text-react-renderer": "^2.6.1",
+    "unslugify": "^1.0.3"
   }
 }
