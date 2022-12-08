@@ -5,8 +5,6 @@ export default function SliderFooter ({content, currentSlide, totalLength, trans
 
     const [opacity, setOpacity] = useState(0);
 
-    console.log(content.content.category);
-
     useEffect(() => {
         setOpacity(transitioning ? 0 : 1);
     }, [transitioning])

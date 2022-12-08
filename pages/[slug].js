@@ -6,12 +6,14 @@ import BlockWrapper from '../components/pageBlocks/blockWrapper';
 
 const Page = ({ content, navContent, projectList }) => {
 
+
+    console.log(content);
     return (
         <Layout
             pageTitle={content.title}
             navContent={navContent}
         >
-            {content.content.description && <TextBlock title={content.title} text={content.description} />}
+            {content.description && <TextBlock title={content.title} text={content.description} />}
             <BlockWrapper blockList={content.content} projectList={projectList}/>
         </Layout>
     )
@@ -27,7 +29,8 @@ export const getStaticPaths = async () => {
  
  export const getStaticProps = async ({ params }) => {
 
-    const data = (await getPage({id:`pages/${params.slug}`, resolve_relations: "slider.project_list"})) || [];
+    // const relation = params.slug === home ? 
+    const data = (await getPage({id:`pages/${params.slug}`, resolve_relations: "slider.project_list,double_block.right_project,double_block.left_project,single_block.project"})) || [];
     const navContent = (await getNav()) || [];
     const projectList = await getProjects() || []
 

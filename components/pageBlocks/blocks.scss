@@ -61,3 +61,67 @@
     left: 50vw;
     cursor: e-resize;
 }
+
+// Single & double block
+
+.block {
+    padding: 20px;
+}
+
+.projectItem {
+    img, video {
+        width: 100%;
+        height: fit-content;
+        display: block;
+        object-fit: cover;
+    }
+}
+
+.double-project-block {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    .projectItem {
+        width: calc(50% - 10px);
+    }
+}
+
+.project-item__media {
+    border-radius: 5px;
+    overflow: hidden;
+    width: 100%;
+    display: block;
+    height: 100%;
+    transition: .5s;
+    transition-property: opacity;
+}
+
+.projectItem__client {
+    text-transform: uppercase;
+    font-size: 13px;
+    margin-top: 15px;
+}
+
+.projectItem__title {
+    font-family: 'Suisse';
+    font-size: 25px;
+    margin-top: 5px;
+    margin-bottom: 50px;
+}
+
+// TEXT
+
+.page-content__header {
+    padding: 20px;
+    padding-top: 100px;
+    width: 50%;
+    &__description {
+        font-size: 13px;
+    }
+
+    h1 {
+        font-size: 45px;
+        font-family: 'Suisse';
+        margin-bottom: 20px;
+    }
+}

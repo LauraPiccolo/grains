@@ -1,0 +1,41 @@
+.footer {
+    height: calc(100vh - 50px);
+    padding: 20px;
+    display: flex;
+    position: relative;
+    
+    .footer__text {
+        width: 33%;
+        margin-right: 17%;
+        font-size: 13px;
+
+        p {
+            margin-bottom: 20px;
+            line-height: 130%;
+        }
+    }
+
+    .footer__footer {
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+        display: flex;
+        text-transform: uppercase;
+        font-size: 13px;
+
+        p {
+            margin-right: 30px;
+        }
+    }
+
+    .footer__nav {
+        font-size: 20px;
+        li {
+            margin-bottom: 20px;
+        }
+    }
+}
+
+.footer__nav:first-of-type {
+    width: 33%;
+}

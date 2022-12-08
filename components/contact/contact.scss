@@ -1,0 +1,52 @@
+.contact__main {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #1C1C1C;
+    z-index: -1;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+
+    .contact__main__text {
+        width: 640px;
+        font-size: 15px;
+        margin-bottom: 50px;
+    }
+    a {
+        color: white !important;
+    }
+
+    .contact__main__email {
+        font-size: 30px;
+        font-family: 'Suisse';
+        margin-bottom: 30px;
+    }
+
+    nav {
+        text-transform: uppercase;
+        li {
+            margin-bottom: 10px;
+        }
+    }
+
+    .contact__footer {
+        position: absolute;
+        bottom: 20px;
+        display: flex;
+        text-transform: uppercase;
+        flex-direction: column;
+        font-size: 10px;
+        text-align: center;
+
+        p {
+            margin-bottom: 10px;
+        }
+    }
+
+}

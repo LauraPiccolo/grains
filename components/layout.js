@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Head from './head';
 import HeaderWrapper from './header/headerWrapper';
+import FooterWrapper from './footer/footerWrapper';
 
 export default function Layout ({ children, pageTitle, intro, navContent }) {
 
@@ -15,6 +16,7 @@ export default function Layout ({ children, pageTitle, intro, navContent }) {
             <main className='main'>
                 {children}
             </main>
+            {!inverted && <FooterWrapper location={location} content={navContent} />}
         </>
     )
 }

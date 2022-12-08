@@ -7,8 +7,6 @@ export default function ListenFooter ({currentTrack, setTrackIndex, trackList, m
         setTrackIndex((trackIndex) => trackIndex + 1 >= trackList.length ? 0 : trackIndex + 1);
     }
 
-    console.log(currentTrack.content)
-
     return (
         <footer>
             <div className='footer__data'>

@@ -22,8 +22,10 @@ export default function ListenPlayer ({ intro, trackList }) {
     const startProgress = () => {
         if(progressIntervalRef.current) clearInterval(progressIntervalRef.current)
         progressIntervalRef.current = setInterval(() => {
-            if(thisAudio.current.currentTime === thisAudio.current.duration) setTrackIndex(trackIndex + 1 >= trackList.length ? 0 : trackIndex + 1)
-            setProgress((thisAudio.current.currentTime / thisAudio.current.duration)*100);
+            if(thisAudio.current) {
+                if(thisAudio.current.currentTime === thisAudio.current.duration) setTrackIndex(trackIndex + 1 >= trackList.length ? 0 : trackIndex + 1)
+                setProgress((thisAudio.current.currentTime / thisAudio.current.duration)*100);
+            }
         }, 100)
     }
 
