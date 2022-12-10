@@ -1,27 +1,18 @@
 import React, { useEffect, useState } from 'react';
 
-export default function ListenFooter ({currentTrack, setTrackIndex, trackList, muted, setMuted, progress, thisAudio}) {
+export default function ListenFooterIntro ({currentTrack, setTrackIndex, trackList, muted, setMuted, progress}) {
 
 
-    const nextTrack = () => {
+    const nextTrack = (event) => {
         setTrackIndex((trackIndex) => trackIndex + 1 >= trackList.length ? 0 : trackIndex + 1);
-    }
-    const prevTrack = () => {
-        setTrackIndex((trackIndex) => trackIndex - 1 < 0 ? trackList.length -1 : trackIndex - 1);
-    }
-
-    const playTrack = () => {
-        thisAudio.current.paused ?  thisAudio.current.play() : thisAudio.current.pause()
     }
 
     return (
         <footer>
             <div className='footer__data'>
-                {/* <h2 className='footer__data__title'>{currentTrack.content.title}</h2> */}
+                <h2 className='footer__data__title'>{currentTrack.content.title}</h2>
                 {/* <Link href={currentTrack.content.linked_project.slug}><h3 className='footer__data__client'>Client</h3></Link> */}
                 <nav className='footer__data__nav'>
-                    <button className='footer__data__nav__prev' onClick={prevTrack}>Prev Track</button>
-                    <button className='footer__data__nav__play' onClick={playTrack}>Pause Track</button>
                     <button className='footer__data__nav__next' onClick={nextTrack}>Next Track</button>
                     <button className='footer__data__nav__mute' onClick={() => setMuted(!muted)}>{muted ? 'Unmute':'Mute'}</button>
                 </nav>
@@ -53,6 +44,9 @@ export default function ListenFooter ({currentTrack, setTrackIndex, trackList, m
 </svg>
 
                 </div>
+            </div>
+            <div className='footer__progress'>
+                <div className='footer__progress__played' style={{width: `${progress}%`}}/>
             </div>
         </footer>
     )

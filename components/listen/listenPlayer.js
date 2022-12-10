@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
+import ListenFooterIntro from './listenFooterIntro';
 import ListenFooter from './listenFooter';
+import ListenNav from './listenNav';
 import ListenVisual from './listenVisual';
 // import StoryblokClient from "storyblok-js-client";
 
@@ -10,6 +12,8 @@ export default function ListenPlayer ({ intro, trackList }) {
     const [muted, setMuted] = useState(0);
     const [progress, setProgress] = useState(0);
     const progressIntervalRef = useRef(null)
+
+    const [navOpen, setNavOpen] = useState(true);
 
     useEffect(() => {
         // console.log(trackIndex)
@@ -32,10 +36,15 @@ export default function ListenPlayer ({ intro, trackList }) {
     return (
         <main className='audio-player'>
            <ListenVisual />
-           <ListenFooter currentTrack={trackList[trackIndex]} setTrackIndex={setTrackIndex} trackList={trackList} setMuted={setMuted} muted={muted} progress={progress}/>
+           {intro ?
+           <ListenFooterIntro currentTrack={trackList[trackIndex]} setTrackIndex={setTrackIndex} trackList={trackList} setMuted={setMuted} muted={muted} progress={progress}/>
+           :
+           <ListenFooter currentTrack={trackList[trackIndex]} setTrackIndex={setTrackIndex} trackList={trackList} setMuted={setMuted} muted={muted} progress={progress} thisAudio={thisAudio}/>
+           }
            <audio className='audio-player__audio' ref={thisAudio} muted={muted}>
                 <source src={trackList[trackIndex].content.file.filename} />
             </audio>
+            {!intro && <ListenNav navOpen={navOpen} trackList={trackList} currentTrack={trackList[trackIndex]} setTrackIndex={setTrackIndex} setNavOpen={setNavOpen}/>}
         </main>
     )
 }

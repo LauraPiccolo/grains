@@ -7,7 +7,7 @@ import FooterWrapper from './footer/footerWrapper';
 export default function Layout ({ children, pageTitle, intro, navContent }) {
 
     const location = useRouter().asPath.replace('/','');
-    const inverted = pageTitle === 'about' || pageTitle === 'contact' || pageTitle === 'home';
+    const inverted = pageTitle === 'about' || pageTitle === 'contact' || pageTitle === 'home' || pageTitle === 'listen';
 
     return (
         <>
@@ -16,7 +16,7 @@ export default function Layout ({ children, pageTitle, intro, navContent }) {
             <main className='main'>
                 {children}
             </main>
-            {!inverted && <FooterWrapper location={location} content={navContent} />}
+            {(!inverted && !intro) && <FooterWrapper location={location} content={navContent} />}
         </>
     )
 }

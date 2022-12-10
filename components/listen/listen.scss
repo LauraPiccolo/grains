@@ -105,3 +105,73 @@
         letter-spacing: 40px;
     }
 }
+
+.player__nav {
+    width: 25vw;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: white;
+    height: 100%;
+    padding: 20px 20px 0px 20px;
+    transition-duration: 1s;
+    transition-property: margin-left;
+
+    .player__nav__item * {
+        color: black !important;
+        text-transform: uppercase;
+        font-size: 13px;
+    }
+
+    .player__nav__item {
+        cursor: pointer;
+        position: relative;
+        opacity: 0.5;
+
+        &--selected ,&:hover {
+            opacity: 1;
+        }
+    }
+
+    p {
+        margin-bottom: 5px;
+    }
+
+    li {
+        margin-bottom: 30px;
+    }
+    ul {
+        overflow-y: scroll;
+        overflow-x: visible;
+        height: 100%;
+    }
+
+    .player__nav__item__playing {
+        position: absolute;
+        top: 0;
+        right: 0px;
+    }
+
+    .player__nav__toggle {
+        position: absolute;
+        bottom: 25px;
+        color: white !important;
+        text-transform: uppercase;
+        z-index: 10000;
+        display: flex;
+        width: 150px;
+        left: calc(25vw + 25px);
+    }
+
+    .player__nav__toggle::before {
+        width: 10px;
+        height: 10px;
+        content: '';
+        display: inline-block;
+        border-radius: 50%;
+        background-color: white;
+        margin-right: 7px;
+        position: relative;
+        margin-top: 2.5px;
+    }
+}
