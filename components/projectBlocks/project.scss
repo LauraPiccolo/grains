@@ -1,0 +1,191 @@
+.project-wrapper {
+
+    .project__hero {
+
+    }
+    iframe {
+        pointer-events: none;
+        width: 100vw;
+        height: 100vh;
+        margin-bottom: 0px;
+        padding: 50px 20px 10px 20px;
+        border-radius: 5px;
+        overflow: hidden;
+    }
+}
+
+footer {
+        position: absolute;
+        bottom: 10px;
+        width: 100vw;
+        left: 0;
+        padding: 30px;
+
+        .footer__data {
+            width: 100%;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            position: relative;
+
+            h2, h3, button, nav {
+                font-size: 11px;
+                font-weight: normal;
+                margin: 0;
+                padding: 0;
+                line-height: 100%;
+            }
+
+            h3 {
+                position: absolute;
+                left: calc(100% / 6);
+            }
+
+            nav {
+                position: absolute;
+                right: 0;
+            }
+
+            .footer__data__nav__mute {
+                width: calc(100vw / 12 - 30px);
+                text-align: left;
+            }
+
+            .footer__data__nav__next {
+                position: absolute;
+                right: calc(100vw / 12);
+                display: block;
+                width: 100px;
+                text-align: right;
+            }
+
+            .footer__data__wave {
+                right: 0;
+                position: absolute;
+
+                svg {
+                    width: 30px;
+                    height: 10px;
+                }
+            }
+        }
+        .footer__progress {
+            width: 100%;
+            background-color: rgba(255,255,255,0.4);
+            height: 6px;
+            margin-top: 8px;
+            .footer__progress__played {
+                height: 100%;
+                background-color: white;
+                transition-duration: .2s;
+                transition-property: width;
+                transition-timing-function: linear;
+            }
+        }
+}
+
+.player__header {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    justify-content: center;
+    align-items: center;
+
+    h1 {
+        font-family: 'Kern';
+        font-size: 50px;
+        color: white !important;
+        text-transform: uppercase;
+        font-weight: normal;
+        letter-spacing: 40px;
+    }
+}
+
+.player__nav {
+    width: 25vw;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: white;
+    height: 100%;
+    padding: 20px 20px 0px 20px;
+    transition-duration: 1s;
+    transition-property: margin-left;
+
+    .player__nav__item * {
+        color: black !important;
+        text-transform: uppercase;
+        font-size: 13px;
+    }
+
+    .player__nav__item {
+        cursor: pointer;
+        position: relative;
+        opacity: 0.5;
+
+        &--selected ,&:hover {
+            opacity: 1;
+        }
+    }
+
+    p {
+        margin-bottom: 5px;
+    }
+
+    li {
+        margin-bottom: 30px;
+    }
+    ul {
+        overflow-y: scroll;
+        overflow-x: visible;
+        height: 100%;
+    }
+
+    .player__nav__item__playing {
+        position: absolute;
+        top: 0;
+        right: 0px;
+    }
+
+    .player__nav__toggle {
+        position: absolute;
+        bottom: 25px;
+        color: white !important;
+        text-transform: uppercase;
+        z-index: 10000;
+        display: flex;
+        width: 150px;
+        left: calc(25vw + 25px);
+    }
+
+    .player__nav__toggle::before {
+        width: 10px;
+        height: 10px;
+        content: '';
+        display: inline-block;
+        border-radius: 50%;
+        background-color: white;
+        margin-right: 7px;
+        position: relative;
+        margin-top: 2.5px;
+    }
+}
+
+.project__supporting {
+    width: 100vw;
+    padding: 32px;
+    li {
+        display: flex;
+
+        .project__supporting__item {
+            width: 25%;
+            img {
+                width: 100%;
+                height: 100%;
+            }
+        }
+    }
+}

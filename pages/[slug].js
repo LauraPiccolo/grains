@@ -13,7 +13,7 @@ const Page = ({ content, navContent, projectList }) => {
             pageTitle={content.title}
             navContent={navContent}
         >
-            {content.description && <TextBlock title={content.title} text={content.description} />}
+            {content.description.length > 0 && <TextBlock title={content.title} text={content.description} />}
             <BlockWrapper blockList={content.content} projectList={projectList}/>
         </Layout>
     )

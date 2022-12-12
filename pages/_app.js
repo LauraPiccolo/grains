@@ -6,6 +6,7 @@ import '../components/pageBlocks/blocks.scss';
 import '../components/header/header.scss';
 import '../components/footer/footer.scss';
 import '../components/contact/contact.scss';
+import '../components/projectBlocks/project.scss';
 import '../components/about/about.scss';
 import "react-responsive-carousel/lib/styles/carousel.min.css"
 
