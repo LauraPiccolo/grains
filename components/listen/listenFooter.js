@@ -11,8 +11,17 @@ export default function ListenFooter ({currentTrack, setTrackIndex, trackList, m
     }
 
     const playTrack = () => {
-        thisAudio.current.paused ?  thisAudio.current.play() : thisAudio.current.pause()
+        if(thisAudio.current.paused)  {
+            thisAudio.current.play()
+            setPlaying(true);
+        }
+        else {
+            thisAudio.current.pause()
+            setPlaying(false);
+        }
     }
+
+    const [playing, setPlaying] = useState(false);
 
     return (
         <footer>
@@ -21,7 +30,7 @@ export default function ListenFooter ({currentTrack, setTrackIndex, trackList, m
                 {/* <Link href={currentTrack.content.linked_project.slug}><h3 className='footer__data__client'>Client</h3></Link> */}
                 <nav className='footer__data__nav'>
                     <button className='footer__data__nav__prev' onClick={prevTrack}>Prev Track</button>
-                    <button className='footer__data__nav__play' onClick={playTrack}>Pause Track</button>
+                    <button className='footer__data__nav__play' onClick={playTrack}>{playing? 'Pause':'Play'} Track</button>
                     <button className='footer__data__nav__next' onClick={nextTrack}>Next Track</button>
                     <button className='footer__data__nav__mute' onClick={() => setMuted(!muted)}>{muted ? 'Unmute':'Mute'}</button>
                 </nav>

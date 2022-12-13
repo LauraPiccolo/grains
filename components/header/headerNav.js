@@ -7,7 +7,7 @@ export default function HeaderNav ({navLinks}) {
         <nav className='header__nav'>
             <ul>
                 {navLinks.map((navItem) => (
-                    <Link href={navItem.slug}><li>{navItem.name}</li></Link>
+                    <Link href={`/${navItem.slug}`}><li>{navItem.name}</li></Link>
                 ))}
             </ul>
         </nav>

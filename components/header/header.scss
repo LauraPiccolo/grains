@@ -3,16 +3,16 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 10px;
+    font-size: 14px;
     text-transform: uppercase;
-    padding: 20px 0;
+    padding: 32px 0;
     position: fixed;
     margin: 0;
 
     nav ul {
         display: flex;
         li {
-            margin: 0 20px;
+            margin: 0 32px;
             &:hover {
                 text-decoration: underline;
             }
@@ -20,12 +20,12 @@
     }
 
     h1 {
-        font-size: 20px;
+        font-size: 23px;
         letter-spacing: 15px;
         justify-self: center;
         position: absolute;
         text-align: center;
-        left: calc(50vw - 120px);
+        left: calc(50vw - 127px);
     }
     h1, li { 
         color: black;

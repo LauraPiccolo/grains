@@ -4,7 +4,7 @@ import Head from './head';
 import HeaderWrapper from './header/headerWrapper';
 import FooterWrapper from './footer/footerWrapper';
 
-export default function Layout ({ children, pageTitle, intro, navContent }) {
+export default function Layout ({ children, pageTitle, intro=false, navContent }) {
 
     const location = useRouter().asPath.replace('/','');
     const inverted = pageTitle === 'about' || pageTitle === 'contact' || pageTitle === 'home' || pageTitle === 'listen';

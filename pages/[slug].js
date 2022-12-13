@@ -7,13 +7,13 @@ import BlockWrapper from '../components/pageBlocks/blockWrapper';
 const Page = ({ content, navContent, projectList }) => {
 
 
-    console.log(content);
+    console.log(content.description);
     return (
         <Layout
-            pageTitle={content.title}
+            pageTitle={content.title.toLowerCase()}
             navContent={navContent}
         >
-            {content.description.length > 0 && <TextBlock title={content.title} text={content.description} />}
+            {content.description.type && <TextBlock title={content.title} text={content.description} />}
             <BlockWrapper blockList={content.content} projectList={projectList}/>
         </Layout>
     )

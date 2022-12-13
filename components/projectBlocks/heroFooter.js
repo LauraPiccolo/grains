@@ -10,7 +10,7 @@ export default function HeroFooter ({muted, setMuted, progress, currentTiming}) 
 
     return (
         <footer>
-            <div className='footer__data'>
+            <div className='footer__data--project'>
                 <nav className='footer__data__nav'>
                     <button className='footer__data__nav__next'>{formatTiming(currentTiming)}</button>
                     <button className='footer__data__nav__mute' onClick={(event) => {event.stopPropagation();setMuted(!muted)}}>{muted ? 'Unmute':'Mute'}</button>

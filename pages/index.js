@@ -9,10 +9,12 @@ const Index = ({ tracks }) => {
     return (
 
       <Layout intro={true}>
+        <div onClick={() => router.push('/home')}>
         <header className='player__header'>
-            <h1 onClick={() => router.push('/home')}>Interlude</h1>
+            <h1>Interlude</h1>
         </header>
         <ListenPlayer trackList={tracks} intro={true}/>
+        </div>
       </Layout>
 
     )

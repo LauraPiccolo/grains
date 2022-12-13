@@ -30,17 +30,27 @@ export default function ProjectItemMedia ({item}) {
     }
 
     useEffect(() => {
-        if(thisVideo.current) {
-            if(inView) {
-                thisVideo.current.play()
-            }
-            else thisVideo.current.pause()
-        }
+        // if(thisVideo.current) {
+        //     if(inView) {
+        //         thisVideo.current.play()
+        //     }
+        //     else thisVideo.current.pause()
+        // }
         if(inView) setEnteredOnce(true)
+        else if(thisVideo.current) thisVideo.current.pause()
     }, [inView])
 
+    const playVideo = () => {
+        if(thisVideo.current) thisVideo.current.play()
+    }
+    const pauseVideo = () => {
+        if(thisVideo.current) thisVideo.current.pause()
+    }
+
     return (
-        <div className='project-item__media' ref={ref} style={{opacity: (!enteredOnce && !inView) ? 0:1}}>
+        <div className='project-item__media' ref={ref} style={{opacity: (!enteredOnce && !inView) ? 0:1}}
+            onMouseOver={playVideo} onMouseOut={pauseVideo}
+        >
             { isImage(item.content.hero_media.filename) ? (
                 <Image data={item.content.hero_media} shown={inView}/>
             ):(
