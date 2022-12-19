@@ -8,9 +8,9 @@ export default function ListenTrackItem ({track, currentTrack, index, setTrackIn
         onClick={() => setTrackIndex(index)}
         >
           <h2>{track.content.title}</h2> 
-          <p>Client</p>
-          <Link href="/project/1">View project</Link>
-          {currentTrack === track && <span className='player__nav__item__playing'>Playing</span>}
+          <p>{track.content.linked_project.content.client}</p>
+          <Link href={`/projects/${track.content.linked_project.slug}`}>View project</Link>
+          <span className='player__nav__item__playing'>{currentTrack === track ? 'Playing':'Play'}</span>
         </li>
     )
 }

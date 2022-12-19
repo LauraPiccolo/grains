@@ -34,13 +34,13 @@
         justify-content: space-between;
         width: 100%;
         font-family: 'Suisse';
-        font-size: 30px;
+        font-size: 60px;
     }
     .footer__second {
         display: flex;
         justify-content: space-between;
         width: 100%;
-        font-size: 12px;
+        font-size: 14px;
         text-transform: uppercase;
         margin-top: 10px;
     }
@@ -49,7 +49,7 @@
 .slider__prev, .slider__next {
     width: 50vw;
     height: 80%;
-    cursor: w-resize;
+    cursor: none;
     position: absolute;
     top: 10%;
     left: 0;
@@ -59,7 +59,7 @@
 
 .slider__next {
     left: 50vw;
-    cursor: e-resize;
+    // cursor: e-resize;
 }
 
 // Single & double block

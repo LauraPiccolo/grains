@@ -6,8 +6,8 @@ export default function HeaderNav ({navLinks}) {
     return (
         <nav className='header__nav'>
             <ul>
-                {navLinks.map((navItem) => (
-                    <Link href={`/${navItem.slug}`}><li>{navItem.name}</li></Link>
+                {navLinks.map((navItem, index) => (
+                    <Link href={`/${navItem.slug}`} key={`headerlink--${index}`}><li>{navItem.name}</li></Link>
                 ))}
             </ul>
         </nav>

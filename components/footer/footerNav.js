@@ -8,8 +8,8 @@ export default function FooterNav ({navLinks}) {
     return (
         <nav className='footer__nav'>
             <ul>
-                {navLinks.map((navItem) => (
-                    <Link href={navItem.slug}><li>{navItem.name}</li></Link>
+                {navLinks.map((navItem, index) => (
+                    <Link href={navItem.slug} key={`footerlink--${index}`}><li>{navItem.name}</li></Link>
                 ))}
             </ul>
         </nav>

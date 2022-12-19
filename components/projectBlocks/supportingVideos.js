@@ -8,8 +8,8 @@ export default function SupportingVideos({ videoList}) {
     <div className="project__supporting">
         <h3>Supporting videos</h3>
         <ul>{
-            videoList.map((video) => (
-                <li>
+            videoList.map((video, index) => (
+                <li  key={`supporting--${index}`}>
                    <SupportingVideoItem video={video} />
                 </li>
             ))

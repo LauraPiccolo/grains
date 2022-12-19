@@ -1,0 +1,129 @@
+.audio-player__visual {
+
+    #canvas {
+      width: 100%;
+      height: 100%;
+      transform: scale(1);
+    }
+    
+    #audio {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      width:80vw;
+      z-index: 1;
+      transform: translate3d(-50%, 0, 0);
+    
+      &::-webkit-media-controls-panel {
+      }
+    
+      &::-webkit-media-controls-mute-button {
+      }
+    
+      &::-webkit-media-controls-play-button {
+      }
+    
+      &::-webkit-media-controls-timeline-container {
+      }
+    
+      &::-webkit-media-controls-current-time-display {
+      }
+    
+      &::-webkit-media-controls-time-remaining-display {
+      }
+    
+      &::-webkit-media-controls-timeline {
+      }
+    
+      &::-webkit-media-controls-volume-slider-container {
+      }
+    
+      &::-webkit-media-controls-volume-slider {
+      }
+    
+      &::-webkit-media-controls-seek-back-button {
+      }
+    
+      &::-webkit-media-controls-seek-forward-button {
+      }
+    
+      &::-webkit-media-controls-fullscreen-button {
+      }
+    
+      &::-webkit-media-controls-rewind-button {
+      }
+    
+      &::-webkit-media-controls-return-to-realtime-button {
+      }
+      &::-webkit-media-controls-toggle-closed-captions-button {
+      }
+    }
+    
+    body > div:not(.demo) {
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      z-index: 1;
+    }
+    
+    .demo {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100vw;
+      height: 100vh;
+      background-color: white;
+    }
+    
+    .title {
+      position: fixed;
+    
+      font-size: 20px;
+      color: white;
+      top: 20px;
+      left: 20px;
+      z-index: 1;
+    }
+    
+    .log {
+      position: fixed;
+      text-align: right;
+      padding: 5px;
+      color: red;
+      line-height: 1.5;
+      font-size: 12px;
+      top: 0;
+      right: 0;
+    }
+    
+    .cover {
+      position: fixed;
+      display: flex;
+      display: -webkit-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-direction: column;
+      width: 100vw;
+      height: 100vh;
+      color: white;
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 1.25rem;
+      z-index: 666;
+      top: 0;
+      left: 0;
+      background-color: rgba(0, 0, 0, 0.85);
+    
+      > blockquote {
+        font-size: 0.85rem;
+        width: 50vw;
+        letter-spacing: 2px;
+      }
+      > span {
+        font-size: 0.5em;
+        letter-spacing: 3px;
+      }
+    }
+}

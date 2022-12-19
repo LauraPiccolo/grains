@@ -2,7 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import ListenFooterIntro from './listenFooterIntro';
 import ListenFooter from './listenFooter';
 import ListenNav from './listenNav';
-import ListenVisual from './listenVisual';
+import ListenVisualWrapper from './listenVisualWrapper';
+import Cursor from '../cursor/cursor';
 // import StoryblokClient from "storyblok-js-client";
 
 export default function ListenPlayer ({ intro, trackList }) {
@@ -13,11 +14,12 @@ export default function ListenPlayer ({ intro, trackList }) {
     const [progress, setProgress] = useState(0);
     const progressIntervalRef = useRef(null)
 
-    const [navOpen, setNavOpen] = useState(true);
+    const [firstPlay, setFirstPlay] = useState(true)
+    const [navOpen, setNavOpen] = useState(false);
 
     useEffect(() => {
-        // console.log(trackIndex)
         setProgress(0);
+        thisAudio.current.src = trackList[trackIndex].content.file.filename;
         thisAudio.current.load();
         thisAudio.current.play();
         startProgress();
@@ -35,16 +37,17 @@ export default function ListenPlayer ({ intro, trackList }) {
 
     return (
         <main className='audio-player'>
-           <ListenVisual />
+           <ListenVisualWrapper track={trackList[trackIndex].content.file.filename} thisAudio={thisAudio} intro={!intro} setNavOpen={setNavOpen} navOpen={navOpen} firstPlay={firstPlay} setFirstPlay={setFirstPlay}/>
            {intro ?
            <ListenFooterIntro currentTrack={trackList[trackIndex]} setTrackIndex={setTrackIndex} trackList={trackList} setMuted={setMuted} muted={muted} progress={progress} thisAudio={thisAudio}/>
            :
-           <ListenFooter currentTrack={trackList[trackIndex]} setTrackIndex={setTrackIndex} trackList={trackList} setMuted={setMuted} muted={muted} progress={progress} thisAudio={thisAudio}/>
+           !firstPlay && <ListenFooter setNavOpen={setNavOpen} currentTrack={trackList[trackIndex]} trackIndex={trackIndex} setTrackIndex={setTrackIndex} trackList={trackList} setMuted={setMuted} muted={muted} progress={progress} thisAudio={thisAudio}/>
            }
            <audio className='audio-player__audio' ref={thisAudio} muted={muted}>
                 <source src={trackList[trackIndex].content.file.filename} />
+                {/* <source src={'/sound/test.mp3'} /> */}
             </audio>
-            {!intro && <ListenNav navOpen={navOpen} trackList={trackList} currentTrack={trackList[trackIndex]} setTrackIndex={setTrackIndex} setNavOpen={setNavOpen}/>}
+            {!intro && <ListenNav navOpen={navOpen} trackList={trackList} currentTrack={trackList[trackIndex]} setTrackIndex={setTrackIndex}/>}
         </main>
     )
 }

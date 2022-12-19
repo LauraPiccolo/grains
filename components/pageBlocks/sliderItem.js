@@ -26,7 +26,6 @@ export default function SliderItem ({item, index, currentSlide}) {
         }
     }, [currentSlide])
 
-    console.log(item)
 
     return (
         <div>

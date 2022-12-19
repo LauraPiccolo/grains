@@ -8,16 +8,17 @@ export default function ListenNav ({trackList, currentTrack, setTrackIndex, navO
             <ul>
             {
                 trackList.map((track, index) => (
-                    <ListenTrackItem track={track} currentTrack={currentTrack} index={index} setTrackIndex={setTrackIndex}/>
+                    <ListenTrackItem track={track} currentTrack={currentTrack} index={index} setTrackIndex={setTrackIndex}
+                    key={`track--${index}`}/>
                 ))
             }
             </ul>
-            <button className='player__nav__toggle' 
+            {/* <button className='player__nav__toggle' 
                 // style={{left: navOpen ? 'calc(25vw + 30px)':'30px'}} 
                 onClick={() => setNavOpen(!navOpen)}
             >
                 {navOpen ? 'Fullscreen':'View tracks'}
-            </button>
+            </button> */}
         </nav>
     )
 }
