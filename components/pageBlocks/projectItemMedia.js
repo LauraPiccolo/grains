@@ -18,7 +18,7 @@ export default function ProjectItemMedia ({item}) {
         if(image) {
             var imageService = 'https://img2.storyblok.com/'
             var path = image.replace('https://a.storyblok.com', '')
-            return imageService + '10x' + path
+            return imageService + '640x' + path
         }
         else return '';
     }

@@ -6,14 +6,16 @@ import router from 'next/router';
 
 const Index = ({ tracks }) => {
 
+
+    const [firstPlay, setFirstPlay] = useState(true)
     return (
 
       <Layout intro={true}>
-        <div onClick={() => router.push('/home')}>
-        <header className='player__header'>
+        <div>
+        {!firstPlay && <header className='player__header' onClick={() => router.push('/home')}>
             <h1>Interlude</h1>
-        </header>
-        <ListenPlayer trackList={tracks} intro={true}/>
+        </header>}
+        <ListenPlayer trackList={tracks} intro={true} firstPlay={firstPlay} setFirstPlay={setFirstPlay}/>
         </div>
       </Layout>
 

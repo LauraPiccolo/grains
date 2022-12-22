@@ -6,15 +6,13 @@ import ListenVisualWrapper from './listenVisualWrapper';
 import Cursor from '../cursor/cursor';
 // import StoryblokClient from "storyblok-js-client";
 
-export default function ListenPlayer ({ intro, trackList }) {
+export default function ListenPlayer ({ intro, trackList, setFirstPlay, firstPlay }) {
 
     const thisAudio = useRef(null);
     const [trackIndex, setTrackIndex] = useState(0);
     const [muted, setMuted] = useState(0);
     const [progress, setProgress] = useState(0);
     const progressIntervalRef = useRef(null)
-
-    const [firstPlay, setFirstPlay] = useState(true)
     const [navOpen, setNavOpen] = useState(false);
 
     useEffect(() => {

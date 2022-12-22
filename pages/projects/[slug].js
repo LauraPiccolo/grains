@@ -21,9 +21,9 @@ const Project = ({ content, navContent, projectList }) => {
                     title={content.content.title}
                     description={content.content.description}
                     credits={content.content.credits}
-                    url={content.content.fullscreen_video_url}
+                    url={content.content.fullscreen_video.url}
                     client={content.content.client}
-                    category={content.content.category.title}
+                    category={content.content.category}
                     slug={content.slug} 
                 />
                 <SupportingVideos videoList={content.content.supporting_videos} />

@@ -98,7 +98,7 @@ void main() {
     float b = 0.5 *i + 0.001;
 
     // CHANGE SECOND VALUE FOR MORE BLUR
-    col += blur(d, 0.05, b, 0.5);
+    col += blur(d, 0.1, b, 0.1);
   }
   // https://thebookofshaders.com/glossary/?search=smoothstep
   float note = smoothstep( 0., 1., (iMusicLow[0] * .75 + iMusicMid[0] + iMusicHigh[3] * .75) / ( 1. + .75 + 0.75) );
@@ -106,8 +106,8 @@ void main() {
   // vec3 noteCol = 1. - vec3(col, 0.0, 0.0);
 
   // CHANGE LINE COLOR HERE
-  vec3 noteCol = vec3(0, col, 0.0);
-  vec3 noteCol2 = vec3(0.0, 0.0, col);
+  vec3 noteCol = vec3(0, 1.0-col, col);
+  vec3 noteCol2 = vec3(col, 1.0, 0);
   //float note = smoothstep(0., 1., (iMusicLow[0] * 0.75 +  iMusicHigh[3] * 0.75) / (0.75 + 0.75) ) ;
   //gl_FragColor = mix( vec4( vec3(abs(1. - col), 0., 0), 1.), texture2D(uTexture, uv), note);
   gl_FragColor = mix( vec4( noteCol, 1.), vec4( noteCol2, 1.), note);

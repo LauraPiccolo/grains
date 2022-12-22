@@ -1,17 +1,21 @@
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { render } from "storyblok-rich-text-react-renderer";
+import Cursor from "../cursor/cursor";
 import Image from "../utils/image";
 // import Vimeo from '@u-wave/react-vimeo';
 
 export default function SupportingVideoItem({ video}) {
 
-    console.log(video.poster)
+  const thisPoster = useRef(null)
 
   return (
     <div className="project__supporting__item" onClick={() => console.log('play fullscreen')}>
-        {video.poster && <Image data={video.poster} />}
-        <div className="project__supporting__description">{render(video.description)}</div>
+        <div className="project__supporting__image" ref={thisPoster}>
+        {video.poster && <Image data={video.poster}/>}
+        </div>
+        <div className="project__supporting__description">{render(video.description_text)}</div>
+        <Cursor text="Fullscreen" parent={thisPoster} />
         {/* <Vimeo
                 video={url}
                 paused={paused}

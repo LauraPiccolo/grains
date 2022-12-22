@@ -13,7 +13,7 @@ const Page = ({ content, navContent, projectList }) => {
             pageTitle={content.title.toLowerCase()}
             navContent={navContent}
         >
-            {content.description.content > 1 && <TextBlock title={content.title} text={content.description} />}
+            {content.title !== 'Home' && <TextBlock title={content.title} text={content.description} />}
             <BlockWrapper blockList={content.content} projectList={projectList}/>
         </Layout>
     )

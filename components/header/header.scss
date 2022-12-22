@@ -1,13 +1,22 @@
 .header {
     width: 100vw;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     font-size: 14px;
     text-transform: uppercase;
     padding: 32px 0;
+    padding-bottom: 48px;
     position: fixed;
     margin: 0;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+
+    .header__slider {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition-duration: 0.8s;
+        transition-property: margin-top;
+    }
 
     nav ul {
         display: flex;
@@ -25,7 +34,7 @@
         justify-self: center;
         position: absolute;
         text-align: center;
-        left: calc(50vw - 127px);
+        left: calc(50vw - 111px);
     }
     h1, li { 
         color: black;

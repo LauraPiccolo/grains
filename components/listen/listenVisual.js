@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import vs from "./glsl/vert.glsl";
 import fs from "./glsl/frag.glsl";
 import ps from "./glsl/post.glsl";
-import dynamic from 'next/dynamic'
 import "./glsl/raf.js";
 
 import Clubber from "clubber";

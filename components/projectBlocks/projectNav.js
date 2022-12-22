@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from "react";
-import NavVideoItem from "./NavVideoItem";
+import NavVideoItem from "./navVideoItem";
 
 export default function ProjectNav({ projectList, project}) {
 
@@ -10,7 +10,7 @@ export default function ProjectNav({ projectList, project}) {
     const nextProject = categoryProjects[indexProject + 1 >= categoryProjects.length ? 0 :indexProject + 1];
 
   return (
-    <div className="project__credits">
+    <div className="project__nav">
         <NavVideoItem type="previous" content={prevProject} />
         <NavVideoItem type="next" content={nextProject} />
     </div>
