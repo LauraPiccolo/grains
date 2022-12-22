@@ -31,7 +31,7 @@ export default function ListenFooterIntro ({currentTrack, setTrackIndex, trackLi
                     <button className='footer__data__nav__mute' onClick={() => setMuted(!muted)}>{muted ? 'Unmute':'Mute'}</button>
                 </nav>
                 <div className='footer__data__wave'>
-                    <img src='/audio.gif' />
+                    <img src='/img/waves.svg' />
                 </div>
             </div>
             <div className='footer__progress'>

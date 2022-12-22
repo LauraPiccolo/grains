@@ -2,21 +2,19 @@ import React, { useEffect, useRef, useState } from 'react';
 import ListenFooterIntro from './listenFooterIntro';
 import ListenFooter from './listenFooter';
 import ListenNav from './listenNav';
-import ListenVisual from './listenVisual';
+import ListenVisualWrapper from './listenVisualWrapper';
 // import StoryblokClient from "storyblok-js-client";
 
-export default function ListenPlayer ({ intro, trackList }) {
+export default function ListenPlayer ({ intro, trackList, setPlayingStarted }) {
 
     const thisAudio = useRef(null);
     const [trackIndex, setTrackIndex] = useState(0);
     const [muted, setMuted] = useState(0);
     const [progress, setProgress] = useState(0);
-    const progressIntervalRef = useRef(null)
-
+    const progressIntervalRef = useRef(null);
     const [navOpen, setNavOpen] = useState(true);
 
     useEffect(() => {
-        // console.log(trackIndex)
         setProgress(0);
         thisAudio.current.load();
         thisAudio.current.play();
@@ -35,14 +33,14 @@ export default function ListenPlayer ({ intro, trackList }) {
 
     return (
         <main className='audio-player'>
-           <ListenVisual />
+           <ListenVisualWrapper track={'/sound/test.mp3'} thisAudio={thisAudio} setPlayingStarted={setPlayingStarted}/>
            {intro ?
            <ListenFooterIntro currentTrack={trackList[trackIndex]} setTrackIndex={setTrackIndex} trackList={trackList} setMuted={setMuted} muted={muted} progress={progress} thisAudio={thisAudio}/>
            :
            <ListenFooter currentTrack={trackList[trackIndex]} setTrackIndex={setTrackIndex} trackList={trackList} setMuted={setMuted} muted={muted} progress={progress} thisAudio={thisAudio}/>
            }
            <audio className='audio-player__audio' ref={thisAudio} muted={muted}>
-                <source src={trackList[trackIndex].content.file.filename} />
+                <source src={'/sound/test.mp3'} />
             </audio>
             {!intro && <ListenNav navOpen={navOpen} trackList={trackList} currentTrack={trackList[trackIndex]} setTrackIndex={setTrackIndex} setNavOpen={setNavOpen}/>}
         </main>

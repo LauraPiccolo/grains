@@ -37,5 +37,6 @@
 }
 
 .footer__nav:first-of-type {
-    width: 33%;
+    // width: 33%;
+    width: calc(50% - 284px);
 }
