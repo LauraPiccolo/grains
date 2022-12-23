@@ -26,6 +26,7 @@ export default function ProjectItemMedia ({item}) {
     const thisVideo = useRef(null)
 
     const isImage = (source) => {
+        console.log(source)
         return source.indexOf('.png') > -1 || source.indexOf('.jpg') > -1 || source.indexOf('.jpeg') > -1
     }
 
@@ -41,9 +42,11 @@ export default function ProjectItemMedia ({item}) {
     }, [inView])
 
     const playVideo = () => {
+        console.log('PLAY');
         if(thisVideo.current) thisVideo.current.play()
     }
     const pauseVideo = () => {
+        console.log('PAUSE');
         if(thisVideo.current) thisVideo.current.pause()
     }
 

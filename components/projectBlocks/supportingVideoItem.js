@@ -5,12 +5,13 @@ import Cursor from "../cursor/cursor";
 import Image from "../utils/image";
 // import Vimeo from '@u-wave/react-vimeo';
 
-export default function SupportingVideoItem({ video}) {
+export default function SupportingVideoItem({ video, setFullscreenUrl}) {
 
   const thisPoster = useRef(null)
+  console.log(video.vimeo_link)
 
   return (
-    <div className="project__supporting__item" onClick={() => console.log('play fullscreen')}>
+    <div className="project__supporting__item" onClick={() => setFullscreenUrl(video.vimeo_link.url)}>
         <div className="project__supporting__image" ref={thisPoster}>
         {video.poster && <Image data={video.poster}/>}
         </div>

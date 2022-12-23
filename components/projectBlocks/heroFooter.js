@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-export default function HeroFooter ({muted, setMuted, progress, currentTiming, paused, setPaused}) {
+export default function HeroFooter ({muted, setMuted, progress, currentTiming, paused, setPaused, back=false, closeFullscreen}) {
 
     const formatTiming = (timing) => {
         const minutes = Math.trunc(timing / 60);
@@ -11,6 +11,11 @@ export default function HeroFooter ({muted, setMuted, progress, currentTiming, p
     return (
         <footer>
             <div className='footer__data--project'>
+                {back && <button className='footer__data__close'
+                onClick={() => closeFullscreen(undefined)}
+                >
+                    Back
+                </button>}
                 <button className='footer__data__play'
                 onClick={() => setPaused(!paused)}
                 >{paused ? 'Play':'Pause'}</button>

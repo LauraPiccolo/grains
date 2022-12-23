@@ -5,9 +5,13 @@ import Hero from '../../components/projectBlocks/hero';
 import DescriptionWrapper from '../../components/projectBlocks/descriptionWrapper';
 import SupportingVideos from '../../components/projectBlocks/supportingVideos';
 import ProjectNav from '../../components/projectBlocks/projectNav';
+import Fullscreen from '../../components/projectBlocks/fullscreen';
 
 const Project = ({ content, navContent, projectList }) => {
 
+    const [fullscreenUrl, setFullscreenUrl] = useState(undefined);
+    const [heroTiming, setHeroTiming] = useState(0)
+    const [updateTiming, setUpdateTiming] = useState(false)
 
     console.log(content);
     return (
@@ -16,7 +20,10 @@ const Project = ({ content, navContent, projectList }) => {
             navContent={navContent}
         >
             <main className='project-wrapper'>
-                <Hero url={content.content.fullscreen_video.url} />
+                <Hero url={content.content.fullscreen_video.url} setFullscreenUrl={setFullscreenUrl}
+                heroTiming={heroTiming} setHeroTiming={setHeroTiming} fullscreenUrl={fullscreenUrl}
+                updateTiming={updateTiming}
+                />
                 <DescriptionWrapper 
                     title={content.content.title}
                     description={content.content.description}
@@ -26,12 +33,20 @@ const Project = ({ content, navContent, projectList }) => {
                     category={content.content.category}
                     slug={content.slug} 
                 />
-                <SupportingVideos videoList={content.content.supporting_videos} />
+                <SupportingVideos videoList={content.content.supporting_videos} 
+                    setFullscreenUrl={setFullscreenUrl}
+                />
                 <ProjectNav
                     projectList={projectList}
                     project={content}
                 />
             </main>
+            {
+                fullscreenUrl !== undefined && <Fullscreen url={fullscreenUrl} setFullscreenUrl={setFullscreenUrl}
+                heroTiming={heroTiming} setHeroTiming={setHeroTiming} setUpdateTiming={setUpdateTiming}
+                fullscreenUrlRef={content.content.fullscreen_video.url}
+                />
+            }
         </Layout>
     )
 }

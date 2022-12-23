@@ -5,7 +5,7 @@
         margin-top: 80px;
         margin-left: 32px;
         width: calc(100vw - 64px);
-        height: 58.25vw;
+        height: calc(61.25vw - 30px);
         max-height: calc(100vh - 216px);
         overflow: hidden;
         position: relative;
@@ -14,9 +14,9 @@
         align-items: center;
         background-color: rgba(0, 0, 0, 0.2);
 
-        .vimeo {
+        .vimeo, .vimeo-wrapper {
             width: calc(100vw - 64px);
-            height: calc(58.25vw);
+            height: calc(61.25vw - 30px);
             position: absolute;
             cursor: none;
         }
@@ -40,6 +40,7 @@
         width: 100%;
         left: 0;
         padding: 27px 20px;
+        z-index: 1000;
 
         .footer__data--project {
             width: 100%;
@@ -361,11 +362,14 @@
         .project__nav__item {
             width: 50vw;
             height: 26.5vw;
+            overflow-y: hidden;
+            display: block;
+            position: relative;
 
-            .image__container {
-                position: absolute;
+            .project-item__media {
                 width: 50vw;
                 z-index: -1;
+                border-radius: 0 !important;
             }
 
             header {
@@ -376,6 +380,9 @@
                 justify-content: center;
                 align-items: center;
                 flex-direction: column;
+                pointer-events: none;
+                position: absolute;
+                top: 0;
 
                 span {
                     font-size: 16px;
@@ -391,4 +398,107 @@
         }
     }
 
+}
+
+// FULLSCREEN
+
+.project__fullscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: black;
+    z-index: 1000;
+    transition-duration: .5s;
+    transition-property: opacity;
+
+    .vimeo-wrapper, .vimeo, iframe {
+        height: 100vh;
+        width: 100vw;
+        cursor: none;
+    }
+
+    iframe {
+        pointer-events: none;
+    }
+
+    .vimeo-wrapper {
+        transition-duration: .5s;
+        transition-property: opacity;
+    }
+
+    footer {
+        position: absolute;
+        bottom: 0px;
+        width: 100%;
+        left: 0;
+        padding: 27px 20px;
+        z-index: 1000;
+
+        .footer__data--project {
+            width: 100%;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            position: relative;
+
+            h2,
+            h3,
+            button,
+            nav {
+                font-size: 13px;
+                font-weight: normal;
+                margin: 0;
+                padding: 0;
+                line-height: 100%;
+                color: white;
+            }
+
+            nav {
+                display: flex;
+                width: fit-content;
+                position: absolute;
+                right: 0;
+                bottom: 5px;
+            }
+
+            button,
+            img {
+                margin: 0 16px;
+                text-transform: uppercase;
+            }
+
+            .footer__data__play {
+                margin-left: 16px;
+                margin-bottom: 5px;
+            }
+
+            .footer__data__close {
+                margin-bottom: 5px;
+                margin-left: 0;
+            }
+
+            .footer__data__wave img {
+                width: 80px;
+                margin-left: 16px;
+                margin-right: 0;
+            }
+        }
+
+        .footer__progress {
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.4);
+            height: 6px;
+            margin-top: 8px;
+
+            .footer__progress__played {
+                height: 100%;
+                background-color: white;
+                transition-duration: .2s;
+                transition-property: width;
+                transition-timing-function: linear;
+            }
+        }
+    }
 }
