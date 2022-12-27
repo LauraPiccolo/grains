@@ -37,12 +37,104 @@
         left: calc(50vw - 111px);
     }
     h1, li { 
-        color: black;
+        color: #1C1C1C;
     }
 
     &.header--inverted {
         h1, li { 
             color: white;
+        }
+        img {
+            filter: invert(1);
+        }
+        .header__nav--mobile {
+            background-color: #1C1C1C;
+           ul {
+               background-color: #1C1C1C;
+           }
+        }
+    }
+}
+
+
+.header__nav--mobile, .header__burger {
+    display: none;
+}
+
+@media (max-width: 900px) {
+
+    .header__slider {
+        align-items: flex-start !important;
+    }
+    .header__nav {
+        display: none;
+    }
+    .header__nav--mobile {
+        overflow: hidden;
+        background-color: white;
+        width: 100vw;
+        height: 0px;
+        display: flex;
+        transition-duration: .5s;
+        transition-delay: .3s;
+        transition-property: height;
+        top: 0;
+        position: absolute;
+
+
+        &.header__nav--open {
+            height: 426px;
+            transition-delay: 0s;
+            ul {
+                opacity: 1;
+                transition-duration: .3s;
+                transition-delay: .6s;
+            }
+        }
+        ul {
+            display: flex;
+            opacity: 0;
+            transition-delay: 0s;
+            flex-direction: column;
+            background-color: white;
+            z-index: 10;
+            padding: 15px;
+            width: 100%;
+            padding-top: 95px;
+            position: absolute;
+            top: 64px;
+            left: 0px;
+            li {
+                font-size: 21px !important;
+                text-align: right;
+                margin: 0 0 21px 0 !important;
+            }
+        }
+    }
+    .header {
+        h1 {
+            text-align: left;
+            left: 15px !important;
+            font-size: 17px !important;
+            letter-spacing: 11px !important;
+            z-index: 12;
+            line-height: 70% !important;
+        }
+    }
+    .header__burger {
+        display: block;
+        position: absolute;
+        right: 15px;
+        width: 45px;
+        height: 12px;
+        z-index: 12;
+
+        img {
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
         }
     }
 }

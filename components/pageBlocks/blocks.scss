@@ -25,7 +25,7 @@
     }
     left: 0;
     z-index: 10;
-    padding: 30px;
+    padding: 32px;
     transition-duration: .5s;
     transition-property: opacity;
 
@@ -123,5 +123,59 @@
         font-size: 60px;
         font-family: 'Suisse';
         margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 800px) {
+    .page-content__header {
+        padding: 15px;
+        width: 100%;
+        line-height: 130%;
+        padding-top: 100px;
+        &__description {
+            font-size: 14px;
+            margin-bottom: 68px;
+        }
+    
+        h1 {
+            font-size: 26px;
+            margin-bottom: 20px;
+        }
+    }
+
+    .projectItem__client {
+        font-size: 14px;
+        margin-top: 10px;
+    }
+    .projectItem__title {
+        font-size: 16px;
+        margin-top: 10px;
+    }
+
+    .slider__footer {
+        padding: 15px;
+        .footer__first {
+            font-size: 25px;
+        }
+        .footer__second {
+            font-size: 14px;
+        }
+    }
+    .block {
+        padding: 15px;
+    }
+    .double-project-block {
+        flex-direction: column;
+        .projectItem {
+            width: 100% !important;
+        }
+    }
+
+    .project-item__media {
+        border-radius: 3px;
+    }
+
+    .projectItem__title {
+        margin-bottom: 32px;
     }
 }

@@ -23,7 +23,7 @@
     }
 
     .about__main__text, h2 {
-        font-size: 13px;
+        font-size: 16px;
     }
 
     h2 {
@@ -50,4 +50,41 @@
         }
     }
 
+}
+
+@media (max-width: 800px) {
+    .about__main {
+        align-items: flex-start;
+        .about__main__text,  .about__main__header{
+            width: 100%;
+            padding: 15px;
+            text-align: left;
+            line-height: 125%;
+        }
+
+        .about__main__header{
+            margin-top: 130px;
+        }
+        .about__main__text {
+            font-size: 14px;
+        }
+        h2 {
+            text-align: left;
+            font-size: 16px;
+            margin-left: 20px;
+            margin-bottom: 0;
+        }
+
+        .about__footer {
+            flex-direction: row;
+            padding: 15px;
+            bottom: 0;
+            width: 100%;
+            justify-content: space-between;
+            p {
+                margin-bottom: 0px;
+            }
+        }
+    }
+    
 }

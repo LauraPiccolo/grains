@@ -6,6 +6,7 @@ let previousScroll = 0;
 export default function HeaderWrapper ({location, content, inverted}) {
 
     const [headerHidden, setHeaderHidden] = useState(false);
+    const [menuOpen, setMenuOpen] = useState(false);
 
     useEffect(() => {
         previousScroll = 0;
@@ -23,8 +24,7 @@ export default function HeaderWrapper ({location, content, inverted}) {
     }
 
     useEffect(() => {
-        if(headerHidden) console.log('HIDING HEADER')
-        else console.log('SHOWING HEADER');
+        if(headerHidden) setMenuOpen(false)
     }, [headerHidden])
 
     return (
@@ -33,6 +33,10 @@ export default function HeaderWrapper ({location, content, inverted}) {
                 <HeaderNav navLinks={content.content.nav_links_left} location={location}/>
                 <h1>INTERLUDE</h1>
                 <HeaderNav navLinks={content.content.nav_links_right} location={location}/>
+                <button className='header__burger' onClick={() => setMenuOpen(!menuOpen)}>
+                    <img src={menuOpen ? '/img/menu_open.svg':'/img/menu.svg'} />
+                </button>
+                <HeaderNav navLinks={[...content.content.nav_links_left, ...content.content.nav_links_right]} location={location} mobile={true} menuOpen={menuOpen}/>
             </div>
         </header>
     )

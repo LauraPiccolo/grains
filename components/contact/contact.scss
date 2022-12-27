@@ -18,6 +18,7 @@
         font-size: 15px;
         margin-bottom: 50px;
     }
+
     a {
         color: white !important;
     }
@@ -30,6 +31,7 @@
 
     nav {
         text-transform: uppercase;
+
         li {
             margin-bottom: 10px;
         }
@@ -46,6 +48,50 @@
 
         p {
             margin-bottom: 10px;
+        }
+    }
+
+}
+
+@media (max-width: 800px) {
+    .contact__main {
+        align-items: flex-start;
+        justify-content: flex-start;
+        text-align: left;
+        .contact__main__text {
+            width: 100%;
+            margin-top: 130px;
+            font-size: 14px;
+            padding: 15px;
+            margin-bottom: 15px;
+            text-align: justify;
+            line-height: 120%;
+
+            br {
+                display: none;
+            }
+        }
+
+        .contact__main__email {
+            font-size: 25px;
+            margin-left: 20px;
+        }
+
+        nav li {
+            font-size: 14px;
+            padding: 0 15px;
+        }
+
+        .contact__footer {
+            flex-direction: row;
+            padding: 15px;
+            bottom: 0;
+            width: 100%;
+            justify-content: space-between;
+
+            p {
+                margin-bottom: 0px;
+            }
         }
     }
 

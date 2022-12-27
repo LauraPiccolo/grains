@@ -31,22 +31,17 @@ export default function ProjectItemMedia ({item}) {
     }
 
     useEffect(() => {
-        // if(thisVideo.current) {
-        //     if(inView) {
-        //         thisVideo.current.play()
-        //     }
-        //     else thisVideo.current.pause()
-        // }
-        if(inView) setEnteredOnce(true)
+        if(inView) {
+            setEnteredOnce(true)
+            if(window.innerWidth < 800) playVideo()
+        }
         else if(thisVideo.current) thisVideo.current.pause()
     }, [inView])
 
     const playVideo = () => {
-        console.log('PLAY');
         if(thisVideo.current) thisVideo.current.play()
     }
     const pauseVideo = () => {
-        console.log('PAUSE');
         if(thisVideo.current) thisVideo.current.pause()
     }
 
