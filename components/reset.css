@@ -119,15 +119,28 @@ input[type="search"]::-webkit-search-decoration {
 }
 
 
-/*  Input Placeholders  */
+@font-face {
+  font-family: "Noboto Flex";
+  src: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/2729/NobotoFlex-VF.ttf")
+    format("truetype");
+}
 
-::-webkit-input-placeholder { color:#222; opacity: 1; }
-input::-moz-placeholder { color:#222; opacity: 1; } /* firefox 19+ */
-:-ms-input-placeholder { color:#222; opacity: 1; } /* ie */
-input:-moz-placeholder { color:#222; opacity: 1; }
+body {
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #222;
+}
 
-::-webkit-textarea-placeholder { color:#222; opacity: 1; }
-textarea::-moz-placeholder { color:#222; opacity: 1; } /* firefox 19+ */
-:-ms-textarea-placeholder { color:#222; opacity: 1; } /* ie */
-textarea:-moz-placeholder { color:#222; opacity: 1; }
-
+h1 {
+  font-family: 'Noboto Flex';
+  font-size: 40px;
+  transition-duration: 0.01s;
+  transition-property: font-variation-settings;
+  color: white;
+}
