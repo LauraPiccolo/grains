@@ -17,6 +17,7 @@
     "intersection-observer": "^0.11.0",
     "jquery": "^3.5.1",
     "lazysizes": "^5.2.2",
+    "lib-font": "^2.4.0",
     "locomotive-scroll": "^4.1.4",
     "next": "^13.0.6",
     "postcss-url": "^8.0.0",

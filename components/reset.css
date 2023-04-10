@@ -121,7 +121,7 @@ input[type="search"]::-webkit-search-decoration {
 
 @font-face {
   font-family: "Noboto Flex";
-  src: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/2729/NobotoFlex-VF.ttf")
+  src: url("/grains_5VF.ttf")
     format("truetype");
 }
 
@@ -139,8 +139,8 @@ body {
 
 h1 {
   font-family: 'Noboto Flex';
-  font-size: 40px;
-  transition-duration: 0.01s;
-  transition-property: font-variation-settings;
+  font-size: 300px;
+  /* transition-duration: 0.01s;
+  transition-property: font-variation-settings; */
   color: white;
 }

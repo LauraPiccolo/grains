@@ -1216,6 +1216,11 @@ lethargy@^1.0.2:
   resolved "https://registry.yarnpkg.com/lethargy/-/lethargy-1.0.9.tgz#138b0ae384d015c5233e0cc1eeba4d089af3c58b"
   integrity sha512-nFM8blpCF9rqIL5mRAaTGc78W8oQixVtsD86jbEPvcI13+lDUYJf3R7DZQQL7tCiBpbGpGKMX2gwJFO9hiaOkg==
 
+lib-font@^2.4.0:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/lib-font/-/lib-font-2.4.0.tgz#fab2e3192ace04f42500e4778503843c85295022"
+  integrity sha512-j2Hyn12JjMLe9JkFDRq40q4+tOeDg276Z9Ezxyhas8HEv0jNLbRXyzG7r7n6QdLbWRtL2RYQtgVlIt3Q4ur6nQ==
+
 loader-utils@^1.1.0:
   version "1.4.2"
   resolved "https://registry.yarnpkg.com/loader-utils/-/loader-utils-1.4.2.tgz#29a957f3a63973883eb684f10ffd3d151fec01a3"

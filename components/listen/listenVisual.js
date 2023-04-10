@@ -14,7 +14,7 @@ let numPoints;
 let frequencyData;
 let now = 0;
 let then = 0;
-let fps = 30;
+let fps = 120;
 // let fps = 60;
 let interval = 1000 / fps;
 let clubber;
@@ -37,7 +37,6 @@ export default function ListenVisual({}) {
   const run = () => {
     now = window.performance.now();
     const delta = now - then;
-    console.log(now, then)
     if (delta > interval) {
       then = now - (delta % interval);
       const t = now / 1000;
@@ -47,7 +46,7 @@ export default function ListenVisual({}) {
   };
 
   const render = (time) => {
-    console.log('rendering loop')
+    // console.log('rendering loop')
     if (clubber) {
       // copy current frequency dta from analyser to frequencyData array
       // values are in dB units 0..255
@@ -62,7 +61,6 @@ export default function ListenVisual({}) {
       bands.sub(iMusicSub);
       bands.high(iMusicHigh);
       bands.mid(iMusicMid);
-      console.log(iMusicLow[0])
       setLow(iMusicLow[0]+iMusicLow[1]+iMusicLow[2]+iMusicLow[3])
       setSub(iMusicSub[0]+iMusicSub[1]+iMusicSub[2]+iMusicSub[3])
       setHigh(iMusicHigh[0]+iMusicHigh[1]+iMusicHigh[2]+iMusicHigh[3])
@@ -158,14 +156,20 @@ export default function ListenVisual({}) {
         <br/> SUB: {sub}
         <br/> MID: {mid}
         <br/> HIGH: {high}
+        <br/> VOL: {high+low+sub+mid}
       </div> */}
 
       <h1
-        style={{
-          fontVariationSettings: `"wght" ${24+(100*low)}, "SPAC" ${spacVal}, "HEIG" ${65+(400*high)}, "ASCE" ${156+(600*mid)}, "DESC" ${456+(500*mid)}, "DIAC" ${(100*high)}, "MONO" ${monoVal}, "CURV" ${(0*sub)}`
+        // style={{
+        //   fontVariationSettings: `"wght" ${24+(100*low)}, "SPAC" ${spacVal}, "HEIG" ${65+(400*high)}, "ASCE" ${156+(600*mid)}, "DESC" ${456+(500*mid)}, "DIAC" ${(100*high)}, "MONO" ${monoVal}, "CURV" ${(0*sub)}`
+        // }} 'height' 50, 'base': 50, 'variation': 50
+         style={{
+          fontVariationSettings: `"RRRR" ${40*high > 100 ? 100 : 40*high}, 
+          "HHHH" ${40*low > 100 ? 100 : 40*low}, 
+          "VRTN" ${10*(high+low+sub+mid) > 100 ? 100 : 10*(high+low+sub+mid)}`
         }}
       >
-        Super Logo Type!
+       g r a i n s
       </h1>
     </div>
   );
