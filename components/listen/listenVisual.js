@@ -169,7 +169,7 @@ export default function ListenVisual({}) {
           "VRTN" ${10*(high+low+sub+mid) > 100 ? 100 : 10*(high+low+sub+mid)}`
         }}
       >
-       g r a i n s
+       grains
       </h1>
     </div>
   );
