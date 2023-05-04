@@ -14,7 +14,7 @@ let numPoints;
 let frequencyData;
 let now = 0;
 let then = 0;
-let fps = 120;
+let fps = 360;
 // let fps = 60;
 let interval = 1000 / fps;
 let clubber;
@@ -26,13 +26,17 @@ const iMusicHigh = [0.0, 0.0, 0.0, 0.0];
 const smoothArray = [0.1, 0.1, 0.1, 0.1];
 const adaptArray = [0.5, 0.6, 1, 1];
 
-export default function ListenVisual({}) {
+export default function ListenVisual({ }) {
 
 
   const [sub, setSub] = useState(1)
   const [low, setLow] = useState(1)
   const [mid, setMid] = useState(1)
   const [high, setHigh] = useState(1)
+
+  // useEffect(() => {
+  //   console.log('LOW : '+low)
+  // }, [low])
 
   const run = () => {
     now = window.performance.now();
@@ -46,7 +50,6 @@ export default function ListenVisual({}) {
   };
 
   const render = (time) => {
-    // console.log('rendering loop')
     if (clubber) {
       // copy current frequency dta from analyser to frequencyData array
       // values are in dB units 0..255
@@ -58,13 +61,14 @@ export default function ListenVisual({}) {
       analyser.getByteFrequencyData(frequencyData);
       clubber.update(null, frequencyData, false);
       bands.low(iMusicLow);
-      bands.sub(iMusicSub);
+      // bands.sub(iMusicSub);
       bands.high(iMusicHigh);
       bands.mid(iMusicMid);
-      setLow(iMusicLow[0]+iMusicLow[1]+iMusicLow[2]+iMusicLow[3])
-      setSub(iMusicSub[0]+iMusicSub[1]+iMusicSub[2]+iMusicSub[3])
-      setHigh(iMusicHigh[0]+iMusicHigh[1]+iMusicHigh[2]+iMusicHigh[3])
-      setMid(iMusicMid[0]+iMusicMid[1]+iMusicMid[2]+iMusicMid[3])
+      // console.log(Math.round(iMusicLow[0]*10)/10 + ' || ' +Math.round(iMusicLow[1]*10)/10  + ' || ' +Math.round(iMusicLow[2]*10)/10  + ' || ' +Math.round(iMusicLow[3]*10)/10)
+      setLow(iMusicLow[3])
+      // setSub(iMusicSub[3]*10)
+      setHigh(iMusicHigh[3])
+      setMid(iMusicMid[3])
     }
     rafID = window.requestAnimationFrame(run);
     tmp = fb1;
@@ -88,25 +92,26 @@ export default function ListenVisual({}) {
     frequencyData = new Uint8Array(numPoints);
     try {
       mic.connect(analyser);
-      analyser.connect(audioContext.destination);
+      // Unecessary if you want the sound to be muted
+      // analyser.connect(audioContext.destination);
       clubber = new Clubber({
         context: audioContext,
         analyser: analyser,
       });
       bands = {
-        sub: clubber.band({
-          template: "0123",
-          from: 1,
-          to: 32,
-          /*  low: 1,
-        high: 127, */
-          smooth: smoothArray,
-          adapt: adaptArray,
-        }),
+        // sub: clubber.band({
+        //   template: "0123",
+        //   from: 1,
+        //   to: 32,
+        //   /*  low: 1,
+        // high: 127, */
+        //   smooth: smoothArray,
+        //   adapt: adaptArray,
+        // }),
 
         low: clubber.band({
           template: "0123",
-          from: 33,
+          from: 1,
           to: 48,
           /* low: 1,
         high:127, */
@@ -146,31 +151,102 @@ export default function ListenVisual({}) {
     init()
   }, []);
 
-  const spacVal = 0;
-  const monoVal = 0;
-
   return (
-    <div className="coucou">
-      {/* <div>
-              LOW: {low}
-        <br/> SUB: {sub}
-        <br/> MID: {mid}
-        <br/> HIGH: {high}
-        <br/> VOL: {high+low+sub+mid}
-      </div> */}
+    <div>
+      <div className="info-box">
+        LOW: {Math.round(low * 1000) / 1000}
+        <br/> MID: {Math.round(mid*1000)/1000}
+        <br /> HIGH: {Math.round(high * 1000) / 1000}
+        <br /> VOL: {Math.round((high + low + sub + mid) * 1000) / 1000}
+      </div>
+
+      <div className="low-round"
+        style={{ transform: `scale(${low})` }}
+      >LOW</div>
+
+      <div className="high-round"
+        style={{ transform: `scale(${high})` }}
+      >HIGH</div>
+
+      <div className="mid-round"
+        style={{ transform: `scale(${mid})` }}
+      >MID</div>
 
       <h1
-        // style={{
-        //   fontVariationSettings: `"wght" ${24+(100*low)}, "SPAC" ${spacVal}, "HEIG" ${65+(400*high)}, "ASCE" ${156+(600*mid)}, "DESC" ${456+(500*mid)}, "DIAC" ${(100*high)}, "MONO" ${monoVal}, "CURV" ${(0*sub)}`
-        // }} 'height' 50, 'base': 50, 'variation': 50
-         style={{
-          fontVariationSettings: `"RRRR" ${40*high > 100 ? 100 : 40*high}, 
-          "HHHH" ${40*low > 100 ? 100 : 40*low}, 
-          "VRTN" ${10*(high+low+sub+mid) > 100 ? 100 : 10*(high+low+sub+mid)}`
-        }}
+      style={{
+        fontVariationSettings: `
+            "RRRR" ${200 * high > 100 ? 100 : 200 * high}, 
+            "HHHH" ${low * 300 > 100 ? 100 : low * 300}, 
+            "VRTN" ${(high + low + sub + mid)*50 > 1 ? 1 : (high + low + sub + mid)*50}
+        `}}
+      >grains</h1>
+
+      {/* <h1
+      // style={{
+      //   fontVariationSettings: `"wght" ${24+(100*low)}, "SPAC" ${spacVal}, "HEIG" ${65+(400*high)}, "ASCE" ${156+(600*mid)}, "DESC" ${456+(500*mid)}, "DIAC" ${(100*high)}, "MONO" ${monoVal}, "CURV" ${(0*sub)}`
+      // }} 'height' 50, 'base': 50, 'variation': 50
       >
-       grains
-      </h1>
+        <span
+          style={{
+            fontVariationSettings: `
+            "RRRR" ${200 * high > 100 ? 100 : 200 * high}, 
+            "HHHH" ${low * 300 > 100 ? 100 : low * 300}, 
+            "VRTN" ${(high + low + sub + mid) > 1 ? 1 : (high + low + sub + mid)}
+          `}}
+        >
+          g
+        </span>
+        <span
+          style={{
+            fontVariationSettings: `
+            "RRRR" ${200 * high > 100 ? 100 : 200 * high}, 
+            "HHHH" ${low * 300 > 100 ? 100 : low * 300}, 
+            "VRTN" ${(high + low + sub + mid) > 1 ? 1 : (high + low + sub + mid)}
+          `}}
+        >
+          r
+        </span>
+        <span
+           style={{
+            fontVariationSettings: `
+            "RRRR" ${200 * high > 100 ? 100 : 200 * high}, 
+            "HHHH" ${low * 300 > 100 ? 100 : low * 300}, 
+            "VRTN" ${(high + low + sub + mid) > 1 ? 1 : (high + low + sub + mid)}
+          `}}
+        >
+          a
+        </span>
+        <span
+          style={{
+            fontVariationSettings: `
+            "RRRR" ${200 * high > 100 ? 100 : 200 * high}, 
+            "HHHH" ${low * 300 > 100 ? 100 : low * 300}, 
+            "VRTN" ${(high + low + sub + mid) > 1 ? 1 : (high + low + sub + mid)}
+          `}}
+        >
+          i
+        </span>
+        <span
+           style={{
+            fontVariationSettings: `
+            "RRRR" ${200 * high > 100 ? 100 : 200 * high}, 
+            "HHHH" ${low * 300 > 100 ? 100 : low * 300}, 
+            "VRTN" ${(high + low + sub + mid) > 1 ? 1 : (high + low + sub + mid)}
+          `}}
+        >
+          n
+        </span>
+        <span
+           style={{
+            fontVariationSettings: `
+            "RRRR" ${200 * high > 100 ? 100 : 200 * high}, 
+            "HHHH" ${low * 300 > 100 ? 100 : low * 300}, 
+            "VRTN" ${(high + low + sub + mid) > 1 ? 1 : (high + low + sub + mid)}
+          `}}
+        >
+          s
+        </span>
+      </h1> */}
     </div>
   );
 }
