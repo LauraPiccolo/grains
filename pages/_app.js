@@ -1,4 +1,4 @@
-import '../components/reset.css'
+import '../components/styles.scss'
 
 function MyApp({ Component, pageProps }) {
 
