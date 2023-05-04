@@ -18,26 +18,35 @@ let frequencyData;
 let now = 0;
 let then = 0;
 // let fps = 360;
-let fps = 180;
+let fps = 60;
 let interval = 1000 / fps;
 let clubber;
 let bands = {};
-const iMusicSub = [0.0, 0.0, 0.0, 0.0];
+
 const iMusicLow = [0.0, 0.0, 0.0, 0.0];
-const iMusicVolume = [0.0, 0.0, 0.0, 0.0];
-const iMusicMid = [0.0, 0.0, 0.0, 0.0];
-const iMusicHigh = [0.0, 0.0, 0.0, 0.0];
+const iMusicG = [0.0, 0.0, 0.0, 0.0];
+const iMusicR = [0.0, 0.0, 0.0, 0.0];
+const iMusicA = [0.0, 0.0, 0.0, 0.0];
+const iMusicI = [0.0, 0.0, 0.0, 0.0];
+const iMusicN = [0.0, 0.0, 0.0, 0.0];
+const iMusicS = [0.0, 0.0, 0.0, 0.0];
+
 const smoothArray = [0.1, 0.1, 0.1, 0.1];
 const adaptArray = [0.5, 0.6, 1, 1];
 
 export default function ListenVisual({ }) {
 
 
-  const [sub, setSub] = useState(1)
+  // const [sub, setSub] = useState(1)
   const [low, setLow] = useState(1)
-  const [mid, setMid] = useState(1)
-  const [high, setHigh] = useState(1)
-  const [volume, setVolume] = useState(1)
+  const [gHigh, setGHigh] = useState(0)
+  const [rHigh, setRHigh] = useState(0)
+  const [aHigh, setAHigh] = useState(0)
+  const [iHigh, setIHigh] = useState(0)
+  const [nHigh, setNHigh] = useState(0)
+  const [sHigh, setSHigh] = useState(0)
+  // const [high, setHigh] = useState(1)
+  // const [volume, setVolume] = useState(1)
 
   const run = () => {
     now = window.performance.now();
@@ -62,16 +71,20 @@ export default function ListenVisual({ }) {
       analyser.getByteFrequencyData(frequencyData);
       clubber.update(null, frequencyData, false);
       bands.low(iMusicLow);
-      bands.volume(iMusicVolume);
-      // bands.sub(iMusicSub);
-      bands.high(iMusicHigh);
-      bands.mid(iMusicMid);
-      // console.log(Math.round(iMusicLow[0]*10)/10 + ' || ' +Math.round(iMusicLow[1]*10)/10  + ' || ' +Math.round(iMusicLow[2]*10)/10  + ' || ' +Math.round(iMusicLow[3]*10)/10)
       setLow(iMusicLow[3])
-      setVolume(iMusicVolume[3])
-      // setSub(iMusicSub[3]*10)
-      setHigh(iMusicHigh[3])
-      setMid(iMusicMid[3])
+
+      bands.g(iMusicG);
+      setGHigh(iMusicG[3])
+      bands.r(iMusicR);
+      setRHigh(iMusicR[3])
+      bands.a(iMusicA);
+      setAHigh(iMusicA[3])
+      bands.i(iMusicI);
+      setIHigh(iMusicI[3])
+      bands.n(iMusicN);
+      setNHigh(iMusicN[3])
+      bands.s(iMusicS);
+      setSHigh(iMusicS[3])
     }
     rafID = window.requestAnimationFrame(run);
     tmp = fb1;
@@ -103,54 +116,63 @@ export default function ListenVisual({ }) {
         analyser: analyser,
       });
       bands = {
-        // sub: clubber.band({
-        //   template: "0123",
-        //   from: 1,
-        //   to: 32,
-        //   /*  low: 1,
-        // high: 127, */
-        //   smooth: smoothArray,
-        //   adapt: adaptArray,
-        // }),
 
         low: clubber.band({
           template: "0123",
           from: 1,
           to: 40,
-          /* low: 1,
-        high:127, */
           smooth: smoothArray,
           adapt: adaptArray,
         }),
 
-        mid: clubber.band({
+        g: clubber.band({
           template: "0123",
-          from: 49,
-          to: 64,
-          /*  low: 1,
-          high: 127, */
+          from: 40,
+          to: 65,
+          smooth: smoothArray,
+          adapt: adaptArray,
+        }),
+        r: clubber.band({
+          template: "0123",
+          from: 52,
+          to: 77,
           smooth: smoothArray,
           adapt: adaptArray,
         }),
 
-        high: clubber.band({
+        a: clubber.band({
           template: "0123",
           from: 65,
-          to: 127,
-          /* low: 1,
-        high: 127, */
+          to: 90,
           smooth: smoothArray,
           adapt: adaptArray,
         }),
-        volume: clubber.band({
+
+        i: clubber.band({
           template: "0123",
-          from: 1,
-          to: 127,
-          /* low: 1,
-        high: 127, */
+          from: 77,
+          to: 102,
           smooth: smoothArray,
           adapt: adaptArray,
         }),
+
+        n: clubber.band({
+          template: "0123",
+          from: 90,
+          to: 115,
+          smooth: smoothArray,
+          adapt: adaptArray,
+        }),
+
+        s: clubber.band({
+          template: "0123",
+          from: 102,
+          to: 127,
+          smooth: smoothArray,
+          adapt: adaptArray,
+        }),
+
+        
       };
     } catch (err) {
       console.error(err);
@@ -166,54 +188,55 @@ export default function ListenVisual({ }) {
 
   return (
     <div>
-      <Info
+      {/* <Info
         low={low}
         mid={mid}
         high={high}
         vol={volume}
-      />
+      /> */}
 
-      <div className="shape-wrapper">
+      {/* <div className="shape-wrapper">
         <Shape title="low" scale={low} />
         <Shape title="high" scale={high} />
-        {/* <Shape title="mid" scale={mid} /> */}
-      </div>
+        <Shape title="mid" scale={mid} />
+      </div> 
+      */}
 
       <div className="logo">
         <Letter 
           letter="g"
           base={200 * low}
-          height={high * 120}
+          height={gHigh * 300}
           variation={1}
         />
          <Letter 
           letter="r"
-          base={250 * low}
-          height={high * 140}
+          base={200 * low}
+          height={rHigh * 300}
           variation={1}
         />
          <Letter 
           letter="a"
-          base={300 * low}
-          height={high * 160}
+          base={200 * low}
+          height={aHigh * 300}
           variation={1}
         />
          <Letter 
           letter="i"
-          base={250 * low}
-          height={high * 180}
+          base={200 * low}
+          height={iHigh * 300}
           variation={1}
         />
          <Letter 
           letter="n"
           base={200 * low}
-          height={high * 200}
+          height={nHigh * 300}
           variation={1}
         />
          <Letter 
           letter="s"
-          base={150 * low}
-          height={high * 220}
+          base={200 * low}
+          height={sHigh * 300}
           variation={1}
         />
       </div>
