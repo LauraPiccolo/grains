@@ -18,7 +18,7 @@ let frequencyData;
 let now = 0;
 let then = 0;
 // let fps = 360;
-let fps = 60;
+let fps = 360;
 let interval = 1000 / fps;
 let clubber;
 let bands = {};
