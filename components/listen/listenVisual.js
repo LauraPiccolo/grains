@@ -18,7 +18,7 @@ let frequencyData;
 let now = 0;
 let then = 0;
 // let fps = 360;
-let fps = 360;
+let fps = 60;
 let interval = 1000 / fps;
 let clubber;
 let bands = {};
@@ -48,6 +48,8 @@ export default function ListenVisual({ }) {
   // const [high, setHigh] = useState(1)
   // const [volume, setVolume] = useState(1)
 
+  const [sensitivity, setSensitivity] = useState(5)
+
   const run = () => {
     now = window.performance.now();
     const delta = now - then;
@@ -71,6 +73,7 @@ export default function ListenVisual({ }) {
       analyser.getByteFrequencyData(frequencyData);
       clubber.update(null, frequencyData, false);
       bands.low(iMusicLow);
+      console.log(iMusicLow[3])
       setLow(iMusicLow[3])
 
       bands.g(iMusicG);
@@ -121,55 +124,41 @@ export default function ListenVisual({ }) {
           template: "0123",
           from: 1,
           to: 40,
-          smooth: smoothArray,
-          adapt: adaptArray,
         }),
 
         g: clubber.band({
-          template: "0123",
+          template: "0",
           from: 40,
           to: 65,
-          smooth: smoothArray,
-          adapt: adaptArray,
         }),
         r: clubber.band({
           template: "0123",
           from: 52,
           to: 77,
-          smooth: smoothArray,
-          adapt: adaptArray,
         }),
 
         a: clubber.band({
           template: "0123",
           from: 65,
           to: 90,
-          smooth: smoothArray,
-          adapt: adaptArray,
         }),
 
         i: clubber.band({
           template: "0123",
           from: 77,
           to: 102,
-          smooth: smoothArray,
-          adapt: adaptArray,
         }),
 
         n: clubber.band({
           template: "0123",
           from: 90,
           to: 115,
-          smooth: smoothArray,
-          adapt: adaptArray,
         }),
 
         s: clubber.band({
           template: "0123",
           from: 102,
           to: 127,
-          smooth: smoothArray,
-          adapt: adaptArray,
         }),
 
         
@@ -205,41 +194,46 @@ export default function ListenVisual({ }) {
       <div className="logo">
         <Letter 
           letter="g"
-          base={200 * low}
-          height={gHigh * 300}
+          base={20 * sensitivity * low}
+          height={aHigh * 30 * sensitivity}
           variation={1}
         />
          <Letter 
           letter="r"
-          base={200 * low}
-          height={rHigh * 300}
+          base={20 * sensitivity * low}
+          height={sHigh * 30 * sensitivity}
           variation={1}
         />
          <Letter 
           letter="a"
-          base={200 * low}
-          height={aHigh * 300}
+          base={20 * sensitivity * low}
+          height={iHigh * 30 * sensitivity}
           variation={1}
         />
          <Letter 
           letter="i"
-          base={200 * low}
-          height={iHigh * 300}
+          base={20 * sensitivity * low}
+          height={gHigh * 30 * sensitivity}
           variation={1}
         />
          <Letter 
           letter="n"
-          base={200 * low}
-          height={nHigh * 300}
+          base={20 * sensitivity * low}
+          height={rHigh * 30 * sensitivity}
           variation={1}
         />
          <Letter 
           letter="s"
-          base={200 * low}
-          height={sHigh * 300}
+          base={20 * sensitivity * low}
+          height={nHigh * 30 * sensitivity}
           variation={1}
         />
       </div>
+
+      <footer>
+        <label for="sensitivity">Sensitivity</label>
+        <input type="range" value={sensitivity} id="sensitivity" name="sensitivity" min="1" max="10" onChange={(event) => setSensitivity(event.target.value)}/>
+      </footer>
     </div>
   );
 }
