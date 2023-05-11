@@ -19,7 +19,7 @@ let frequencyData;
 let now = 0;
 let then = 0;
 // let fps = 360;
-let fps = 60;
+let fps = 120;
 let interval = 1000 / fps;
 let clubber;
 let bands = {};
@@ -102,6 +102,7 @@ export default function ListenVisual({ }) {
   }
 
   const callback = (stream) => {
+    console.log(stream)
     audioContext = new AudioContext();
     mic = audioContext.createMediaStreamSource(stream);
     analyser = audioContext.createAnalyser();

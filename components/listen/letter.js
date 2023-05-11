@@ -2,8 +2,6 @@ import { useEffect, useRef, useState } from "react";
 
 export default function Letter({ letter, base, height, variation }) {
 
-    console.log(height)
-
     const limitVal = (val) => {
         return Math.round(val > 100 ? 100 : val);
     }
