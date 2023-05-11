@@ -96,10 +96,9 @@ export default function ListenVisual({ }) {
   };
 
   const init = () => {
-    navigator.getUserMedia = navigator.getUserMedia
-      || navigator.webkitGetUserMedia
-      || navigator.mozGetUserMedia;
-    navigator.getUserMedia({ video: false, audio: true }, callback, console.log);
+    // navigator.getUM = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.mediaDevices.getUserMedia;
+    navigator.mediaDevices.getUserMedia({ video: false, audio: true }).then((stream)=> { callback(stream) })
+    // navigator.mediaDevices.getUserMedia({ video: false, audio: true }, callback, console.log);
   }
 
   const callback = (stream) => {
@@ -248,7 +247,7 @@ export default function ListenVisual({ }) {
       </div>
 
       <footer>
-        <label for="sensitivity">Sensitivity</label>
+        <label htmlFor="sensitivity">Sensitivity</label>
         <input type="range" value={sensitivity} id="sensitivity" name="sensitivity" min="1" max="10" onChange={(event) => setSensitivity(event.target.value)}/>
       </footer>
     </div>
