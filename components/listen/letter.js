@@ -1,4 +1,8 @@
+import { useEffect, useRef, useState } from "react";
+
 export default function Letter({ letter, base, height, variation }) {
+
+    console.log(height)
 
     const limitVal = (val) => {
         return Math.round(val > 100 ? 100 : val);
@@ -9,8 +13,9 @@ export default function Letter({ letter, base, height, variation }) {
             className="logo__letter"
             style={{
                 fontVariationSettings: `
+                "BASE" ${limitVal(base)},
                 "HGHT" ${limitVal(height)}, 
-                "BASE" ${limitVal(base)}
+                "VRTN" ${variation}
               `}}
         >
             {letter}

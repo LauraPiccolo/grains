@@ -1,4 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
+import useState from 'react-usestateref';
 import "./glsl/raf.js";
 import Clubber from "clubber";
 import { AudioContext } from "standardized-audio-context";
@@ -73,7 +74,6 @@ export default function ListenVisual({ }) {
       analyser.getByteFrequencyData(frequencyData);
       clubber.update(null, frequencyData, false);
       bands.low(iMusicLow);
-      console.log(iMusicLow[3])
       setLow(iMusicLow[3])
 
       bands.g(iMusicG);
@@ -127,37 +127,38 @@ export default function ListenVisual({ }) {
         }),
 
         g: clubber.band({
-          template: "0",
+          template: "0123",
           from: 40,
-          to: 65,
+          to: 60,
         }),
+
         r: clubber.band({
           template: "0123",
-          from: 52,
-          to: 77,
+          from: 55,
+          to: 75,
         }),
 
         a: clubber.band({
           template: "0123",
-          from: 65,
-          to: 90,
+          from: 71,
+          to: 91,
         }),
 
         i: clubber.band({
           template: "0123",
-          from: 77,
-          to: 102,
+          from: 86,
+          to: 106,
         }),
 
         n: clubber.band({
           template: "0123",
-          from: 90,
-          to: 115,
+          from: 102,
+          to: 122,
         }),
 
         s: clubber.band({
           template: "0123",
-          from: 102,
+          from: 117,
           to: 127,
         }),
 
@@ -174,6 +175,22 @@ export default function ListenVisual({ }) {
   useEffect(() => {
     init()
   }, []);
+
+
+  const [variation, setVariation, variationRef] = useState(0);
+  let positive = true;
+  let variationInterval = useRef(null)
+
+  useEffect(() => {
+      if(variationInterval.current) clearInterval(variationInterval.current)
+      variationInterval.current = setInterval(() => {
+        if(variationRef.current >= 100) positive = false
+        if(variationRef.current <= 0) positive = true
+        setVariation(variationRef.current + (positive ? 1 : -1))
+      }, 100)
+
+      return () => { if(variationInterval.current) clearInterval(variationInterval.current) }
+  }, [])
 
   return (
     <div>
@@ -196,37 +213,37 @@ export default function ListenVisual({ }) {
           letter="g"
           base={20 * sensitivity * low}
           height={aHigh * 30 * sensitivity}
-          variation={1}
+          variation={variation}
         />
          <Letter 
           letter="r"
           base={20 * sensitivity * low}
           height={sHigh * 30 * sensitivity}
-          variation={1}
+          variation={variation}
         />
          <Letter 
           letter="a"
           base={20 * sensitivity * low}
           height={iHigh * 30 * sensitivity}
-          variation={1}
+          variation={variation}
         />
          <Letter 
           letter="i"
           base={20 * sensitivity * low}
           height={gHigh * 30 * sensitivity}
-          variation={1}
+          variation={variation}
         />
          <Letter 
           letter="n"
           base={20 * sensitivity * low}
           height={rHigh * 30 * sensitivity}
-          variation={1}
+          variation={variation}
         />
          <Letter 
           letter="s"
           base={20 * sensitivity * low}
           height={nHigh * 30 * sensitivity}
-          variation={1}
+          variation={variation}
         />
       </div>
 
