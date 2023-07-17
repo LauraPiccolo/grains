@@ -234,6 +234,12 @@ export default function ListenVisual({ }) {
           variation={variation}
         />
          <Letter 
+          letter="."
+          base={20 * sensitivity * low}
+          height={gHigh * 30 * sensitivity}
+          variation={variation}
+        />
+         <Letter 
           letter="n"
           base={20 * sensitivity * low}
           height={rHigh * 30 * sensitivity}
