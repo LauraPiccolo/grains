@@ -129,7 +129,7 @@ export default function ListenVisual({ }) {
     frequencyData = new Uint8Array(numPoints);
     try {
       mic.connect(analyser);
-      // Unecessary if you want the sound to be muted
+
       analyser.connect(audioContext.destination);
       clubber = new Clubber({
         context: audioContext,
