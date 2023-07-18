@@ -101,23 +101,28 @@ export default function ListenVisual({ }) {
     fb2 = tmp;
   };
 
-  // CREATE MICROPHONE INPUT
+  // CONNECT TRACK
   const init = () => {
     // navigator.getUM = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.mediaDevices.getUserMedia;
-    navigator.mediaDevices.getUserMedia({ video: false, audio: {
-      echoCancellation: false,
-      noiseSuppression: false,
-      autoGainControl: false
-    } }).then((stream)=> { callback(stream) })
+    
+    // audioContext.createMediaElementSource(audioElement);
+    // navigator.mediaDevices.getUserMedia({ video: false, audio: {
+    //   echoCancellation: false,
+    //   noiseSuppression: false,
+    //   autoGainControl: false
+    // } }).then((stream)=> { callback(stream) })
     // navigator.mediaDevices.getUserMedia({ video: false, audio: true }, callback, console.log);
+    callback()
   }
 
   // CREATE ANALYSER
-  const callback = (stream) => {
+  const callback = () => {
+    const audioElement = document.querySelector("audio");
     audioContext = new AudioContext({
       latencyHint: 0,
     });
-    mic = audioContext.createMediaStreamSource(stream);
+    mic = audioContext.createMediaElementSource(audioElement);
+    audioElement.play()
     analyser = audioContext.createAnalyser();
     analyser.fftSize = fftSize;
     numPoints = analyser.frequencyBinCount;
@@ -125,7 +130,7 @@ export default function ListenVisual({ }) {
     try {
       mic.connect(analyser);
       // Unecessary if you want the sound to be muted
-      // analyser.connect(audioContext.destination);
+      analyser.connect(audioContext.destination);
       clubber = new Clubber({
         context: audioContext,
         analyser: analyser,
@@ -211,6 +216,7 @@ export default function ListenVisual({ }) {
 
   return (
     <div>
+      <audio src="/sound/test.mp3"></audio>
       {/* <Info
         low={low}
         mid={mid}
