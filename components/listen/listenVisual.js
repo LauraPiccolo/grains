@@ -194,7 +194,7 @@ export default function ListenVisual({ }) {
 
   // INIT
   useEffect(() => {
-    init()
+    
   }, []);
 
 
@@ -215,7 +215,7 @@ export default function ListenVisual({ }) {
   }, [])
 
   return (
-    <div>
+    <div onClick={init}>
       <audio src="/sound/test.mp3"></audio>
       {/* <Info
         low={low}
