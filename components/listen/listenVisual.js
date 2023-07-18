@@ -3,8 +3,8 @@ import useState from 'react-usestateref';
 import "./glsl/raf.js";
 import Clubber from "clubber";
 import { AudioContext } from "standardized-audio-context";
-import Info from "./info.js";
-import Shape from "./shape.js";
+// import Info from "./info.js";
+// import Shape from "./shape.js";
 import Letter from "./letter.js";
 
 let rafID;
@@ -19,8 +19,9 @@ let frequencyData;
 let now = 0;
 let then = 0;
 // let fps = 360;
-let fps = 120;
+let fps = 360;
 let interval = 1000 / fps;
+let fftSize = 128;
 let clubber;
 let bands = {};
 
@@ -32,8 +33,9 @@ const iMusicI = [0.0, 0.0, 0.0, 0.0];
 const iMusicN = [0.0, 0.0, 0.0, 0.0];
 const iMusicS = [0.0, 0.0, 0.0, 0.0];
 
-const smoothArray = [0.1, 0.1, 0.1, 0.1];
-const adaptArray = [0.5, 0.6, 1, 1];
+// SMOOTH, makes latency worst
+// const smoothArray = [0.1, 0.1, 0.1, 0.1];
+// const adaptArray = [0.5, 0.6, 1, 1];
 
 export default function ListenVisual({ }) {
 
@@ -51,6 +53,7 @@ export default function ListenVisual({ }) {
 
   const [sensitivity, setSensitivity] = useState(5)
 
+  // SET INTERVAL
   const run = () => {
     now = window.performance.now();
     const delta = now - then;
@@ -62,6 +65,8 @@ export default function ListenVisual({ }) {
     rafID = window.requestAnimationFrame(run);
   };
 
+
+  // ANALYSE + UPDATE FREQUENCIES
   const render = (time) => {
     if (clubber) {
       // copy current frequency dta from analyser to frequencyData array
@@ -75,6 +80,7 @@ export default function ListenVisual({ }) {
       clubber.update(null, frequencyData, false);
       bands.low(iMusicLow);
       setLow(iMusicLow[3])
+      if(iMusicLow[3] > 0.3) console.log(iMusicLow[3]);
 
       bands.g(iMusicG);
       setGHigh(iMusicG[3])
@@ -95,19 +101,25 @@ export default function ListenVisual({ }) {
     fb2 = tmp;
   };
 
+  // CREATE MICROPHONE INPUT
   const init = () => {
     // navigator.getUM = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.mediaDevices.getUserMedia;
-    navigator.mediaDevices.getUserMedia({ video: false, audio: true }).then((stream)=> { callback(stream) })
+    navigator.mediaDevices.getUserMedia({ video: false, audio: {
+      echoCancellation: false,
+      noiseSuppression: false,
+      autoGainControl: false
+    } }).then((stream)=> { callback(stream) })
     // navigator.mediaDevices.getUserMedia({ video: false, audio: true }, callback, console.log);
   }
 
+  // CREATE ANALYSER
   const callback = (stream) => {
-    console.log(stream)
-    audioContext = new AudioContext();
+    audioContext = new AudioContext({
+      latencyHint: 0,
+    });
     mic = audioContext.createMediaStreamSource(stream);
     analyser = audioContext.createAnalyser();
-    // analyser.fftSize = 2048;
-    analyser.fftSize = 128;
+    analyser.fftSize = fftSize;
     numPoints = analyser.frequencyBinCount;
     frequencyData = new Uint8Array(numPoints);
     try {
@@ -117,6 +129,9 @@ export default function ListenVisual({ }) {
       clubber = new Clubber({
         context: audioContext,
         analyser: analyser,
+        size: fftSize,
+        mute: true,
+        latency: 0
       });
       bands = {
 
@@ -172,6 +187,7 @@ export default function ListenVisual({ }) {
     run();
   };
 
+  // INIT
   useEffect(() => {
     init()
   }, []);
@@ -181,6 +197,7 @@ export default function ListenVisual({ }) {
   let positive = true;
   let variationInterval = useRef(null)
 
+  // VARIATION AXIS
   useEffect(() => {
       if(variationInterval.current) clearInterval(variationInterval.current)
       variationInterval.current = setInterval(() => {
@@ -236,7 +253,7 @@ export default function ListenVisual({ }) {
          <Letter 
           letter="."
           base={20 * sensitivity * low}
-          height={gHigh * 30 * sensitivity}
+          height={sHigh * 30 * sensitivity}
           variation={variation}
         />
          <Letter 

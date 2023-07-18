@@ -32,7 +32,7 @@ body {
 
   span {
     letter-spacing: -26px;
-    transition-property: font-variation-settings;
+    // transition-property: font-variation-settings;
     color: rgba(255, 237, 0, 1);
     font-weight: 100;
     display: inline-block;
@@ -50,9 +50,10 @@ body {
       margin-left: -2px;
     }
     &:nth-child(5) {
+      margin-left: -50px;
     }
-    &:nth-child(6) {
-      margin-left: 2px;
+    &:nth-child(7) {
+      margin-left: 4px;
     }
 
   }
