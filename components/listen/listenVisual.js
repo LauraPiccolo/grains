@@ -19,7 +19,7 @@ let frequencyData;
 let now = 0;
 let then = 0;
 // let fps = 360;
-let fps = 360;
+let fps = 120;
 let interval = 1000 / fps;
 let fftSize = 128;
 let clubber;
