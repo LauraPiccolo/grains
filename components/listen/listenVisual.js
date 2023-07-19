@@ -34,8 +34,8 @@ const iMusicN = [0.0, 0.0, 0.0, 0.0];
 const iMusicS = [0.0, 0.0, 0.0, 0.0];
 
 // SMOOTH, makes latency worst
-// const smoothArray = [0.1, 0.1, 0.1, 0.1];
-// const adaptArray = [0.5, 0.6, 1, 1];
+const smoothArray = [0.1, 0.1, 0.1, 0.1];
+const adaptArray = [0.5, 0.6, 1, 1];
 
 export default function ListenVisual({ }) {
 
@@ -139,42 +139,56 @@ export default function ListenVisual({ }) {
           template: "0123",
           from: 1,
           to: 40,
+          smooth: smoothArray,
+          adapt: adaptArray,
         }),
 
         g: clubber.band({
           template: "0123",
           from: 40,
           to: 60,
+          smooth: smoothArray,
+          adapt: adaptArray,
         }),
 
         r: clubber.band({
           template: "0123",
           from: 55,
           to: 75,
+          smooth: smoothArray,
+          adapt: adaptArray,
         }),
 
         a: clubber.band({
           template: "0123",
           from: 71,
           to: 91,
+          smooth: smoothArray,
+          adapt: adaptArray,
         }),
 
         i: clubber.band({
           template: "0123",
           from: 86,
           to: 106,
+          smooth: smoothArray,
+          adapt: adaptArray,
         }),
 
         n: clubber.band({
           template: "0123",
           from: 102,
           to: 122,
+          smooth: smoothArray,
+          adapt: adaptArray,
         }),
 
         s: clubber.band({
           template: "0123",
           from: 117,
           to: 127,
+          smooth: smoothArray,
+          adapt: adaptArray,
         }),
 
         
