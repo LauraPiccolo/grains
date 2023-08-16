@@ -255,6 +255,7 @@ export default function ListenVisual({ }) {
         <Shape title="mid" scale={mid} />
       </div> 
       */}
+      
 
       <div className="logo">
         <Letter 
