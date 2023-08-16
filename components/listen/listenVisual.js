@@ -34,8 +34,11 @@ const iMusicN = [0.0, 0.0, 0.0, 0.0];
 const iMusicS = [0.0, 0.0, 0.0, 0.0];
 
 // SMOOTH, makes latency worst
-const smoothArray = [0.1, 0.1, 0.1, 0.1];
+const smoothArray = [0.1];
+const snap = 1;
 const adaptArray = [0.5, 0.6, 1, 1];
+const minMidi = 1;
+const maxMidi = 160;
 
 export default function ListenVisual({ }) {
 
@@ -65,6 +68,10 @@ export default function ListenVisual({ }) {
     rafID = window.requestAnimationFrame(run);
   };
 
+  const roundToSmooth = (value) => {
+    return Math.round(value * 1000) / 1000;
+    // return value
+  }
 
   // ANALYSE + UPDATE FREQUENCIES
   const render = (time) => {
@@ -79,21 +86,20 @@ export default function ListenVisual({ }) {
       analyser.getByteFrequencyData(frequencyData);
       clubber.update(null, frequencyData, false);
       bands.low(iMusicLow);
-      setLow(iMusicLow[3])
-      if(iMusicLow[3] > 0.3) console.log(iMusicLow[3]);
+      setLow(iMusicLow[0])
 
       bands.g(iMusicG);
-      setGHigh(iMusicG[3])
+      setGHigh(roundToSmooth(iMusicG[0]))
       bands.r(iMusicR);
-      setRHigh(iMusicR[3])
+      setRHigh(roundToSmooth(iMusicR[0]))
       bands.a(iMusicA);
-      setAHigh(iMusicA[3])
+      setAHigh(roundToSmooth(iMusicA[0]))
       bands.i(iMusicI);
-      setIHigh(iMusicI[3])
+      setIHigh(roundToSmooth(iMusicI[0]))
       bands.n(iMusicN);
-      setNHigh(iMusicN[3])
+      setNHigh(roundToSmooth(iMusicN[0]))
       bands.s(iMusicS);
-      setSHigh(iMusicS[3])
+      setSHigh(roundToSmooth(iMusicS[0]))
     }
     rafID = window.requestAnimationFrame(run);
     tmp = fb1;
@@ -122,10 +128,11 @@ export default function ListenVisual({ }) {
     analyser.fftSize = fftSize;
     numPoints = analyser.frequencyBinCount;
     frequencyData = new Uint8Array(numPoints);
+    console.log(Math.round(maxMidi / 6 * 1))
     try {
       mic.connect(analyser);
       // Unecessary if you want the sound to be muted
-      analyser.connect(audioContext.destination);
+      // analyser.connect(audioContext.destination);
 
       clubber = new Clubber({
         context: audioContext,
@@ -137,59 +144,68 @@ export default function ListenVisual({ }) {
       bands = {
 
         low: clubber.band({
-          template: "0123",
+          template: "4",
           from: 1,
           to: 40,
           smooth: smoothArray,
           adapt: adaptArray,
+          snap: snap
         }),
 
         g: clubber.band({
-          template: "0123",
+          template: "4",
           from: 40,
           to: 60,
+          // low: 0,
+          // high: 2,
           smooth: smoothArray,
           adapt: adaptArray,
+          snap: snap
         }),
 
         r: clubber.band({
-          template: "0123",
+          template: "4",
           from: 55,
           to: 75,
           smooth: smoothArray,
           adapt: adaptArray,
+          snap: snap
         }),
 
         a: clubber.band({
-          template: "0123",
+          template: "4",
           from: 71,
           to: 91,
           smooth: smoothArray,
           adapt: adaptArray,
+          snap: snap
         }),
 
         i: clubber.band({
-          template: "0123",
+          template: "4",
           from: 86,
           to: 106,
           smooth: smoothArray,
           adapt: adaptArray,
+          snap: snap
         }),
 
         n: clubber.band({
-          template: "0123",
+          template: "4",
           from: 102,
           to: 122,
           smooth: smoothArray,
           adapt: adaptArray,
+          snap: snap
         }),
 
         s: clubber.band({
-          template: "0123",
+          template: "4",
           from: 117,
           to: 127,
           smooth: smoothArray,
           adapt: adaptArray,
+          snap: snap
         }),
 
         
