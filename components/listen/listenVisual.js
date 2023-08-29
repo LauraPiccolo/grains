@@ -88,18 +88,18 @@ export default function ListenVisual({ }) {
       bands.low(iMusicLow);
       setLow(iMusicLow[0])
 
-      bands.g(iMusicG);
-      setGHigh(roundToSmooth(iMusicG[0]))
-      bands.r(iMusicR);
-      setRHigh(roundToSmooth(iMusicR[0]))
-      bands.a(iMusicA);
-      setAHigh(roundToSmooth(iMusicA[0]))
-      bands.i(iMusicI);
-      setIHigh(roundToSmooth(iMusicI[0]))
-      bands.n(iMusicN);
-      setNHigh(roundToSmooth(iMusicN[0]))
-      bands.s(iMusicS);
-      setSHigh(roundToSmooth(iMusicS[0]))
+      // bands.g(iMusicG);
+      // setGHigh(roundToSmooth(iMusicG[0]))
+      // bands.r(iMusicR);
+      // setRHigh(roundToSmooth(iMusicR[0]))
+      // bands.a(iMusicA);
+      // setAHigh(roundToSmooth(iMusicA[0]))
+      // bands.i(iMusicI);
+      // setIHigh(roundToSmooth(iMusicI[0]))
+      // bands.n(iMusicN);
+      // setNHigh(roundToSmooth(iMusicN[0]))
+      // bands.s(iMusicS);
+      // setSHigh(roundToSmooth(iMusicS[0]))
     }
     rafID = window.requestAnimationFrame(run);
     tmp = fb1;
@@ -255,7 +255,7 @@ export default function ListenVisual({ }) {
         <Shape title="mid" scale={mid} />
       </div> 
       */}
-      
+
 
       <div className="logo">
         <Letter 
