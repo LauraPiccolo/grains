@@ -33,6 +33,8 @@ const iMusicI = [0.0, 0.0, 0.0, 0.0];
 const iMusicN = [0.0, 0.0, 0.0, 0.0];
 const iMusicS = [0.0, 0.0, 0.0, 0.0];
 
+const flickeringThreshold = 0.02;
+
 // SMOOTH, makes latency worst
 // const smoothArray = [0.1, 0.1, 0.1, 0.1];
 // const adaptArray = [0.5, 0.6, 1, 1];
@@ -41,17 +43,17 @@ export default function ListenVisual({ }) {
 
 
   // const [sub, setSub] = useState(1)
-  const [low, setLow] = useState(1)
-  const [gHigh, setGHigh] = useState(0)
-  const [rHigh, setRHigh] = useState(0)
-  const [aHigh, setAHigh] = useState(0)
-  const [iHigh, setIHigh] = useState(0)
-  const [nHigh, setNHigh] = useState(0)
-  const [sHigh, setSHigh] = useState(0)
+  const [low, setLow, lowRef] = useState(1)
+  const [gHigh, setGHigh, gHighRef] = useState(0)
+  const [rHigh, setRHigh, rHighRef] = useState(0)
+  const [aHigh, setAHigh, aHighRef] = useState(0)
+  const [iHigh, setIHigh, iHighRef] = useState(0)
+  const [nHigh, setNHigh, nHighRef] = useState(0)
+  const [sHigh, setSHigh, sHighRef] = useState(0)
   // const [high, setHigh] = useState(1)
   // const [volume, setVolume] = useState(1)
 
-  const [sensitivity, setSensitivity] = useState(5)
+  const [sensitivity, setSensitivity] = useState(5);
 
   // SET INTERVAL
   const run = () => {
@@ -65,6 +67,15 @@ export default function ListenVisual({ }) {
     rafID = window.requestAnimationFrame(run);
   };
 
+  const avoidFlickering = (currentValue, newValue) => {
+    const difference = currentValue - newValue;
+    console.log(difference)
+    // console.log(difference, currentValue, newValue);
+    // console.log(fnHigh)
+
+    return (difference > flickeringThreshold || difference < -flickeringThreshold)
+    // else console.log('difference was too small, no changes to avoid flickering')
+  }
 
   // ANALYSE + UPDATE FREQUENCIES
   const render = (time) => {
@@ -79,21 +90,22 @@ export default function ListenVisual({ }) {
       analyser.getByteFrequencyData(frequencyData);
       clubber.update(null, frequencyData, false);
       bands.low(iMusicLow);
-      setLow(iMusicLow[3])
-      if(iMusicLow[3] > 0.3) console.log(iMusicLow[3]);
+      if(avoidFlickering(iMusicLow[3], lowRef.current)) setLow(iMusicLow[3])
+      // setLow(iMusicLow[3])
+      // setLow(0)
 
       bands.g(iMusicG);
-      setGHigh(iMusicG[3])
+      if(avoidFlickering(iMusicG[3], gHighRef.current)) setGHigh(iMusicG[3])
       bands.r(iMusicR);
-      setRHigh(iMusicR[3])
+      if(avoidFlickering(iMusicR[3], rHighRef.current)) setRHigh(iMusicR[3])
       bands.a(iMusicA);
-      setAHigh(iMusicA[3])
+      if(avoidFlickering(iMusicA[3], aHighRef.current)) setAHigh(iMusicA[3])
       bands.i(iMusicI);
-      setIHigh(iMusicI[3])
+      if(avoidFlickering(iMusicI[3], iHighRef.current)) setIHigh(iMusicI[3])
       bands.n(iMusicN);
-      setNHigh(iMusicN[3])
+      if(avoidFlickering(iMusicN[3], nHighRef.current)) setNHigh(iMusicN[3])
       bands.s(iMusicS);
-      setSHigh(iMusicS[3])
+      if(avoidFlickering(iMusicS[3], sHighRef.current)) setSHigh(iMusicS[3])
     }
     rafID = window.requestAnimationFrame(run);
     tmp = fb1;
@@ -103,26 +115,18 @@ export default function ListenVisual({ }) {
 
   // CONNECT TRACK
   const init = () => {
-    // navigator.getUM = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.mediaDevices.getUserMedia;
-    
-    // audioContext.createMediaElementSource(audioElement);
-    // navigator.mediaDevices.getUserMedia({ video: false, audio: {
-    //   echoCancellation: false,
-    //   noiseSuppression: false,
-    //   autoGainControl: false
-    // } }).then((stream)=> { callback(stream) })
-    // navigator.mediaDevices.getUserMedia({ video: false, audio: true }, callback, console.log);
-    callback()
+    navigator.getUserMedia = navigator.getUserMedia
+      || navigator.webkitGetUserMedia
+      || navigator.mozGetUserMedia;
+    navigator.getUserMedia({ video: false, audio: true }, callback, console.log);
   }
 
   // CREATE ANALYSER
-  const callback = () => {
-    const audioElement = document.querySelector("audio");
+  const callback = (stream) => {
     audioContext = new AudioContext({
       latencyHint: 0,
     });
-    mic = audioContext.createMediaElementSource(audioElement);
-    audioElement.play()
+    mic = audioContext.createMediaStreamSource(stream);
     analyser = audioContext.createAnalyser();
     analyser.fftSize = fftSize;
     numPoints = analyser.frequencyBinCount;
@@ -194,7 +198,7 @@ export default function ListenVisual({ }) {
 
   // INIT
   useEffect(() => {
-    
+    init()
   }, []);
 
 
@@ -216,7 +220,7 @@ export default function ListenVisual({ }) {
 
   return (
     <div onClick={init}>
-      <audio src="/sound/test.mp3"></audio>
+      {/* <audio src="/sound/test.mp3"></audio> */}
       {/* <Info
         low={low}
         mid={mid}
