@@ -69,7 +69,7 @@ export default function ListenVisual({ }) {
 
   const avoidFlickering = (currentValue, newValue) => {
     const difference = currentValue - newValue;
-    console.log(difference)
+    // console.log(difference)
     // console.log(difference, currentValue, newValue);
     // console.log(fnHigh)
 
@@ -203,61 +203,95 @@ export default function ListenVisual({ }) {
 
 
   const [variation, setVariation, variationRef] = useState(0);
-  let positive = true;
   let variationInterval = useRef(null)
 
-  // VARIATION AXIS
-  useEffect(() => {
-      if(variationInterval.current) clearInterval(variationInterval.current)
-      variationInterval.current = setInterval(() => {
-        if(variationRef.current >= 100) positive = false
-        if(variationRef.current <= 0) positive = true
-        setVariation(variationRef.current + (positive ? 1 : -1))
-      }, 100)
+  const [indexGN, setIndexGN, indexGNRef] = useState(0);
+  let gNIntervalShift = useRef(null)
+  let gNInterval = useRef(null)
 
-      return () => { if(variationInterval.current) clearInterval(variationInterval.current) }
+  const [indexRI, setIndexRI, indexRIRef] = useState(0);
+  let rIIntervalShift = useRef(null)
+  let rIInterval = useRef(null)
+
+  const [indexAS, setIndexAS, indexASRef] = useState(0);
+  let aSIntervalShift = useRef(null)
+  let aSInterval = useRef(null)
+
+  const positiveValues = {
+    'gn': true,
+    'ri': true,
+    'as': true,
+    'variation': true
+  }
+
+  // SHIFT FN
+  const startVariation = (interval, duration, positiveIndex, setIndexFn, valueToAdd, index) => {
+    if(interval.current) clearInterval(interval.current)
+    if(index.current >= 1) positiveValues[positiveIndex] = false;
+    if(index.current <= 0) positiveValues[positiveIndex] = true;
+    interval.current = setInterval(() => {
+      setIndexFn(index.current + (positiveValues[positiveIndex] ? valueToAdd : -valueToAdd))
+      if(index.current >= 1) clearInterval(interval.current)
+      if(index.current <= 0) clearInterval(interval.current)
+    }, duration)
+  }
+
+  // LETTER TIMINGS
+  const createLetterShifting = (interval, intervalShift, duration, positiveIndex, setIndexFn, valueToAdd, index, globalTimingStart, globalTimingEnd) => {
+    setTimeout(() => {
+      startVariation(intervalShift, duration, positiveIndex, setIndexFn, valueToAdd, index)
+    }, globalTimingStart)
+    interval.current = setInterval(() => {
+      setTimeout(() => {
+        startVariation(intervalShift, duration, positiveIndex, setIndexFn, valueToAdd, index)
+      }, globalTimingStart)
+    }, globalTimingEnd)
+  }
+
+   // LETTER SHIFTING INIT
+   useEffect(() => {
+    // G + N, exchange every 30 seconds, with a 10 second shift
+    createLetterShifting(gNInterval, gNIntervalShift, 100, 'gn', setIndexGN, 0.01, indexGNRef, 25000, 35000)
+    // R + I, exchange every 45 seconds, with a 5 second shift
+    createLetterShifting(rIInterval, rIIntervalShift, 50, 'ri', setIndexRI, 0.01, indexRIRef, 40000, 45000)
+    // A + S, exchange every 60 seconds, with a 2.5 second shift
+    createLetterShifting(aSInterval, aSIntervalShift, 50, 'as', setIndexAS, 0.02, indexASRef, 50000, 60000)
+    // VARIATION AXIS
+    startVariation(variationInterval, 100, 'variation', setVariation, 1, variationRef)
+    return () => { 
+      if(gNInterval.current) clearInterval(gNInterval.current) 
+      if(rIInterval.current) clearInterval(rIInterval.current) 
+      if(aSInterval.current) clearInterval(aSInterval.current) 
+      if(variationInterval.current) clearInterval(variationInterval.current) 
+    }
   }, [])
+
 
   return (
     <div onClick={init}>
-      {/* <audio src="/sound/test.mp3"></audio> */}
-      {/* <Info
-        low={low}
-        mid={mid}
-        high={high}
-        vol={volume}
-      /> */}
-
-      {/* <div className="shape-wrapper">
-        <Shape title="low" scale={low} />
-        <Shape title="high" scale={high} />
-        <Shape title="mid" scale={mid} />
-      </div> 
-      */}
-
       <div className="logo">
         <Letter 
           letter="g"
           base={20 * sensitivity * low}
-          height={aHigh * 30 * sensitivity}
+          height={(indexGN * gHigh + (1 - indexGN) * nHigh) * 30 * sensitivity}
           variation={variation}
         />
          <Letter 
           letter="r"
           base={20 * sensitivity * low}
-          height={sHigh * 30 * sensitivity}
+          height={(indexRI * rHigh + (1 - indexRI) * iHigh) * 30 * sensitivity}
           variation={variation}
         />
          <Letter 
           letter="a"
           base={20 * sensitivity * low}
-          height={iHigh * 30 * sensitivity}
+          height={(indexAS * aHigh + (1 - indexAS) * sHigh) * 30 * sensitivity}
           variation={variation}
         />
          <Letter 
           letter="i"
           base={20 * sensitivity * low}
-          height={gHigh * 30 * sensitivity}
+          height={(indexRI * iHigh + (1 - indexRI) * rHigh) * 30 * sensitivity}
           variation={variation}
         />
          <Letter 
@@ -269,13 +303,13 @@ export default function ListenVisual({ }) {
          <Letter 
           letter="n"
           base={20 * sensitivity * low}
-          height={rHigh * 30 * sensitivity}
+          height={(indexGN * nHigh + (1 - indexGN) * gHigh) * 30 * sensitivity}
           variation={variation}
         />
          <Letter 
           letter="s"
           base={20 * sensitivity * low}
-          height={nHigh * 30 * sensitivity}
+          height={(indexAS * sHigh + (1 - indexAS) * aHigh) * 30 * sensitivity}
           variation={variation}
         />
       </div>
