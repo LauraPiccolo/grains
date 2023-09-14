@@ -41,8 +41,6 @@ const flickeringThreshold = 0.02;
 
 export default function ListenVisual({ }) {
 
-
-  // const [sub, setSub] = useState(1)
   const [low, setLow, lowRef] = useState(1)
   const [gHigh, setGHigh, gHighRef] = useState(0)
   const [rHigh, setRHigh, rHighRef] = useState(0)
@@ -50,8 +48,6 @@ export default function ListenVisual({ }) {
   const [iHigh, setIHigh, iHighRef] = useState(0)
   const [nHigh, setNHigh, nHighRef] = useState(0)
   const [sHigh, setSHigh, sHighRef] = useState(0)
-  // const [high, setHigh] = useState(1)
-  // const [volume, setVolume] = useState(1)
 
   const [sensitivity, setSensitivity] = useState(5);
 
@@ -69,12 +65,7 @@ export default function ListenVisual({ }) {
 
   const avoidFlickering = (currentValue, newValue) => {
     const difference = currentValue - newValue;
-    // console.log(difference)
-    // console.log(difference, currentValue, newValue);
-    // console.log(fnHigh)
-
     return (difference > flickeringThreshold || difference < -flickeringThreshold)
-    // else console.log('difference was too small, no changes to avoid flickering')
   }
 
   // ANALYSE + UPDATE FREQUENCIES
@@ -89,10 +80,9 @@ export default function ListenVisual({ }) {
       // 10.log( p/p0)^2
       analyser.getByteFrequencyData(frequencyData);
       clubber.update(null, frequencyData, false);
+      
       bands.low(iMusicLow);
       if(avoidFlickering(iMusicLow[3], lowRef.current)) setLow(iMusicLow[3])
-      // setLow(iMusicLow[3])
-      // setLow(0)
 
       bands.g(iMusicG);
       if(avoidFlickering(iMusicG[3], gHighRef.current)) setGHigh(iMusicG[3])
