@@ -15,6 +15,12 @@ export default function Letter({ letter, base, height, variation }) {
                 "HGHT" ${limitVal(height)}, 
                 "VRTN" ${variation}
               `}}
+            //   style={{
+            //     fontVariationSettings: `
+            //     "BASE" ${limitVal(base)},
+            //     "HGHT" ${limitVal(height)}, 
+            //     "VRTN" ${variation}
+            //   `}}
         >
             {letter}
         </span>

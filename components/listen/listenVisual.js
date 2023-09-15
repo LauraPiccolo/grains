@@ -19,7 +19,7 @@ let frequencyData;
 let now = 0;
 let then = 0;
 // let fps = 360;
-let fps = 120;
+let fps = 15;
 let interval = 1000 / fps;
 let fftSize = 128;
 let clubber;
@@ -33,7 +33,7 @@ const iMusicI = [0.0, 0.0, 0.0, 0.0];
 const iMusicN = [0.0, 0.0, 0.0, 0.0];
 const iMusicS = [0.0, 0.0, 0.0, 0.0];
 
-const flickeringThreshold = 0.02;
+const flickeringThreshold = 0.01;
 
 // SMOOTH, makes latency worst
 // const smoothArray = [0.1, 0.1, 0.1, 0.1];
