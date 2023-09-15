@@ -3,8 +3,6 @@ import useState from 'react-usestateref';
 import "./glsl/raf.js";
 import Clubber from "clubber";
 import { AudioContext } from "standardized-audio-context";
-// import Info from "./info.js";
-// import Shape from "./shape.js";
 import Letter from "./letter.js";
 
 let rafID;
