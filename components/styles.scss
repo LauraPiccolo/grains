@@ -56,6 +56,12 @@ body {
       margin-left: 4px;
     }
 
+    
+  }
+  p {
+    font-size: 15px;
+    position: absolute;
+    letter-spacing: normal;
   }
 }
 
@@ -148,5 +154,23 @@ footer {
     }
 
 
+  }
+}
+
+header {
+  position: absolute;
+  font-size: 15px;
+  color: white;
+  font-family: sans-serif;
+  top: 0px;
+  left: 0px;
+  background-color: black;
+  padding: 10px;
+  width: 560px;
+
+  p {
+    line-height: 110%;
+    margin: 0;
+    padding: 0;
   }
 }

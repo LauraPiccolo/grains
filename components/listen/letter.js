@@ -1,12 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 
-export default function Letter({ letter, base, height, variation }) {
+export default function Letter({ letter, base, height, variation, factor }) {
 
     const limitVal = (val) => {
         return Math.round(val > 100 ? 100 : val);
     }
 
     return (
+        <>
         <span
             className="logo__letter"
             style={{
@@ -23,6 +24,8 @@ export default function Letter({ letter, base, height, variation }) {
             //   `}}
         >
             {letter}
+            <p>{factor}</p>
         </span>
+        </>
     )
 }

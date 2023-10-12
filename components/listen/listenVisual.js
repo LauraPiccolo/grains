@@ -24,8 +24,7 @@ let bands = {};
 let bandList = []
 
 const allIMusic = [];
-const flickeringThreshold = 0.01;
-const limits = [0.0, 0.0, 0.0];
+const flickeringThreshold = 0.005;
 
 export default function ListenVisual({ }) {
 
@@ -35,9 +34,9 @@ export default function ListenVisual({ }) {
   const alphabet = 'abcdefghijklmnopqrstuvwxyz';
 
   const [sensitivity, setSensitivity] = useState(5);
-  const frequencyRange = 5;
+  const frequencyRange = 3;
   const frequencyLength = Math.trunc(127 / frequencyRange)
-  const totalRangeAmount = 8;
+  const totalRangeAmount = 7;
 
   const [minFrequency, setMinFrequency, minFrequencyRef] = useState(0)
   const [maxFrequency, setMaxFrequency, maxFrequencyRef] = useState(frequencyLength)
@@ -59,8 +58,8 @@ export default function ListenVisual({ }) {
       allIMusic[i] = [0.0, 0.0, 0.0, 0.0];
       newAllHighs[i] = 0;
       newLettersHigh[i] = {
-        min: 0, length: 2
-      };
+        min: 0, length: frequencyRange / totalRangeAmount
+       };
     }
     setAllHighs(newAllHighs)
     setLettersHigh(newLettersHigh)
@@ -82,6 +81,8 @@ export default function ListenVisual({ }) {
     const difference = currentValue - newValue;
     return (difference > flickeringThreshold || difference < -flickeringThreshold)
   }
+
+  const frequencyBoundariesThreshold = Math.round((127 / frequencyRange) / 15);
 
   // ANALYSE + UPDATE FREQUENCIES
   const render = (time) => {
@@ -117,11 +118,11 @@ export default function ListenVisual({ }) {
 
       if(minFrequencyRef.current > minFrequencyLocal && minFrequencyLocal !== 0) {
         console.log('changing low frequency to: '+minFrequencyLocal)
-        setMinFrequency(minFrequencyLocal)
+        setMinFrequency(minFrequencyLocal - frequencyBoundariesThreshold < 0 ? 0 : minFrequencyLocal - frequencyBoundariesThreshold)
       }
       if(maxFrequencyRef.current < maxFrequencyLocal) {
         console.log('changing high frequency to: '+maxFrequencyLocal)
-        setMaxFrequency(maxFrequencyLocal);
+        setMaxFrequency(maxFrequencyLocal + frequencyBoundariesThreshold > Math.trunc(127 / frequencyRange) ? Math.trunc(127 / frequencyRange) : maxFrequencyLocal + frequencyBoundariesThreshold);
       }
     }
     rafID = window.requestAnimationFrame(run);
@@ -187,68 +188,55 @@ export default function ListenVisual({ }) {
     init()
   }, []);
 
-
-  const [variation, setVariation, variationRef] = useState(0);
-  let variationInterval = useRef(null)
-
-  const [indexGN, setIndexGN, indexGNRef] = useState(0);
-  let gNIntervalShift = useRef(null)
-  let gNInterval = useRef(null)
-
-  const [indexRI, setIndexRI, indexRIRef] = useState(0);
-  let rIIntervalShift = useRef(null)
-  let rIInterval = useRef(null)
-
-  const [indexAS, setIndexAS, indexASRef] = useState(0);
-  let aSIntervalShift = useRef(null)
-  let aSInterval = useRef(null)
-
-  const positiveValues = {
-    'gn': true,
-    'ri': true,
-    'as': true,
-    'variation': true
-  }
+  const [allFactors, setAllFactors, allFactorsRef] = useState([0,0,0,0])
+  const allIntervalShifts = useRef([])
+  const allIntervals = useRef([])
+  const positiveValues = [true, true, true, true];
 
   // SHIFT FN
-  const startVariation = (interval, duration, positiveIndex, setIndexFn, valueToAdd, index) => {
-    if (interval.current) clearInterval(interval.current)
-    if (index.current >= 1) positiveValues[positiveIndex] = false;
-    if (index.current <= 0) positiveValues[positiveIndex] = true;
-    interval.current = setInterval(() => {
-      setIndexFn(index.current + (positiveValues[positiveIndex] ? valueToAdd : -valueToAdd))
-      if (index.current >= 1) clearInterval(interval.current)
-      if (index.current <= 0) clearInterval(interval.current)
+  const startVariation = (interval, duration, index, valueToAdd) => {
+    const maxValue = index === 3 ? 100:1;
+    if (interval.current[index]) clearInterval(interval.current[index])
+    if (allFactorsRef.current[index] >= maxValue) positiveValues[index] = false;
+    if (allFactorsRef.current[index] <= 0) positiveValues[index] = true;
+    interval.current[index] = setInterval(() => {
+      let newAllFactors = allFactorsRef.current;
+      const newValue = allFactorsRef.current[index] + (positiveValues[index] ? valueToAdd : -valueToAdd)
+      newAllFactors[index] = newValue < 0 ? 0 : newValue > maxValue ? maxValue : newValue;
+      setAllFactors(newAllFactors)
+      if (allFactorsRef.current[index] >= maxValue) clearInterval(interval.current[index])
+      if (allFactorsRef.current[index] <= 0) clearInterval(interval.current[index])
     }, duration)
   }
 
+  const durationList = [100, 50, 50, 100];
+  const timingStartList = [25000, 40000, 50000, 10000];
+  // const timingStartList = [2500, 4000, 5000, 10000];
+  const valuesToAdd = [0.01, 0.01, 0.02, 1];
+
   // LETTER TIMINGS
-  const createLetterShifting = (interval, intervalShift, duration, positiveIndex, setIndexFn, valueToAdd, index, globalTimingStart, globalTimingEnd) => {
+  const createLetterShifting = (index) => {
     setTimeout(() => {
-      startVariation(intervalShift, duration, positiveIndex, setIndexFn, valueToAdd, index)
-    }, globalTimingStart)
-    interval.current = setInterval(() => {
+      startVariation(allIntervalShifts, durationList[index], index, valuesToAdd[index])
+    }, timingStartList[index])
+    allIntervals.current[index] = setInterval(() => {
       setTimeout(() => {
-        startVariation(intervalShift, duration, positiveIndex, setIndexFn, valueToAdd, index)
-      }, globalTimingStart)
-    }, globalTimingEnd)
+        startVariation(allIntervalShifts, durationList[index], index, valuesToAdd[index])
+      }, timingStartList[index])
+    }, (timingStartList[index] + durationList[index]*100))
   }
 
   // LETTER SHIFTING INIT
   useEffect(() => {
-    // G + N, exchange every 30 seconds, with a 10 second shift
-    createLetterShifting(gNInterval, gNIntervalShift, 100, 'gn', setIndexGN, 0.01, indexGNRef, 25000, 35000)
-    // R + I, exchange every 45 seconds, with a 5 second shift
-    createLetterShifting(rIInterval, rIIntervalShift, 50, 'ri', setIndexRI, 0.01, indexRIRef, 40000, 45000)
-    // A + S, exchange every 60 seconds, with a 2.5 second shift
-    createLetterShifting(aSInterval, aSIntervalShift, 50, 'as', setIndexAS, 0.02, indexASRef, 50000, 60000)
-    // VARIATION AXIS
-    startVariation(variationInterval, 100, 'variation', setVariation, 1, variationRef)
+    createLetterShifting(0)
+    createLetterShifting(1)
+    createLetterShifting(2)
+    createLetterShifting(3)
+
     return () => {
-      if (gNInterval.current) clearInterval(gNInterval.current)
-      if (rIInterval.current) clearInterval(rIInterval.current)
-      if (aSInterval.current) clearInterval(aSInterval.current)
-      if (variationInterval.current) clearInterval(variationInterval.current)
+      for(let i = 0; i < allIntervals.current.length; i++) {
+        clearInterval(allIntervals.current[i])
+      }
     }
   }, [])
 
@@ -262,24 +250,31 @@ export default function ListenVisual({ }) {
     const totalRangeItem = Math.round(totalRange / totalRangeAmount);
     const newHighs = []
 
+    const unusedFrequencies = Math.trunc(127 / frequencyRange) - maxFrequencyRef.current
+
     for (let i = 0; i < totalRangeAmount; i++) {
       newHighs[i] = {
-        min: i + minFrequencyRef.current,
-        length: totalRangeItem
+        // min: i + minFrequencyRef.current,
+        // length: totalRangeItem
+        min: i === 0 ? 0 : i + minFrequencyRef.current,
+        length: i === 0 ? totalRangeItem + minFrequencyRef.current : i === totalRangeAmount - 1 ? totalRangeItem + unusedFrequencies : totalRangeItem
       }
     }
 
-    console.log(newHighs);
     setLettersHigh(newHighs)
 
-    setMinFrequency(25)
+    setMinFrequency(Math.trunc(127 / frequencyRange))
     setMaxFrequency(0)
   }
 
   // REDISTRIBUTE FREQUENCIES
   useEffect(() => {
-
+    
     adaptBoundaries()
+
+    setTimeout(() => {
+      adaptBoundaries()
+    }, 10000)
 
     if (adaptativeInterval.current) clearInterval(adaptativeInterval.current)
     adaptativeInterval.current = setInterval(() => {
@@ -288,26 +283,97 @@ export default function ListenVisual({ }) {
     // Example 1: min frequency is 24, max is 92
   }, [])
 
-  const letters = ['g', 'r', 'a', 'i', '.', 'n', 's'];
+  const letters = ['g', 'r', 'a', 'i', 'n', 's'];
 
   const returnSum = (letterHigh) => {
-    return allHighsRef.current.slice(letterHigh.min, letterHigh.min + letterHigh.length).reduce((acc, curr, i) => acc = acc + curr, 0)
+    return allHighsRef.current.slice(letterHigh.min, letterHigh.min + letterHigh.length).reduce((acc, curr, i) => acc = acc + curr, 0) / letterHigh.length
   }
 
+  const shuffle = (array, setState) => {
+    let newArray = array;
+    let currentIndex = array.length;
+    let randomIndex;
+  
+    while (currentIndex > 0) {
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+      [newArray[currentIndex], newArray[randomIndex]] = [newArray[randomIndex], newArray[currentIndex]];
+    }
+    setState(newArray)
+  }
+
+  const factorShuffle = () => {
+    let allIndexes = [0,1,2,3,4,5]
+    const threeFactors = [];
+    let newFactorsIndex = [];
+
+    for(let i = 0; i < 3; i++) {
+      let randomIndex1 = Math.floor(Math.random() * (allIndexes.length));
+      let randomIndex2 = randomIndex1;
+      while(randomIndex1 === randomIndex2) {
+        randomIndex2 = Math.floor(Math.random() * (allIndexes.length));
+      }
+      threeFactors[i] = [allIndexes[randomIndex1], allIndexes[randomIndex2]]
+      allIndexes.splice(randomIndex1, 1);
+      allIndexes.splice((randomIndex1 < randomIndex2 ? randomIndex2 - 1 : randomIndex2), 1);
+    }
+
+    for(let i = 0; i < 3; i++) {
+        newFactorsIndex[threeFactors[i][0]] = { factor: i, linkedTo: threeFactors[i][1] }
+        newFactorsIndex[threeFactors[i][1]] = { factor: i, linkedTo: threeFactors[i][0] }
+    }
+    setFactorsIndex(newFactorsIndex)
+  }
+
+  const [lettersOrder, setLettersOrder] = useState([0,1,2,3,4,5])
+  const [factorsIndex, setFactorsIndex] = useState([])
+
+  // Shuffle letters & factors
+  useEffect(() => {
+    factorShuffle()
+    shuffle(lettersOrder, setLettersOrder)
+  }, [])
+  
   return (
     <div onClick={init}>
+      <header>
+        INFORMATIONS:
+        <div>
+          { factorsIndex.length > 0 &&
+            factorsIndex.map((fac, index) => (
+              <p>letter {letters[index]} is linked to letter {letters[fac.linkedTo]} — They are mapped on factor {fac.factor}, which is currently {Math.round(allFactors[fac.factor] * 100)/100}</p>
+            ))
+          }
+        </div>
+      </header>
       <div className="logo">
         {
-          lettersHigh.length > 0 && letters.map((letter, index) => {
-            let shiftingIndex = (letter === 'g' || letter === 'n') ? indexGN : (letter === 'a' || letter === 's') ? indexAS : indexRI;
+          (factorsIndex.length > 0 && lettersHigh.length > 0) && letters.map((letter, indexx) => {
+            // if(letter === 'a') console.log(1 - allFactors[factorsIndex[index].factor], returnSum(lettersHigh[factorsIndex[index].linkedTo + 1]))
+
+            const index = lettersOrder[indexx]
+
             return (
+              <>
               <Letter
                 letter={letter}
-                base={20 * sensitivity * returnSum(lettersHigh[0])}
-                height={(shiftingIndex * returnSum(lettersHigh[index + 1]) + (1 - shiftingIndex) * returnSum(lettersHigh[index + 1 % letters.length])) * 10 * sensitivity}
-                // height={10}
-                variation={variation}
+                factor={index}
+                base={50 * sensitivity * returnSum(lettersHigh[0])}
+                // height={(allFactors[factorsIndex[index]] * returnSum(lettersHigh[index + 1]) + (1 -allFactors[factorsIndex[index]]) * returnSum(lettersHigh[(index + 3) % letters.length])) * 5 * sensitivity}
+                height={(allFactors[factorsIndex[index].factor] * returnSum(lettersHigh[index + 1]) + (1 - allFactors[factorsIndex[index].factor]) * returnSum(lettersHigh[factorsIndex[index].linkedTo + 1])) * 50 * sensitivity}
+                variation={allFactors[3]}
               />
+              {letter === 'i' && (
+                <Letter
+                letter={'.'}
+                factor={index}
+                base={50 * sensitivity * returnSum(lettersHigh[0])}
+                // height={(allFactors[factorsIndex[index]] * returnSum(lettersHigh[index + 1]) + (1 -allFactors[factorsIndex[index]]) * returnSum(lettersHigh[(index + 3) % letters.length])) * 5 * sensitivity}
+                height={(allFactors[factorsIndex[index].factor] * returnSum(lettersHigh[index + 1]) + (1 - allFactors[factorsIndex[index].factor]) * returnSum(lettersHigh[factorsIndex[index].linkedTo + 1])) * 50 * sensitivity}
+                variation={allFactors[3]}
+              />
+              )}
+              </>
             )
           })
         }
