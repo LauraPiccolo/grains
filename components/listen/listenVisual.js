@@ -16,8 +16,7 @@ let numPoints;
 let frequencyData;
 let now = 0;
 let then = 0;
-// let fps = 15;
-let fps = 15;
+let fps = 12;
 let interval = 1000 / fps;
 let fftSize = 128;
 let clubber;
@@ -29,12 +28,9 @@ const flickeringThreshold = 0.005;
 
 export default function ListenVisual({ }) {
 
-  const [low, setLow, lowRef] = useState(1)
   const [allHighs, setAllHighs, allHighsRef] = useState([]);
-  // const [oldAllHighs, setOldAllHighs, allOldHighsRef] = useState([]);
   const [lettersHigh, setLettersHigh, lettersHighRef] = useState([])
   const [lettersOldHigh, setLettersOldHigh, lettersOldHighRef] = useState([])
-
   const [highTransition, setHighTransition, highTransitionRef] = useState(false)
   const [highTransitionIndex, setHighTransitionIndex, highTransitionIndexRef] = useState(0)
 
@@ -89,31 +85,40 @@ export default function ListenVisual({ }) {
     return (difference > flickeringThreshold || difference < -flickeringThreshold)
   }
 
-  // const frequencyBoundariesThreshold = 3;
   const frequencyBoundariesThreshold = Math.round((127 / frequencyRange) / 15);
 
   const [silenceStarted, setSilenceStarted, silenceStartedRef] = useState(true)
   const silenceTimeOut = useRef(null)
+  const silenceTimeOut2 = useRef(null)
 
+  // DETECT SILENCES TO ADAPT BOUNDARIES WHEN CHANGING TRACK
   const checkIfSilence = (arrayIValues) => {
     let isSilence = true;
+
+    // Check all frequencies
     for(let i = 0; i < arrayIValues.length; i++) {
-      if(arrayIValues[i][3] > 0.05) {
+      if(arrayIValues[i][3] > 0.1) {
         isSilence = false
       }
     }
 
+    // If all frequencies are silent
     if(isSilence) {
+      if(silenceTimeOut.current) clearTimeout(silenceTimeOut.current);
+      if(silenceTimeOut2.current) clearTimeout(silenceTimeOut2.current);
+
+      // If this is the first time silence is detected, start the silence timeout
       if(silenceStartedRef.current === false) {
         console.log('silence started')
-        setSilenceStarted(true)
+        // Silence has to be there for more than 1.5 second
+        silenceTimeOut2.current = setTimeout(() => setSilenceStarted(true), 1500);
       }
-      if(silenceTimeOut.current) clearTimeout(silenceTimeOut.current);
     }
     else {
+      // If sound is detected and silence was true until now
       if(silenceStartedRef.current === true) {
-        console.log("going to adapt the boundaries in 5 seconds");
         setSilenceStarted(false)
+        // Call adapt boundaries twice, after 8 seconds and after 30 seconds
         silenceTimeOut.current = setTimeout(() => adaptBoundaries(), 8000)
         silenceTimeOut.current = setTimeout(() => adaptBoundaries(), 30000)
       }
@@ -252,7 +257,6 @@ export default function ListenVisual({ }) {
 
   const durationList = [100, 50, 50, 100];
   const timingStartList = [25000, 40000, 50000, 10000];
-  // const timingStartList = [2500, 4000, 5000, 10000];
   const valuesToAdd = [0.01, 0.01, 0.02, 1];
 
   // LETTER TIMINGS
@@ -296,21 +300,20 @@ export default function ListenVisual({ }) {
 
     for (let i = 0; i < totalRangeAmount; i++) {
       newHighs[i] = {
-        // min: i + minFrequencyRef.current,
-        // length: totalRangeItem
         min: i === 0 ? 0 : (i*totalRangeItem) + minFrequencyRef.current,
         length: i === 0 ? totalRangeItem + minFrequencyRef.current : i === totalRangeAmount - 1 ? totalRangeItem + unusedFrequencies : totalRangeItem,
         totalRangeItem: totalRangeItem
       }
     }
 
-    console.log(newHighs)
-
     setLettersHigh(newHighs)
 
+    // If this if triggered onload
     if(first) setLettersOldHigh(newHighs)
 
+    // If this is a readaptation
     else {
+      // Make a transition between old and new
       if(highIntervalRef.current) clearInterval(highIntervalRef.current)
       setHighTransition(true)
       setHighTransitionIndex(1)
@@ -330,41 +333,27 @@ export default function ListenVisual({ }) {
   useEffect(() => {
     
     adaptBoundaries(true)
-
-    // setTimeout(() => {
-    //   adaptBoundaries()
-    // }, 10000)
-
     if (adaptativeInterval.current) clearInterval(adaptativeInterval.current)
 
     // UNCOMMENT THIS FOR LIVE
     // adaptativeInterval.current = setInterval(() => {
     //     adaptBoundaries()
     // }, 60000)
-    // Example 1: min frequency is 24, max is 92
+
   }, [])
 
   const letters = ['g', 'r', 'a', 'i', 'n', 's'];
 
-  const returnSum = (letterHigh, letterOldHigh, index) => {
-    // Trying to get rid of the frequencies that are silent, but it seems to be better to always devide by the same number
- 
-    // if(letterHigh.totalRangeItem !== letterHigh.length) {
-    //   lengthWithoutNull = allHighsRef.current.slice(letterHigh.min, letterHigh.min + letterHigh.length).filter((val) => val > 0.1).length;
-    //   if(lengthWithoutNull === 0) lengthWithoutNull = letterHigh.length;
-    // }
-    // console.log(allHighsRef.current.slice(letterHigh.min, letterHigh.min + letterHigh.length).reduce((acc, curr, i) => acc = acc + curr, 0) / letterHigh.totalRangeItem)
+  const returnSum = (letterHigh, letterOldHigh) => {
+  
+    let newValue;
 
-    // let lengthWithoutNull = letterHigh.totalRangeItem;
-    let newValue = 0;
-
-    // console.log(letterHigh, letterOldHigh)
-
+    // Transition between old value and new value
     if(highTransitionRef.current === true) {
-      // console.log(highTransitionIndexRef.current)
       newValue = ((1 - highTransitionIndexRef.current) * (allHighsRef.current.slice(letterHigh.min, letterHigh.min + letterHigh.length).reduce((acc, curr, i) => acc = acc + curr, 0) / letterHigh.totalRangeItem)) + (highTransitionIndexRef.current * (allHighsRef.current.slice(letterOldHigh.min, letterOldHigh.min + letterOldHigh.length).reduce((acc, curr, i) => acc = acc + curr, 0) / letterOldHigh.totalRangeItem))
     }
 
+    // New value only
     else {
       newValue = allHighsRef.current.slice(letterHigh.min, letterHigh.min + letterHigh.length).reduce((acc, curr, i) => acc = acc + curr, 0) / letterHigh.totalRangeItem
     }
@@ -421,15 +410,17 @@ export default function ListenVisual({ }) {
     <div onClick={init}>
       <header>
         INFORMATIONS:
-        {/* <div>
+        <div>
           { factorsIndex.length > 0 &&
             factorsIndex.map((fac, index) => (
               <p>letter {letters[index]} is linked to letter {letters[fac.linkedTo]} — They are mapped on factor {fac.factor}, which is currently {Math.round(allFactors[fac.factor] * 100)/100}</p>
             ))
           }
           <br/>
-          {factorsIndex.length > 0 && lettersHigh.length > 0 && <p>BASE: {Math.round(50 * sensitivity * returnSum(lettersHigh[0]))}</p>}
-        </div> */}
+          {factorsIndex.length > 0 && lettersHigh.length > 0 && <p>BASE: {50 * sensitivity * returnSum(lettersHigh[0], lettersOldHigh[0])}</p>}
+          <br/>
+          <p>MIN: {minFrequency} / MAX: {maxFrequency} {highTransition && " — Recalculating boundaries"}</p>
+        </div>
       </header>
       <div className="logo">
         {
