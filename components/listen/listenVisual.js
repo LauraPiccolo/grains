@@ -16,6 +16,7 @@ let numPoints;
 let frequencyData;
 let now = 0;
 let then = 0;
+// let fps = 15;
 let fps = 15;
 let interval = 1000 / fps;
 let fftSize = 128;
@@ -30,7 +31,13 @@ export default function ListenVisual({ }) {
 
   const [low, setLow, lowRef] = useState(1)
   const [allHighs, setAllHighs, allHighsRef] = useState([]);
+  // const [oldAllHighs, setOldAllHighs, allOldHighsRef] = useState([]);
   const [lettersHigh, setLettersHigh, lettersHighRef] = useState([])
+  const [lettersOldHigh, setLettersOldHigh, lettersOldHighRef] = useState([])
+
+  const [highTransition, setHighTransition, highTransitionRef] = useState(false)
+  const [highTransitionIndex, setHighTransitionIndex, highTransitionIndexRef] = useState(0)
+
   const alphabet = 'abcdefghijklmnopqrstuvwxyz';
 
   const [sensitivity, setSensitivity] = useState(5);
@@ -82,7 +89,37 @@ export default function ListenVisual({ }) {
     return (difference > flickeringThreshold || difference < -flickeringThreshold)
   }
 
+  // const frequencyBoundariesThreshold = 3;
   const frequencyBoundariesThreshold = Math.round((127 / frequencyRange) / 15);
+
+  const [silenceStarted, setSilenceStarted, silenceStartedRef] = useState(true)
+  const silenceTimeOut = useRef(null)
+
+  const checkIfSilence = (arrayIValues) => {
+    let isSilence = true;
+    for(let i = 0; i < arrayIValues.length; i++) {
+      if(arrayIValues[i][3] > 0.05) {
+        isSilence = false
+      }
+    }
+
+    if(isSilence) {
+      if(silenceStartedRef.current === false) {
+        console.log('silence started')
+        setSilenceStarted(true)
+      }
+      if(silenceTimeOut.current) clearTimeout(silenceTimeOut.current);
+    }
+    else {
+      if(silenceStartedRef.current === true) {
+        console.log("going to adapt the boundaries in 5 seconds");
+        setSilenceStarted(false)
+        silenceTimeOut.current = setTimeout(() => adaptBoundaries(), 8000)
+        silenceTimeOut.current = setTimeout(() => adaptBoundaries(), 30000)
+      }
+    }
+    
+  }
 
   // ANALYSE + UPDATE FREQUENCIES
   const render = (time) => {
@@ -107,6 +144,7 @@ export default function ListenVisual({ }) {
             index === i ? allIMusic[i][3] : item
           )
           ))
+          // console.log(allIMusic[i][3], i)
         }
         if (allIMusic[i][3] > 0.01) {
           if (minFrequencyLocal === 0) {
@@ -117,13 +155,16 @@ export default function ListenVisual({ }) {
       }
 
       if(minFrequencyRef.current > minFrequencyLocal && minFrequencyLocal !== 0) {
-        console.log('changing low frequency to: '+minFrequencyLocal)
+        // console.log('changing low frequency to: '+minFrequencyLocal)
         setMinFrequency(minFrequencyLocal - frequencyBoundariesThreshold < 0 ? 0 : minFrequencyLocal - frequencyBoundariesThreshold)
+        // setMinFrequency(minFrequencyLocal)
       }
       if(maxFrequencyRef.current < maxFrequencyLocal) {
-        console.log('changing high frequency to: '+maxFrequencyLocal)
+        // console.log('changing high frequency to: '+maxFrequencyLocal)
         setMaxFrequency(maxFrequencyLocal + frequencyBoundariesThreshold > Math.trunc(127 / frequencyRange) ? Math.trunc(127 / frequencyRange) : maxFrequencyLocal + frequencyBoundariesThreshold);
       }
+
+      checkIfSilence(allIMusic)
     }
     rafID = window.requestAnimationFrame(run);
     tmp = fb1;
@@ -241,8 +282,9 @@ export default function ListenVisual({ }) {
   }, [])
 
   const adaptativeInterval = useRef()
+  const highIntervalRef = useRef()
 
-  const adaptBoundaries = () => {
+  const adaptBoundaries = (first=false) => {
     console.log('Adapting boundaries')
     console.log('MAX: ' + maxFrequencyRef.current + ' MIN: ' + minFrequencyRef.current)
 
@@ -256,12 +298,29 @@ export default function ListenVisual({ }) {
       newHighs[i] = {
         // min: i + minFrequencyRef.current,
         // length: totalRangeItem
-        min: i === 0 ? 0 : i + minFrequencyRef.current,
-        length: i === 0 ? totalRangeItem + minFrequencyRef.current : i === totalRangeAmount - 1 ? totalRangeItem + unusedFrequencies : totalRangeItem
+        min: i === 0 ? 0 : (i*totalRangeItem) + minFrequencyRef.current,
+        length: i === 0 ? totalRangeItem + minFrequencyRef.current : i === totalRangeAmount - 1 ? totalRangeItem + unusedFrequencies : totalRangeItem,
+        totalRangeItem: totalRangeItem
       }
     }
 
+    console.log(newHighs)
+
     setLettersHigh(newHighs)
+
+    if(first) setLettersOldHigh(newHighs)
+
+    else {
+      if(highIntervalRef.current) clearInterval(highIntervalRef.current)
+      setHighTransition(true)
+      setHighTransitionIndex(1)
+  
+      setTimeout(() => {
+        setHighTransition(false)
+        setLettersOldHigh(newHighs)
+      }, 5000)
+      highIntervalRef.current = setInterval(() => setHighTransitionIndex((highTransitionIndex) => highTransitionIndex - 0.02), 100)
+    }
 
     setMinFrequency(Math.trunc(127 / frequencyRange))
     setMaxFrequency(0)
@@ -270,23 +329,47 @@ export default function ListenVisual({ }) {
   // REDISTRIBUTE FREQUENCIES
   useEffect(() => {
     
-    adaptBoundaries()
+    adaptBoundaries(true)
 
-    setTimeout(() => {
-      adaptBoundaries()
-    }, 10000)
+    // setTimeout(() => {
+    //   adaptBoundaries()
+    // }, 10000)
 
     if (adaptativeInterval.current) clearInterval(adaptativeInterval.current)
-    adaptativeInterval.current = setInterval(() => {
-        adaptBoundaries()
-    }, 30000)
+
+    // UNCOMMENT THIS FOR LIVE
+    // adaptativeInterval.current = setInterval(() => {
+    //     adaptBoundaries()
+    // }, 60000)
     // Example 1: min frequency is 24, max is 92
   }, [])
 
   const letters = ['g', 'r', 'a', 'i', 'n', 's'];
 
-  const returnSum = (letterHigh) => {
-    return allHighsRef.current.slice(letterHigh.min, letterHigh.min + letterHigh.length).reduce((acc, curr, i) => acc = acc + curr, 0) / letterHigh.length
+  const returnSum = (letterHigh, letterOldHigh, index) => {
+    // Trying to get rid of the frequencies that are silent, but it seems to be better to always devide by the same number
+ 
+    // if(letterHigh.totalRangeItem !== letterHigh.length) {
+    //   lengthWithoutNull = allHighsRef.current.slice(letterHigh.min, letterHigh.min + letterHigh.length).filter((val) => val > 0.1).length;
+    //   if(lengthWithoutNull === 0) lengthWithoutNull = letterHigh.length;
+    // }
+    // console.log(allHighsRef.current.slice(letterHigh.min, letterHigh.min + letterHigh.length).reduce((acc, curr, i) => acc = acc + curr, 0) / letterHigh.totalRangeItem)
+
+    // let lengthWithoutNull = letterHigh.totalRangeItem;
+    let newValue = 0;
+
+    // console.log(letterHigh, letterOldHigh)
+
+    if(highTransitionRef.current === true) {
+      // console.log(highTransitionIndexRef.current)
+      newValue = ((1 - highTransitionIndexRef.current) * (allHighsRef.current.slice(letterHigh.min, letterHigh.min + letterHigh.length).reduce((acc, curr, i) => acc = acc + curr, 0) / letterHigh.totalRangeItem)) + (highTransitionIndexRef.current * (allHighsRef.current.slice(letterOldHigh.min, letterOldHigh.min + letterOldHigh.length).reduce((acc, curr, i) => acc = acc + curr, 0) / letterOldHigh.totalRangeItem))
+    }
+
+    else {
+      newValue = allHighsRef.current.slice(letterHigh.min, letterHigh.min + letterHigh.length).reduce((acc, curr, i) => acc = acc + curr, 0) / letterHigh.totalRangeItem
+    }
+
+    return newValue;
   }
 
   const shuffle = (array, setState) => {
@@ -338,19 +421,19 @@ export default function ListenVisual({ }) {
     <div onClick={init}>
       <header>
         INFORMATIONS:
-        <div>
+        {/* <div>
           { factorsIndex.length > 0 &&
             factorsIndex.map((fac, index) => (
               <p>letter {letters[index]} is linked to letter {letters[fac.linkedTo]} — They are mapped on factor {fac.factor}, which is currently {Math.round(allFactors[fac.factor] * 100)/100}</p>
             ))
           }
-        </div>
+          <br/>
+          {factorsIndex.length > 0 && lettersHigh.length > 0 && <p>BASE: {Math.round(50 * sensitivity * returnSum(lettersHigh[0]))}</p>}
+        </div> */}
       </header>
       <div className="logo">
         {
-          (factorsIndex.length > 0 && lettersHigh.length > 0) && letters.map((letter, indexx) => {
-            // if(letter === 'a') console.log(1 - allFactors[factorsIndex[index].factor], returnSum(lettersHigh[factorsIndex[index].linkedTo + 1]))
-
+          (factorsIndex.length > 0 && lettersHigh.length > 0 && lettersOldHigh.length > 0) && letters.map((letter, indexx) => {
             const index = lettersOrder[indexx]
 
             return (
@@ -358,19 +441,18 @@ export default function ListenVisual({ }) {
               <Letter
                 letter={letter}
                 factor={index}
-                base={50 * sensitivity * returnSum(lettersHigh[0])}
-                // height={(allFactors[factorsIndex[index]] * returnSum(lettersHigh[index + 1]) + (1 -allFactors[factorsIndex[index]]) * returnSum(lettersHigh[(index + 3) % letters.length])) * 5 * sensitivity}
-                height={(allFactors[factorsIndex[index].factor] * returnSum(lettersHigh[index + 1]) + (1 - allFactors[factorsIndex[index].factor]) * returnSum(lettersHigh[factorsIndex[index].linkedTo + 1])) * 50 * sensitivity}
+                base={50 * sensitivity * returnSum(lettersHigh[0], lettersOldHigh[0])}
+                height={(allFactors[factorsIndex[index].factor] * returnSum(lettersHigh[index + 1], lettersOldHigh[index + 1]) + (1 - allFactors[factorsIndex[index].factor]) * returnSum(lettersHigh[factorsIndex[index].linkedTo + 1], lettersOldHigh[factorsIndex[index].linkedTo + 1])) * 50 * sensitivity}
                 variation={allFactors[3]}
+                // height={1}
               />
               {letter === 'i' && (
                 <Letter
                 letter={'.'}
                 factor={index}
-                base={50 * sensitivity * returnSum(lettersHigh[0])}
-                // height={(allFactors[factorsIndex[index]] * returnSum(lettersHigh[index + 1]) + (1 -allFactors[factorsIndex[index]]) * returnSum(lettersHigh[(index + 3) % letters.length])) * 5 * sensitivity}
-                height={(allFactors[factorsIndex[index].factor] * returnSum(lettersHigh[index + 1]) + (1 - allFactors[factorsIndex[index].factor]) * returnSum(lettersHigh[factorsIndex[index].linkedTo + 1])) * 50 * sensitivity}
                 variation={allFactors[3]}
+                height={50 * sensitivity * returnSum(lettersHigh[0], lettersOldHigh[0])}
+                base={(allFactors[factorsIndex[index].factor] * returnSum(lettersHigh[index + 1], lettersOldHigh[index + 1]) + (1 - allFactors[factorsIndex[index].factor]) * returnSum(lettersHigh[factorsIndex[index].linkedTo + 1], lettersOldHigh[factorsIndex[index].linkedTo + 1])) * 50 * sensitivity}
               />
               )}
               </>

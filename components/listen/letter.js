@@ -6,6 +6,8 @@ export default function Letter({ letter, base, height, variation, factor }) {
         return Math.round(val > 100 ? 100 : val);
     }
 
+    // console.log(base)
+
     return (
         <>
         <span
