@@ -46,6 +46,7 @@ export default function ListenVisual({ }) {
 
   // SET DEFAULT VALUES FOR ALL STATES, MAPPED ON LETTERS AND PRECISION
   useEffect(() => {
+    // console.log('Initial use effect')
     let newAllHighs = []
     let newLettersHigh = []
     for (let i = 0; i < frequencyLength; i++) {
@@ -73,6 +74,7 @@ export default function ListenVisual({ }) {
     now = window.performance.now();
     const delta = now - then;
     if (delta > interval) {
+      // console.log('run')
       then = now - (delta % interval);
       const t = now / 1000;
       render(t);
@@ -81,11 +83,13 @@ export default function ListenVisual({ }) {
   };
 
   const avoidFlickering = (currentValue, newValue) => {
+    // console.log('avoid flickering')
     const difference = currentValue - newValue;
     return (difference > flickeringThreshold || difference < -flickeringThreshold)
   }
 
-  const frequencyBoundariesThreshold = Math.round((127 / frequencyRange) / 15);
+  const frequencyBoundariesThreshold = 2;
+  // const frequencyBoundariesThreshold = Math.round((127 / frequencyRange) / 20);
 
   const [silenceStarted, setSilenceStarted, silenceStartedRef] = useState(true)
   const silenceTimeOut = useRef(null)
@@ -93,6 +97,7 @@ export default function ListenVisual({ }) {
 
   // DETECT SILENCES TO ADAPT BOUNDARIES WHEN CHANGING TRACK
   const checkIfSilence = (arrayIValues) => {
+    // console.log('check if silence')
     let isSilence = true;
 
     // Check all frequencies
@@ -109,7 +114,7 @@ export default function ListenVisual({ }) {
 
       // If this is the first time silence is detected, start the silence timeout
       if(silenceStartedRef.current === false) {
-        console.log('silence started')
+        // console.log('silence started')
         // Silence has to be there for more than 1.5 second
         silenceTimeOut2.current = setTimeout(() => setSilenceStarted(true), 1500);
       }
@@ -128,6 +133,7 @@ export default function ListenVisual({ }) {
 
   // ANALYSE + UPDATE FREQUENCIES
   const render = (time) => {
+    // console.log('Render')
     if (clubber) {
       // copy current frequency dta from analyser to frequencyData array
       // values are in dB units 0..255
@@ -144,12 +150,12 @@ export default function ListenVisual({ }) {
 
       for (let i = 0; i < frequencyLength; i++) {
         bands[alphabet[i]](allIMusic[i])
+        // console.log(allIMusic[i][3], i)
         if (avoidFlickering(allIMusic[i][3], allHighsRef.current[i])) {
           setAllHighs((allHighs) => allHighs.map((item, index) => (
             index === i ? allIMusic[i][3] : item
           )
           ))
-          // console.log(allIMusic[i][3], i)
         }
         if (allIMusic[i][3] > 0.01) {
           if (minFrequencyLocal === 0) {
@@ -160,12 +166,13 @@ export default function ListenVisual({ }) {
       }
 
       if(minFrequencyRef.current > minFrequencyLocal && minFrequencyLocal !== 0) {
-        // console.log('changing low frequency to: '+minFrequencyLocal)
-        setMinFrequency(minFrequencyLocal - frequencyBoundariesThreshold < 0 ? 0 : minFrequencyLocal - frequencyBoundariesThreshold)
-        // setMinFrequency(minFrequencyLocal)
+        console.log('changing low frequency to: '+minFrequencyLocal)
+        // setMinFrequency(minFrequencyLocal - frequencyBoundariesThreshold < 0 ? 0 : minFrequencyLocal - frequencyBoundariesThreshold)
+        setMinFrequency(minFrequencyLocal)
       }
       if(maxFrequencyRef.current < maxFrequencyLocal) {
-        // console.log('changing high frequency to: '+maxFrequencyLocal)
+        console.log('changing high frequency to: '+maxFrequencyLocal)
+        // setMaxFrequency(maxFrequencyLocal)
         setMaxFrequency(maxFrequencyLocal + frequencyBoundariesThreshold > Math.trunc(127 / frequencyRange) ? Math.trunc(127 / frequencyRange) : maxFrequencyLocal + frequencyBoundariesThreshold);
       }
 
@@ -179,14 +186,20 @@ export default function ListenVisual({ }) {
 
   // CONNECT TRACK
   const init = () => {
-    navigator.getUserMedia = navigator.getUserMedia
-      || navigator.webkitGetUserMedia
-      || navigator.mozGetUserMedia;
-    navigator.getUserMedia({ video: false, audio: true }, callback, console.log);
+    // console.log('Init')
+    // console.log(navigator.mediaDevices.getUserMedia)
+    // let navigatorFn = navigator.getUserMedia
+    //   || navigator.webkitGetUserMedia
+    //   || navigator.mozGetUserMedia;
+    // navigatorFn({ video: false, audio: true }, callback, console.log);
+    navigator.mediaDevices.getUserMedia({ video: false, audio: true })
+    .then((stream) => callback(stream))
+    .catch((err) => console.log(err));
   }
 
   // CREATE ANALYSER
   const callback = (stream) => {
+    // console.log('Initial call back')
     audioContext = new AudioContext({
       latencyHint: 0,
     });
@@ -230,9 +243,9 @@ export default function ListenVisual({ }) {
   };
 
   // INIT
-  useEffect(() => {
-    init()
-  }, []);
+  // useEffect(() => {
+  //   init()
+  // }, []);
 
   const [allFactors, setAllFactors, allFactorsRef] = useState([0,0,0,0])
   const allIntervalShifts = useRef([])
@@ -241,6 +254,7 @@ export default function ListenVisual({ }) {
 
   // SHIFT FN
   const startVariation = (interval, duration, index, valueToAdd) => {
+    // console.log('Initial start variation')
     const maxValue = index === 3 ? 100:1;
     if (interval.current[index]) clearInterval(interval.current[index])
     if (allFactorsRef.current[index] >= maxValue) positiveValues[index] = false;
@@ -261,6 +275,7 @@ export default function ListenVisual({ }) {
 
   // LETTER TIMINGS
   const createLetterShifting = (index) => {
+    // console.log('Create letter shifting')
     setTimeout(() => {
       startVariation(allIntervalShifts, durationList[index], index, valuesToAdd[index])
     }, timingStartList[index])
@@ -273,6 +288,7 @@ export default function ListenVisual({ }) {
 
   // LETTER SHIFTING INIT
   useEffect(() => {
+    // console.log('Initial letter shifting')
     createLetterShifting(0)
     createLetterShifting(1)
     createLetterShifting(2)
@@ -331,7 +347,7 @@ export default function ListenVisual({ }) {
 
   // REDISTRIBUTE FREQUENCIES
   useEffect(() => {
-    
+    // console.log('Initial use effect rediscribute frequencies')
     adaptBoundaries(true)
     if (adaptativeInterval.current) clearInterval(adaptativeInterval.current)
 
@@ -345,7 +361,7 @@ export default function ListenVisual({ }) {
   const letters = ['g', 'r', 'a', 'i', 'n', 's'];
 
   const returnSum = (letterHigh, letterOldHigh) => {
-  
+    // console.log('return sum')
     let newValue;
 
     // Transition between old value and new value
@@ -362,6 +378,7 @@ export default function ListenVisual({ }) {
   }
 
   const shuffle = (array, setState) => {
+    // console.log('schuffle')
     let newArray = array;
     let currentIndex = array.length;
     let randomIndex;
@@ -375,6 +392,7 @@ export default function ListenVisual({ }) {
   }
 
   const factorShuffle = () => {
+    // console.log('Factor Shuffle')
     let allIndexes = [0,1,2,3,4,5]
     const threeFactors = [];
     let newFactorsIndex = [];
@@ -402,13 +420,14 @@ export default function ListenVisual({ }) {
 
   // Shuffle letters & factors
   useEffect(() => {
+    // console.log('Initial use effect Shuffle letters & factors')
     factorShuffle()
     shuffle(lettersOrder, setLettersOrder)
   }, [])
   
   return (
     <div onClick={init}>
-      <header>
+      {/* <header>
         INFORMATIONS:
         <div>
           { factorsIndex.length > 0 &&
@@ -421,14 +440,14 @@ export default function ListenVisual({ }) {
           <br/>
           <p>MIN: {minFrequency} / MAX: {maxFrequency} {highTransition && " — Recalculating boundaries"}</p>
         </div>
-      </header>
+      </header> */}
       <div className="logo">
         {
           (factorsIndex.length > 0 && lettersHigh.length > 0 && lettersOldHigh.length > 0) && letters.map((letter, indexx) => {
             const index = lettersOrder[indexx]
 
             return (
-              <>
+              <> 
               <Letter
                 letter={letter}
                 factor={index}
