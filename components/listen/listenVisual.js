@@ -4,6 +4,7 @@ import "./glsl/raf.js";
 import Clubber from "clubber";
 import { AudioContext } from "standardized-audio-context";
 import Letter from "./letter.js";
+import Info from "./info.js";
 
 let rafID;
 let mic;
@@ -34,7 +35,7 @@ const timingStartList = [25000, 40000, 50000, 10000];
 const valuesToAdd = [0.01, 0.01, 0.02, 1];
 const letters = ['g', 'r', 'a', 'i', 'n', 's'];
 
-export default function ListenVisual({ }) {
+export default function ListenVisual({ live }) {
 
   // STATES
   const [allHighs, setAllHighs, allHighsRef] = useState([]);
@@ -52,6 +53,8 @@ export default function ListenVisual({ }) {
   const [t, setT, tRef] = useState(0)
   const [baseValue, setBaseValue] = useState(0)
   const [highValues, setHighValues] = useState([0,0,0,0,0,0])
+  const [backgroundColor, setBackgroundColor] = useState('#202203')
+  const [textColor, setTextColor] = useState('#ffed00')
 
   // REFS
   const silenceTimeOut = useRef(null)
@@ -144,9 +147,6 @@ export default function ListenVisual({ }) {
 
   // ANALYSE + UPDATE FREQUENCIES
   const render = () => {
-    // console.log('Render')
-    // console.log('1: '+Date.now())
-    console.log('Analysing: '+Date.now())
     if (clubber) {
       analyser.getByteFrequencyData(frequencyData);
       clubber.update(null, frequencyData, false);
@@ -158,13 +158,9 @@ export default function ListenVisual({ }) {
 
       for (let i = 0; i < frequencyLength; i++) {
         bands[alphabet[i]](allIMusic[i])
-        // console.log(allIMusic[i][3], i)
+
         if (avoidFlickering(allIMusic[i][3], allHighsRef.current[i])) {
           newAllHighs[i] = allIMusic[i][3]
-          // setAllHighs((allHighs) => allHighs.map((item, index) => (
-          //   index === i ? allIMusic[i][3] : item
-          // )
-          // ))
         }
         if (allIMusic[i][3] > 0.01) {
           if (minFrequencyLocal === 0) {
@@ -174,19 +170,15 @@ export default function ListenVisual({ }) {
         }
       }
 
-      // console.log('2: '+Date.now())
-
       // Condition avoids changing state for nothing
       if(newAllHighs !== allHighsRef.current) setAllHighs(newAllHighs)
 
       if(minFrequencyRef.current > minFrequencyLocal && minFrequencyLocal !== 0) {
         console.log('changing low frequency to: '+minFrequencyLocal)
-        // setMinFrequency(minFrequencyLocal - frequencyBoundariesThreshold < 0 ? 0 : minFrequencyLocal - frequencyBoundariesThreshold)
         setMinFrequency(minFrequencyLocal)
       }
       if(maxFrequencyRef.current < maxFrequencyLocal) {
         console.log('changing high frequency to: '+maxFrequencyLocal)
-        // setMaxFrequency(maxFrequencyLocal)
         setMaxFrequency(maxFrequencyLocal + frequencyBoundariesThreshold > Math.trunc(127 / frequencyRange) ? Math.trunc(127 / frequencyRange) : maxFrequencyLocal + frequencyBoundariesThreshold);
       }
 
@@ -347,7 +339,6 @@ export default function ListenVisual({ }) {
   }
 
   const returnSumBase = (time, index) => {
-    console.log('calculating BASE')
     let newValue;
 
     // Transition between old value and new value
@@ -434,23 +425,32 @@ export default function ListenVisual({ }) {
     }
   }, [t])
 
+  useEffect(() => {
+    document.body.style.backgroundColor = backgroundColor
+  }, [backgroundColor])
+
   return (
-    <div onClick={init}>
-      <header>
-        INFORMATIONS:
-        <div>
-          { factorsIndex.length > 0 &&
-            factorsIndex.map((fac, index) => (
-              <p>letter {letters[index]} is linked to letter {letters[fac.linkedTo]} — They are mapped on factor {fac.factor}, which is currently {Math.round(allFactors[fac.factor] * 100)/100}</p>
-            ))
-          }
-          <br/>
-          {factorsIndex.length > 0 && lettersHigh.length > 0 && <p>BASE: {allHighs.reduce((acc, curr, i) => acc = acc + curr, 0)}</p>}
-          {/* {factorsIndex.length > 0 && lettersHigh.length > 0 && <p>BASE: {50 * sensitivity * returnSum(lettersHigh[0], lettersOldHigh[0])}</p>} */}
-          <br/>
-          <p>MIN: {minFrequency} / MAX: {maxFrequency} {highTransition && " — Recalculating boundaries"}</p>
-        </div>
-      </header>
+    <div>
+      <Info
+      factorsIndex={factorsIndex}
+      letters={letters}
+      minFrequency={minFrequency}
+      maxFrequency={maxFrequency}
+      sensitivity={sensitivity}
+      setSensitivity={setSensitivity}
+      allFactors={allFactors}
+      highTransition={highTransition}
+      setTextColor={setTextColor}
+      textColor={textColor}
+      setBackgroundColor={setBackgroundColor}
+      backgroundColor={backgroundColor}
+      live={live}
+      lettersOrder={lettersOrder}
+      baseValue={baseValue}
+      highValues={highValues}
+      lettersHigh={lettersHigh}
+      variation={allFactors[3]}
+      />
       <div className="logo">
         {
           (factorsIndex.length > 0 && lettersHigh.length > 0 && lettersOldHigh.length > 0) && letters.map((letter, indexx) => {
@@ -461,8 +461,9 @@ export default function ListenVisual({ }) {
                 letter={letter}
                 factor={index}
                 base={50 * sensitivity * baseValue}
-                height={highValues[indexx + 1] * 50 * sensitivity}
+                height={highValues[index] * 10 * sensitivity}
                 variation={allFactors[3]}
+                textColor={textColor}
               />
               {letter === 'i' && (
                 <Letter
@@ -470,7 +471,8 @@ export default function ListenVisual({ }) {
                 factor={index}
                 variation={allFactors[3]}
                 height={50 * sensitivity * baseValue}
-                base={highValues[4] * 50 * sensitivity}
+                base={highValues[4] * 10 * sensitivity}
+                textColor={textColor}
               />
               )}
               </>
@@ -478,11 +480,6 @@ export default function ListenVisual({ }) {
           })
         }
       </div>
-
-      <footer>
-        <label htmlFor="sensitivity">Sensitivity</label>
-        <input type="range" value={sensitivity} id="sensitivity" name="sensitivity" min="1" max="10" onChange={(event) => setSensitivity(event.target.value)} />
-      </footer>
     </div>
   );
 }

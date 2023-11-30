@@ -8,6 +8,8 @@ body {
   height: 100vh;
   top: 0;
   left: 0;
+  margin: 0;
+  padding: 0;
   position: absolute;
   display: flex;
   justify-content: center;
@@ -16,6 +18,23 @@ body {
   overflow: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+header {
+  font-family: monospace;
+  font-size: 12px;
+  position: absolute;
+  color: white;
+  top: 0px;
+  left: 0px;
+  background-color: rgb(51, 51, 51);
+  padding: 0px 20px;
+  width: 500px;
+  line-height: 120%;
+
+  hr {
+    border-color: rgb(126, 126, 126);
+  }
 }
 
 /* LOGO */
@@ -66,64 +85,8 @@ body {
   }
 }
 
-/* INFO BOX */
 
-.info-box {
-  position: absolute;
-  width: 250px;
-  height: 70px;
-  left: 10px;
-  top: 10px;
-  background-color: white;
-  padding: 20px;
-  font-family: sans-serif;
-}
 
-/* SHAPES */
-
-.shape-wrapper {
-  position: absolute;
-  width: 650px;
-  height: 70px;
-  padding: 20px;
-  right: 10px;
-  top: 10px;
-  background-color: white;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-
-  .shape {
-    width: 200px;
-    height: 200px;
-    background-color: black;
-    transform-origin: center;
-    border-radius: 50%;
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 30px;
-    font-family: sans-serif;
-    text-transform: uppercase;
-  }
-
-}
-
-footer {
-  position: absolute;
-  left: calc(50vw - 125px);
-
-  bottom: 30px;
-  width: 250px;
-  text-align: center;
-  label {
-    color: white;
-    font-family: sans-serif;
-    text-transform: uppercase;
-    display: block;
-    margin-bottom: 10px;
-  }
   input {
     -webkit-appearance: none;
     appearance: none;
@@ -156,22 +119,3 @@ footer {
 
 
   }
-}
-
-header {
-  position: absolute;
-  font-size: 15px;
-  color: white;
-  font-family: sans-serif;
-  top: 0px;
-  left: 0px;
-  background-color: black;
-  padding: 10px;
-  width: 560px;
-
-  p {
-    line-height: 110%;
-    margin: 0;
-    padding: 0;
-  }
-}

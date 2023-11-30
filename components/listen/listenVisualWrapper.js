@@ -4,11 +4,11 @@ const DynamicPlayer = dynamic(() => import('./listenVisual'), {
     ssr: false
   })
 
-export default function ListenVisualWrapper({}) {
+export default function ListenVisualWrapper({live}) {
 
   return (
     <div className='visual-wrapper'>
-       <DynamicPlayer/>
+       <DynamicPlayer live={live}/>
     </div>
   )
 }

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-export default function Letter({ letter, base, height, variation, factor }) {
+export default function Letter({ letter, base, height, variation, factor, textColor }) {
 
     const limitVal = (val) => {
         return Math.round(val > 100 ? 100 : val);
@@ -17,7 +17,8 @@ export default function Letter({ letter, base, height, variation, factor }) {
                 "BASE" ${limitVal(base)},
                 "HGHT" ${limitVal(height)}, 
                 "VRTN" ${variation}
-              `}}
+              `,
+            color: textColor}}
             //   style={{
             //     fontVariationSettings: `
             //     "BASE" ${limitVal(base)},
