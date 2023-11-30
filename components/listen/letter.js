@@ -27,7 +27,7 @@ export default function Letter({ letter, base, height, variation, factor, textCo
             //   `}}
         >
             {letter}
-            <p>{factor}</p>
+            {/* <p>{factor}</p> */}
         </span>
         </>
     )

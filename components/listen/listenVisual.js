@@ -48,6 +48,8 @@ export default function ListenVisual({ live }) {
   const [sensitivity, setSensitivity] = useState(5);
   const [minFrequency, setMinFrequency, minFrequencyRef] = useState(0)
   const [maxFrequency, setMaxFrequency, maxFrequencyRef] = useState(frequencyLength)
+  const [minOldFrequency, setMinOldFrequency, minOldFrequencyRef] = useState(0)
+  const [maxOldFrequency, setMaxOldFrequency, maxOldFrequencyRef] = useState(frequencyLength)
   const [silenceStarted, setSilenceStarted, silenceStartedRef] = useState(true)
   const [allFactors, setAllFactors, allFactorsRef] = useState([0,0,0,0])
   const [t, setT, tRef] = useState(0)
@@ -97,7 +99,7 @@ export default function ListenVisual({ live }) {
       // console.log('run')
       then = now - (delta % interval);
       setT(now / 1000);
-      console.log(tRef.current)
+      // console.log(tRef.current)
       render(tRef.current);
     }
     rafID = window.requestAnimationFrame(run);
@@ -316,6 +318,8 @@ export default function ListenVisual({ live }) {
       highIntervalRef.current = setInterval(() => setHighTransitionIndex((highTransitionIndex) => highTransitionIndex - 0.02), 100)
     }
 
+    setMinOldFrequency(minFrequencyRef.current)
+    setMaxOldFrequency(maxFrequencyRef.current)
     setMinFrequency(Math.trunc(127 / frequencyRange))
     setMaxFrequency(0)
   }
@@ -450,6 +454,8 @@ export default function ListenVisual({ live }) {
       highValues={highValues}
       lettersHigh={lettersHigh}
       variation={allFactors[3]}
+      minOldFrequency={minOldFrequency}
+      maxOldFrequency={maxOldFrequency}
       />
       <div className="logo">
         {
@@ -461,7 +467,7 @@ export default function ListenVisual({ live }) {
                 letter={letter}
                 factor={index}
                 base={50 * sensitivity * baseValue}
-                height={highValues[index] * 10 * sensitivity}
+                height={highValues[index] * 20 * sensitivity}
                 variation={allFactors[3]}
                 textColor={textColor}
               />
@@ -471,7 +477,7 @@ export default function ListenVisual({ live }) {
                 factor={index}
                 variation={allFactors[3]}
                 height={50 * sensitivity * baseValue}
-                base={highValues[4] * 10 * sensitivity}
+                base={highValues[4] * 20 * sensitivity}
                 textColor={textColor}
               />
               )}
