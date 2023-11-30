@@ -7,16 +7,13 @@ import Letter from "./letter.js";
 
 let rafID;
 let mic;
-let fb1;
-let fb2;
-let tmp;
 let audioContext;
 let analyser;
 let numPoints;
 let frequencyData;
 let now = 0;
 let then = 0;
-let fps = 12;
+let fps = 48;
 let interval = 1000 / fps;
 let fftSize = 128;
 let clubber;
@@ -25,24 +22,44 @@ let bandList = []
 
 const allIMusic = [];
 const flickeringThreshold = 0.005;
+const alphabet = 'abcdefghijklmnopqrstuvwxyz';
+const frequencyRange = 3;
+const frequencyLength = Math.trunc(127 / frequencyRange)
+const totalRangeAmount = 7;
+// const frequencyBoundariesThreshold = Math.round((127 / frequencyRange) / 20);
+const frequencyBoundariesThreshold = 1;
+const positiveValues = [true, true, true, true];
+const durationList = [100, 50, 50, 100];
+const timingStartList = [25000, 40000, 50000, 10000];
+const valuesToAdd = [0.01, 0.01, 0.02, 1];
+const letters = ['g', 'r', 'a', 'i', 'n', 's'];
 
 export default function ListenVisual({ }) {
 
+  // STATES
   const [allHighs, setAllHighs, allHighsRef] = useState([]);
   const [lettersHigh, setLettersHigh, lettersHighRef] = useState([])
   const [lettersOldHigh, setLettersOldHigh, lettersOldHighRef] = useState([])
   const [highTransition, setHighTransition, highTransitionRef] = useState(false)
-  const [highTransitionIndex, setHighTransitionIndex, highTransitionIndexRef] = useState(0)
-
-  const alphabet = 'abcdefghijklmnopqrstuvwxyz';
-
+  const [highTransitionIndex, setHighTransitionIndex, highTransitionIndexRef] = useState(0);
+  const [lettersOrder, setLettersOrder] = useState([0,1,2,3,4,5])
+  const [factorsIndex, setFactorsIndex] = useState([])
   const [sensitivity, setSensitivity] = useState(5);
-  const frequencyRange = 3;
-  const frequencyLength = Math.trunc(127 / frequencyRange)
-  const totalRangeAmount = 7;
-
   const [minFrequency, setMinFrequency, minFrequencyRef] = useState(0)
   const [maxFrequency, setMaxFrequency, maxFrequencyRef] = useState(frequencyLength)
+  const [silenceStarted, setSilenceStarted, silenceStartedRef] = useState(true)
+  const [allFactors, setAllFactors, allFactorsRef] = useState([0,0,0,0])
+  const [t, setT, tRef] = useState(0)
+  const [baseValue, setBaseValue] = useState(0)
+  const [highValues, setHighValues] = useState([0,0,0,0,0,0])
+
+  // REFS
+  const silenceTimeOut = useRef(null)
+  const silenceTimeOut2 = useRef(null)
+  const allIntervalShifts = useRef([])
+  const allIntervals = useRef([])
+  const adaptativeInterval = useRef()
+  const highIntervalRef = useRef()
 
   // SET DEFAULT VALUES FOR ALL STATES, MAPPED ON LETTERS AND PRECISION
   useEffect(() => {
@@ -76,8 +93,9 @@ export default function ListenVisual({ }) {
     if (delta > interval) {
       // console.log('run')
       then = now - (delta % interval);
-      const t = now / 1000;
-      render(t);
+      setT(now / 1000);
+      console.log(tRef.current)
+      render(tRef.current);
     }
     rafID = window.requestAnimationFrame(run);
   };
@@ -87,13 +105,6 @@ export default function ListenVisual({ }) {
     const difference = currentValue - newValue;
     return (difference > flickeringThreshold || difference < -flickeringThreshold)
   }
-
-  const frequencyBoundariesThreshold = 2;
-  // const frequencyBoundariesThreshold = Math.round((127 / frequencyRange) / 20);
-
-  const [silenceStarted, setSilenceStarted, silenceStartedRef] = useState(true)
-  const silenceTimeOut = useRef(null)
-  const silenceTimeOut2 = useRef(null)
 
   // DETECT SILENCES TO ADAPT BOUNDARIES WHEN CHANGING TRACK
   const checkIfSilence = (arrayIValues) => {
@@ -132,30 +143,28 @@ export default function ListenVisual({ }) {
   }
 
   // ANALYSE + UPDATE FREQUENCIES
-  const render = (time) => {
+  const render = () => {
     // console.log('Render')
+    // console.log('1: '+Date.now())
+    console.log('Analysing: '+Date.now())
     if (clubber) {
-      // copy current frequency dta from analyser to frequencyData array
-      // values are in dB units 0..255
-      // https://webaudio.github.io/web-audio-api/#dom-analysernode-getbytefrequencydata
-      // https://stackoverflow.com/questions/14789283/what-does-the-fft-data-in-the-web-audio-api-correspond-to
-
-      // db = energia su unita di tempo
-      // 10.log( p/p0)^2
       analyser.getByteFrequencyData(frequencyData);
       clubber.update(null, frequencyData, false);
 
       let minFrequencyLocal = 0;
       let maxFrequencyLocal = 0;
 
+      let newAllHighs = [...allHighsRef.current];
+
       for (let i = 0; i < frequencyLength; i++) {
         bands[alphabet[i]](allIMusic[i])
         // console.log(allIMusic[i][3], i)
         if (avoidFlickering(allIMusic[i][3], allHighsRef.current[i])) {
-          setAllHighs((allHighs) => allHighs.map((item, index) => (
-            index === i ? allIMusic[i][3] : item
-          )
-          ))
+          newAllHighs[i] = allIMusic[i][3]
+          // setAllHighs((allHighs) => allHighs.map((item, index) => (
+          //   index === i ? allIMusic[i][3] : item
+          // )
+          // ))
         }
         if (allIMusic[i][3] > 0.01) {
           if (minFrequencyLocal === 0) {
@@ -164,6 +173,11 @@ export default function ListenVisual({ }) {
           else maxFrequencyLocal = i;
         }
       }
+
+      // console.log('2: '+Date.now())
+
+      // Condition avoids changing state for nothing
+      if(newAllHighs !== allHighsRef.current) setAllHighs(newAllHighs)
 
       if(minFrequencyRef.current > minFrequencyLocal && minFrequencyLocal !== 0) {
         console.log('changing low frequency to: '+minFrequencyLocal)
@@ -178,20 +192,10 @@ export default function ListenVisual({ }) {
 
       checkIfSilence(allIMusic)
     }
-    rafID = window.requestAnimationFrame(run);
-    tmp = fb1;
-    fb1 = fb2;
-    fb2 = tmp;
   };
 
   // CONNECT TRACK
   const init = () => {
-    // console.log('Init')
-    // console.log(navigator.mediaDevices.getUserMedia)
-    // let navigatorFn = navigator.getUserMedia
-    //   || navigator.webkitGetUserMedia
-    //   || navigator.mozGetUserMedia;
-    // navigatorFn({ video: false, audio: true }, callback, console.log);
     navigator.mediaDevices.getUserMedia({ video: false, audio: true })
     .then((stream) => callback(stream))
     .catch((err) => console.log(err));
@@ -199,7 +203,6 @@ export default function ListenVisual({ }) {
 
   // CREATE ANALYSER
   const callback = (stream) => {
-    // console.log('Initial call back')
     audioContext = new AudioContext({
       latencyHint: 0,
     });
@@ -242,19 +245,8 @@ export default function ListenVisual({ }) {
     run();
   };
 
-  // INIT
-  // useEffect(() => {
-  //   init()
-  // }, []);
-
-  const [allFactors, setAllFactors, allFactorsRef] = useState([0,0,0,0])
-  const allIntervalShifts = useRef([])
-  const allIntervals = useRef([])
-  const positiveValues = [true, true, true, true];
-
   // SHIFT FN
   const startVariation = (interval, duration, index, valueToAdd) => {
-    // console.log('Initial start variation')
     const maxValue = index === 3 ? 100:1;
     if (interval.current[index]) clearInterval(interval.current[index])
     if (allFactorsRef.current[index] >= maxValue) positiveValues[index] = false;
@@ -269,13 +261,8 @@ export default function ListenVisual({ }) {
     }, duration)
   }
 
-  const durationList = [100, 50, 50, 100];
-  const timingStartList = [25000, 40000, 50000, 10000];
-  const valuesToAdd = [0.01, 0.01, 0.02, 1];
-
   // LETTER TIMINGS
   const createLetterShifting = (index) => {
-    // console.log('Create letter shifting')
     setTimeout(() => {
       startVariation(allIntervalShifts, durationList[index], index, valuesToAdd[index])
     }, timingStartList[index])
@@ -288,7 +275,6 @@ export default function ListenVisual({ }) {
 
   // LETTER SHIFTING INIT
   useEffect(() => {
-    // console.log('Initial letter shifting')
     createLetterShifting(0)
     createLetterShifting(1)
     createLetterShifting(2)
@@ -300,9 +286,6 @@ export default function ListenVisual({ }) {
       }
     }
   }, [])
-
-  const adaptativeInterval = useRef()
-  const highIntervalRef = useRef()
 
   const adaptBoundaries = (first=false) => {
     console.log('Adapting boundaries')
@@ -345,24 +328,10 @@ export default function ListenVisual({ }) {
     setMaxFrequency(0)
   }
 
-  // REDISTRIBUTE FREQUENCIES
-  useEffect(() => {
-    // console.log('Initial use effect rediscribute frequencies')
-    adaptBoundaries(true)
-    if (adaptativeInterval.current) clearInterval(adaptativeInterval.current)
-
-    // UNCOMMENT THIS FOR LIVE
-    // adaptativeInterval.current = setInterval(() => {
-    //     adaptBoundaries()
-    // }, 60000)
-
-  }, [])
-
-  const letters = ['g', 'r', 'a', 'i', 'n', 's'];
-
-  const returnSum = (letterHigh, letterOldHigh) => {
-    // console.log('return sum')
+  const returnSum = (letterHigh, letterOldHigh, index) => {
+    // console.log('calculating HEIGHT'+index)
     let newValue;
+    // console.log('3: '+Date.now())
 
     // Transition between old value and new value
     if(highTransitionRef.current === true) {
@@ -377,8 +346,34 @@ export default function ListenVisual({ }) {
     return newValue;
   }
 
+  const returnSumBase = (time, index) => {
+    console.log('calculating BASE')
+    let newValue;
+
+    // Transition between old value and new value
+    if(highTransitionRef.current === true) {
+      newValue = ((1 - highTransitionIndexRef.current) * (allHighsRef.current.slice(lettersHigh[index].min, lettersHigh[index].min + lettersHigh[index].length).reduce((acc, curr, i) => acc = acc + curr, 0) / lettersHigh[index].totalRangeItem)) + (highTransitionIndexRef.current * (allHighsRef.current.slice(lettersOldHigh[index].min, lettersOldHigh[index].min + lettersOldHigh[index].length).reduce((acc, curr, i) => acc = acc + curr, 0) / lettersOldHigh[index].totalRangeItem))
+    }
+
+    // New value only
+    else {
+      newValue = allHighsRef.current.slice(lettersHigh[index].min, lettersHigh[index].min + lettersHigh[index].length).reduce((acc, curr, i) => acc = acc + curr, 0) / lettersHigh[index].totalRangeItem
+    }
+
+    return newValue;
+  }
+
+  const returnSumHeight = (time, indexx) => {
+
+    const index = lettersOrder[indexx]
+
+    console.log('calculating Height '+index+' — '+time);
+    let newValue = allFactors[factorsIndex[index].factor] * returnSum(lettersHigh[index + 1], lettersOldHigh[index + 1]) + (1 - allFactors[factorsIndex[index].factor]) * returnSum(lettersHigh[factorsIndex[index].linkedTo + 1], lettersOldHigh[factorsIndex[index].linkedTo + 1])
+
+    return newValue;
+  }
+
   const shuffle = (array, setState) => {
-    // console.log('schuffle')
     let newArray = array;
     let currentIndex = array.length;
     let randomIndex;
@@ -392,7 +387,6 @@ export default function ListenVisual({ }) {
   }
 
   const factorShuffle = () => {
-    // console.log('Factor Shuffle')
     let allIndexes = [0,1,2,3,4,5]
     const threeFactors = [];
     let newFactorsIndex = [];
@@ -415,19 +409,34 @@ export default function ListenVisual({ }) {
     setFactorsIndex(newFactorsIndex)
   }
 
-  const [lettersOrder, setLettersOrder] = useState([0,1,2,3,4,5])
-  const [factorsIndex, setFactorsIndex] = useState([])
-
-  // Shuffle letters & factors
+  // REDISTRIBUTE FREQUENCIES, SHUFFLE, INIT
   useEffect(() => {
-    // console.log('Initial use effect Shuffle letters & factors')
+    init();
+
     factorShuffle()
     shuffle(lettersOrder, setLettersOrder)
+
+    adaptBoundaries(true)
+    if (adaptativeInterval.current) clearInterval(adaptativeInterval.current)
+
+    // UNCOMMENT THIS FOR LIVE
+    // adaptativeInterval.current = setInterval(() => {
+    //     adaptBoundaries()
+    // }, 60000)
+
   }, [])
-  
+
+  useEffect(() => {
+    if(lettersHigh.length > 1) {
+      setBaseValue(returnSumBase(t, 0))
+      setHighValues([returnSumHeight(t, 1),returnSumHeight(t, 2),returnSumHeight(t, 3),returnSumHeight(t, 4),returnSumHeight(t, 1),returnSumHeight(t, 5)])
+      console.log('Updating State: '+Date.now())
+    }
+  }, [t])
+
   return (
     <div onClick={init}>
-      {/* <header>
+      <header>
         INFORMATIONS:
         <div>
           { factorsIndex.length > 0 &&
@@ -436,33 +445,32 @@ export default function ListenVisual({ }) {
             ))
           }
           <br/>
-          {factorsIndex.length > 0 && lettersHigh.length > 0 && <p>BASE: {50 * sensitivity * returnSum(lettersHigh[0], lettersOldHigh[0])}</p>}
+          {factorsIndex.length > 0 && lettersHigh.length > 0 && <p>BASE: {allHighs.reduce((acc, curr, i) => acc = acc + curr, 0)}</p>}
+          {/* {factorsIndex.length > 0 && lettersHigh.length > 0 && <p>BASE: {50 * sensitivity * returnSum(lettersHigh[0], lettersOldHigh[0])}</p>} */}
           <br/>
           <p>MIN: {minFrequency} / MAX: {maxFrequency} {highTransition && " — Recalculating boundaries"}</p>
         </div>
-      </header> */}
+      </header>
       <div className="logo">
         {
           (factorsIndex.length > 0 && lettersHigh.length > 0 && lettersOldHigh.length > 0) && letters.map((letter, indexx) => {
             const index = lettersOrder[indexx]
-
             return (
               <> 
               <Letter
                 letter={letter}
                 factor={index}
-                base={50 * sensitivity * returnSum(lettersHigh[0], lettersOldHigh[0])}
-                height={(allFactors[factorsIndex[index].factor] * returnSum(lettersHigh[index + 1], lettersOldHigh[index + 1]) + (1 - allFactors[factorsIndex[index].factor]) * returnSum(lettersHigh[factorsIndex[index].linkedTo + 1], lettersOldHigh[factorsIndex[index].linkedTo + 1])) * 50 * sensitivity}
+                base={50 * sensitivity * baseValue}
+                height={highValues[indexx + 1] * 50 * sensitivity}
                 variation={allFactors[3]}
-                // height={1}
               />
               {letter === 'i' && (
                 <Letter
                 letter={'.'}
                 factor={index}
                 variation={allFactors[3]}
-                height={50 * sensitivity * returnSum(lettersHigh[0], lettersOldHigh[0])}
-                base={(allFactors[factorsIndex[index].factor] * returnSum(lettersHigh[index + 1], lettersOldHigh[index + 1]) + (1 - allFactors[factorsIndex[index].factor]) * returnSum(lettersHigh[factorsIndex[index].linkedTo + 1], lettersOldHigh[factorsIndex[index].linkedTo + 1])) * 50 * sensitivity}
+                height={50 * sensitivity * baseValue}
+                base={highValues[4] * 50 * sensitivity}
               />
               )}
               </>

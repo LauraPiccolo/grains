@@ -1,10 +1,10 @@
 import ListenVisualWrapper from '../components/listen/listenVisualWrapper'
 
-const Index = ({ }) => {
+const Live = ({ }) => {
 
     return (
-        <ListenVisualWrapper live={false}/>
+        <ListenVisualWrapper live={true}/>
     )
 }
 
-export default Index
+export default Live
