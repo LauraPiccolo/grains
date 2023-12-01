@@ -14,8 +14,6 @@ let numPoints;
 let frequencyData;
 let now = 0;
 let then = 0;
-let fps = 48;
-let interval = 1000 / fps;
 let fftSize = 128;
 let clubber;
 let bands = {};
@@ -57,8 +55,12 @@ export default function ListenVisual({ live }) {
   const [highValues, setHighValues] = useState([0,0,0,0,0,0])
   const [backgroundColor, setBackgroundColor] = useState('#202203')
   const [textColor, setTextColor] = useState('#ffed00')
+  const [consoleOpen, setConsoleOpen] = useState(false)
 
   // REFS
+  const fps = 48;
+  // const fps = live ? 48:24;
+  let interval = 1000 / fps;
   const silenceTimeOut = useRef(null)
   const silenceTimeOut2 = useRef(null)
   const allIntervalShifts = useRef([])
@@ -68,7 +70,6 @@ export default function ListenVisual({ live }) {
 
   // SET DEFAULT VALUES FOR ALL STATES, MAPPED ON LETTERS AND PRECISION
   useEffect(() => {
-    // console.log('Initial use effect')
     let newAllHighs = []
     let newLettersHigh = []
     for (let i = 0; i < frequencyLength; i++) {
@@ -96,24 +97,20 @@ export default function ListenVisual({ live }) {
     now = window.performance.now();
     const delta = now - then;
     if (delta > interval) {
-      // console.log('run')
       then = now - (delta % interval);
       setT(now / 1000);
-      // console.log(tRef.current)
       render(tRef.current);
     }
     rafID = window.requestAnimationFrame(run);
   };
 
   const avoidFlickering = (currentValue, newValue) => {
-    // console.log('avoid flickering')
     const difference = currentValue - newValue;
     return (difference > flickeringThreshold || difference < -flickeringThreshold)
   }
 
   // DETECT SILENCES TO ADAPT BOUNDARIES WHEN CHANGING TRACK
   const checkIfSilence = (arrayIValues) => {
-    // console.log('check if silence')
     let isSilence = true;
 
     // Check all frequencies
@@ -130,7 +127,6 @@ export default function ListenVisual({ live }) {
 
       // If this is the first time silence is detected, start the silence timeout
       if(silenceStartedRef.current === false) {
-        // console.log('silence started')
         // Silence has to be there for more than 1.5 second
         silenceTimeOut2.current = setTimeout(() => setSilenceStarted(true), 1500);
       }
@@ -139,8 +135,12 @@ export default function ListenVisual({ live }) {
       // If sound is detected and silence was true until now
       if(silenceStartedRef.current === true) {
         setSilenceStarted(false)
+        // Reinitialise default state for begining of track
+        // if(!live) {
+        //   adaptBoundaries(true)
+        // }
         // Call adapt boundaries twice, after 8 seconds and after 30 seconds
-        silenceTimeOut.current = setTimeout(() => adaptBoundaries(), 8000)
+        silenceTimeOut.current = setTimeout(() => adaptBoundaries(), 10000)
         silenceTimeOut.current = setTimeout(() => adaptBoundaries(), 30000)
       }
     }
@@ -208,7 +208,7 @@ export default function ListenVisual({ live }) {
     try {
       mic.connect(analyser);
 
-      analyser.connect(audioContext.destination);
+      if(!live) analyser.connect(audioContext.destination);
       clubber = new Clubber({
         context: audioContext,
         analyser: analyser,
@@ -362,7 +362,7 @@ export default function ListenVisual({ live }) {
 
     const index = lettersOrder[indexx]
 
-    console.log('calculating Height '+index+' — '+time);
+    // console.log('calculating Height '+index+' — '+time);
     let newValue = allFactors[factorsIndex[index].factor] * returnSum(lettersHigh[index + 1], lettersOldHigh[index + 1]) + (1 - allFactors[factorsIndex[index].factor]) * returnSum(lettersHigh[factorsIndex[index].linkedTo + 1], lettersOldHigh[factorsIndex[index].linkedTo + 1])
 
     return newValue;
@@ -414,10 +414,12 @@ export default function ListenVisual({ live }) {
     adaptBoundaries(true)
     if (adaptativeInterval.current) clearInterval(adaptativeInterval.current)
 
-    // UNCOMMENT THIS FOR LIVE
-    // adaptativeInterval.current = setInterval(() => {
-    //     adaptBoundaries()
-    // }, 60000)
+    // Set interval for live where silence might not be often detected
+    if(live) {
+      adaptativeInterval.current = setInterval(() => {
+        adaptBoundaries()
+      }, 60000)
+    }
 
   }, [])
 
@@ -425,7 +427,7 @@ export default function ListenVisual({ live }) {
     if(lettersHigh.length > 1) {
       setBaseValue(returnSumBase(t, 0))
       setHighValues([returnSumHeight(t, 1),returnSumHeight(t, 2),returnSumHeight(t, 3),returnSumHeight(t, 4),returnSumHeight(t, 1),returnSumHeight(t, 5)])
-      console.log('Updating State: '+Date.now())
+      // console.log('Updating State: '+Date.now())
     }
   }, [t])
 
@@ -456,8 +458,10 @@ export default function ListenVisual({ live }) {
       variation={allFactors[3]}
       minOldFrequency={minOldFrequency}
       maxOldFrequency={maxOldFrequency}
+      consoleOpen={consoleOpen}
+      setConsoleOpen={setConsoleOpen}
       />
-      <div className="logo">
+      <div className="logo" onClick={() => setConsoleOpen(false)}>
         {
           (factorsIndex.length > 0 && lettersHigh.length > 0 && lettersOldHigh.length > 0) && letters.map((letter, indexx) => {
             const index = lettersOrder[indexx]

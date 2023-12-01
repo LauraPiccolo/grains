@@ -1,9 +1,11 @@
 import Link from "next/link"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
-export default function Info({ factorsIndex, letters, minFrequency, maxFrequency, sensitivity, setSensitivity, allFactors, highTransition, setBackgroundColor, setTextColor, textColor, backgroundColor, live, baseValue, highValues, lettersOrder, lettersHigh, variation, minOldFrequency, maxOldFrequency }) {
-
-    const [consoleOpen, setConsoleOpen] = useState(false)
+export default function Info({ factorsIndex, letters, minFrequency, maxFrequency, sensitivity, setSensitivity, allFactors, highTransition, setBackgroundColor, setTextColor, textColor, backgroundColor, live, baseValue, highValues, lettersOrder, lettersHigh, variation, minOldFrequency, maxOldFrequency, consoleOpen, setConsoleOpen }) {
+    
+    useEffect(() => {
+        document.addEventListener('keypress', (e) => {if(e.key === 'c') setConsoleOpen((consoleOpen) => !consoleOpen)})
+    }, [])
 
     return (
         <header className={consoleOpen ? 'header__open':''}>
@@ -54,8 +56,9 @@ export default function Info({ factorsIndex, letters, minFrequency, maxFrequency
                     }
                 </ul>
                 <h3>Boundaries</h3>
-                <p>OLD: min: {minOldFrequency} / max: {maxOldFrequency}
-                <br/>NEW: min: {minFrequency} / max: {maxFrequency}</p>
+                <p>TOTAL: min: 0 / max: 127</p>
+                <p>CURRENT: min: {minOldFrequency*3} / max: {maxOldFrequency*3}
+                <br/>NEW: min: {minFrequency*3} / max: {maxFrequency*3}</p>
                 <p style={{color: 'yellow'}}>{highTransition && "Recalculating boundaries"}.</p>
                 <br />
                 <hr />
@@ -85,10 +88,10 @@ export default function Info({ factorsIndex, letters, minFrequency, maxFrequency
                 <hr />
                 <br />
                 <div className="console__mode">
-                    <h2>CURRENTLY IN {live ? "LIVE" : "TRACKS"} MODE</h2>
-                    <Link href={live ? '/tracks':'/live'}>
+                    <h2>CURRENTLY IN {live ? "LIVE" : "PLAYLIST"} MODE</h2>
+                    <Link href={live ? '/playlist':'/live'}>
                         <button className="mode_switch">
-                            Switch to {!live ? "LIVE" : "TRACKS"} Mode
+                            Switch to {!live ? "LIVE" : "PLAYLIST"} Mode
                         </button>
                     </Link>
                 </div>
