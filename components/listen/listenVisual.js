@@ -5,6 +5,7 @@ import Clubber from "clubber";
 import { AudioContext } from "standardized-audio-context";
 import Letter from "./letter.js";
 import Info from "./info.js";
+import { useRouter } from "next/router";
 
 let rafID;
 let mic;
@@ -53,8 +54,9 @@ export default function ListenVisual({ live }) {
   const [t, setT, tRef] = useState(0)
   const [baseValue, setBaseValue] = useState(0)
   const [highValues, setHighValues] = useState([0,0,0,0,0,0])
-  const [backgroundColor, setBackgroundColor] = useState('#202203')
-  const [textColor, setTextColor] = useState('#ffed00')
+  const router = useRouter()
+  const [backgroundColor, setBackgroundColor] = useState(router.query.backgroundColor || '#202203')
+  const [textColor, setTextColor] = useState(router.query.textColor ||'#ffed00')
   const [consoleOpen, setConsoleOpen] = useState(false)
 
   // REFS
@@ -176,11 +178,11 @@ export default function ListenVisual({ live }) {
       if(newAllHighs !== allHighsRef.current) setAllHighs(newAllHighs)
 
       if(minFrequencyRef.current > minFrequencyLocal && minFrequencyLocal !== 0) {
-        console.log('changing low frequency to: '+minFrequencyLocal)
+        // console.log('changing low frequency to: '+minFrequencyLocal)
         setMinFrequency(minFrequencyLocal)
       }
       if(maxFrequencyRef.current < maxFrequencyLocal) {
-        console.log('changing high frequency to: '+maxFrequencyLocal)
+        // console.log('changing high frequency to: '+maxFrequencyLocal)
         setMaxFrequency(maxFrequencyLocal + frequencyBoundariesThreshold > Math.trunc(127 / frequencyRange) ? Math.trunc(127 / frequencyRange) : maxFrequencyLocal + frequencyBoundariesThreshold);
       }
 
@@ -282,8 +284,8 @@ export default function ListenVisual({ live }) {
   }, [])
 
   const adaptBoundaries = (first=false) => {
-    console.log('Adapting boundaries')
-    console.log('MAX: ' + maxFrequencyRef.current + ' MIN: ' + minFrequencyRef.current)
+    // console.log('Adapting boundaries')
+    // console.log('MAX: ' + maxFrequencyRef.current + ' MIN: ' + minFrequencyRef.current)
 
     const totalRange = maxFrequencyRef.current - minFrequencyRef.current;
     const totalRangeItem = Math.round(totalRange / totalRangeAmount);
@@ -434,6 +436,18 @@ export default function ListenVisual({ live }) {
   useEffect(() => {
     document.body.style.backgroundColor = backgroundColor
   }, [backgroundColor])
+
+  // Add bg & text color to url when changing
+  useEffect(() => {
+    const currentRoute = router.asPath.split('?')[0];
+
+    router.push({
+          pathname: currentRoute,
+          query: {textColor: textColor, backgroundColor: backgroundColor}
+      },
+      undefined, { shallow: true }
+    )
+  }, [backgroundColor, textColor])
 
   return (
     <div>

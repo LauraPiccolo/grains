@@ -20,7 +20,7 @@ export default function Info({ factorsIndex, letters, minFrequency, maxFrequency
                         {factorsIndex.length > 0 &&
                             factorsIndex.map((fac, index) => {
                                 if(fac.factor === 0) return (
-                                <li>Connection between [ {letters[index]} and {letters[fac.linkedTo]} ] (factor {fac.factor} — value {Math.round(allFactors[fac.factor] * 100) / 100})</li>
+                                <li key={`factor--0--${index}`}>Connection between [ {letters[index]} and {letters[fac.linkedTo]} ] (factor {fac.factor} — value {Math.round(allFactors[fac.factor] * 100) / 100})</li>
                             )})
                         }
                     </ul>
@@ -28,7 +28,7 @@ export default function Info({ factorsIndex, letters, minFrequency, maxFrequency
                         {factorsIndex.length > 0 &&
                             factorsIndex.map((fac, index) => {
                                 if(fac.factor === 1) return (
-                                <li>Connection between [ {letters[index]} and {letters[fac.linkedTo]} ] (factor {fac.factor} — value {Math.round(allFactors[fac.factor] * 100) / 100})</li>
+                                <li key={`factor--1--${index}`}>Connection between [ {letters[index]} and {letters[fac.linkedTo]} ] (factor {fac.factor} — value {Math.round(allFactors[fac.factor] * 100) / 100})</li>
                             )})
                         }
                     </ul>
@@ -36,7 +36,7 @@ export default function Info({ factorsIndex, letters, minFrequency, maxFrequency
                         {factorsIndex.length > 0 &&
                             factorsIndex.map((fac, index) => {
                                 if(fac.factor === 2) return (
-                                <li>Connection between [ {letters[index]} and {letters[fac.linkedTo]} ] (factor {fac.factor} — value {Math.round(allFactors[fac.factor] * 100) / 100})</li>
+                                <li key={`factor--2--${index}`}>Connection between [ {letters[index]} and {letters[fac.linkedTo]} ] (factor {fac.factor} — value {Math.round(allFactors[fac.factor] * 100) / 100})</li>
                             )})
                         }
                     </ul>
@@ -50,7 +50,7 @@ export default function Info({ factorsIndex, letters, minFrequency, maxFrequency
                         lettersHigh.length > 1 && letters.map((letter, index) => {
                             let i = lettersOrder[index]
                             return (
-                                <li>{letter.toUpperCase()}  = {i + 1}, frequencies [ {lettersHigh[i + 1].min * 3} — {(lettersHigh[i + 1].min + lettersHigh[i + 1].length) * 3} ]: {Math.trunc(highValues[i] * 20 * sensitivity)}</li>
+                                <li key={`high--${index}`}>{letter.toUpperCase()}  = {i + 1}, frequencies [ {lettersHigh[i + 1].min * 3} — {(lettersHigh[i + 1].min + lettersHigh[i + 1].length) * 3} ]: {Math.trunc(highValues[i] * 20 * sensitivity)}</li>
                             )
                         })
                     }
