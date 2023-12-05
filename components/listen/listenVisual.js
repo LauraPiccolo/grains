@@ -210,7 +210,7 @@ export default function ListenVisual({ live }) {
     try {
       mic.connect(analyser);
 
-      if(!live) analyser.connect(audioContext.destination);
+      if(live) analyser.connect(audioContext.destination);
       clubber = new Clubber({
         context: audioContext,
         analyser: analyser,
