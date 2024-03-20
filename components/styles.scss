@@ -40,6 +40,13 @@ header {
   min-height: 100px;
   overflow: scroll;
   height: 100vh;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  &::-webkit-scrollbar { /* WebKit */
+    width: 0;
+    height: 0;
+    display: none;
+  }
 
   hr {
     border-color: rgb(126, 126, 126);
