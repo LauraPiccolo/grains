@@ -46,7 +46,7 @@ export default function ListenVisual({ live }) {
   const [factorsIndex, setFactorsIndex] = useState([])
   const [sensitivity, setSensitivity] = useState(5);
   const [minFrequency, setMinFrequency, minFrequencyRef] = useState(0)
-  const [maxFrequency, setMaxFrequency, maxFrequencyRef] = useState(frequencyLength)
+  const [maxFrequency, setMaxFrequency, maxFrequencyRef] = useState(27)
   const [minOldFrequency, setMinOldFrequency, minOldFrequencyRef] = useState(0)
   const [maxOldFrequency, setMaxOldFrequency, maxOldFrequencyRef] = useState(frequencyLength)
   const [silenceStarted, setSilenceStarted, silenceStartedRef] = useState(true)
@@ -78,7 +78,7 @@ export default function ListenVisual({ live }) {
       bandList[i] = {
         key: alphabet[i],
         content: {
-          template: "0123",
+          template: "01234",
           from: i * frequencyRange + 1,
           to: (i + 1) * frequencyRange + 1,
         }
@@ -166,7 +166,9 @@ export default function ListenVisual({ live }) {
         if (avoidFlickering(allIMusic[i][3], allHighsRef.current[i])) {
           newAllHighs[i] = allIMusic[i][3]
         }
+        // console.log(i, allIMusic[i][3])
         if (allIMusic[i][3] > 0.01) {
+          // console.log(i)
           if (minFrequencyLocal === 0) {
             minFrequencyLocal = i;
           }
@@ -182,6 +184,7 @@ export default function ListenVisual({ live }) {
         setMinFrequency(minFrequencyLocal)
       }
       if(maxFrequencyRef.current < maxFrequencyLocal) {
+        console.log(maxFrequencyLocal)
         // console.log('changing high frequency to: '+maxFrequencyLocal)
         setMaxFrequency(maxFrequencyLocal + frequencyBoundariesThreshold > Math.trunc(127 / frequencyRange) ? Math.trunc(127 / frequencyRange) : maxFrequencyLocal + frequencyBoundariesThreshold);
       }
@@ -199,8 +202,10 @@ export default function ListenVisual({ live }) {
 
   // CREATE ANALYSER
   const callback = (stream) => {
+    const sampleRate = stream.getAudioTracks()[0].getSettings().sampleRate;
     audioContext = new AudioContext({
       latencyHint: 0,
+      sampleRate
     });
     mic = audioContext.createMediaStreamSource(stream);
     analyser = audioContext.createAnalyser();
@@ -219,13 +224,13 @@ export default function ListenVisual({ live }) {
         latency: 0
       });
 
-      bands.total = clubber.band({
-        template: "769",
-        from: 0,
-        to: 127,
-        low: 1, // Low velocity/power threshold
-        high: 128, // High velocity/power threshold
-      })
+      // bands.total = clubber.band({
+      //   template: "769",
+      //   from: 0,
+      //   to: 127,
+      //   low: 1, // Low velocity/power threshold
+      //   high: 128, // High velocity/power threshold
+      // })
 
       bandList.map((freq, index) => {
         bands[freq.key] = clubber.band(freq.content)
@@ -485,7 +490,7 @@ export default function ListenVisual({ live }) {
                 letter={letter}
                 factor={index}
                 base={50 * sensitivity * baseValue}
-                height={highValues[index] * 20 * sensitivity}
+                height={highValues[index] * 25 * sensitivity}
                 variation={allFactors[3]}
                 textColor={textColor}
               />
@@ -495,7 +500,7 @@ export default function ListenVisual({ live }) {
                 factor={index}
                 variation={allFactors[3]}
                 height={50 * sensitivity * baseValue}
-                base={highValues[4] * 20 * sensitivity}
+                base={highValues[4] * 25 * sensitivity}
                 textColor={textColor}
               />
               )}
