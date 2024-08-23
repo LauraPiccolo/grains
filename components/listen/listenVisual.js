@@ -20,6 +20,8 @@ let clubber;
 let bands = {};
 let bandList = []
 
+// Extra base value is added to the length of the base frequency to make it stronger if the range of frequenciey is very wise
+const extraBaseValue = 1;
 const allIMusic = [];
 const flickeringThreshold = 0.005;
 const alphabet = 'abcdefghijklmnopqrstuvwxyz';
@@ -33,8 +35,10 @@ const durationList = [100, 50, 50, 100];
 const timingStartList = [25000, 40000, 50000, 10000];
 const valuesToAdd = [0.01, 0.01, 0.02, 1];
 const letters = ['g', 'r', 'a', 'i', 'n', 's'];
+const averageLowestDetectableFrequency = 27;
 
 export default function ListenVisual({ live }) {
+
 
   // STATES
   const [allHighs, setAllHighs, allHighsRef] = useState([]);
@@ -45,9 +49,9 @@ export default function ListenVisual({ live }) {
   const [lettersOrder, setLettersOrder] = useState([0,1,2,3,4,5])
   const [factorsIndex, setFactorsIndex] = useState([])
   const [sensitivity, setSensitivity] = useState(5);
-  const [minFrequency, setMinFrequency, minFrequencyRef] = useState(0)
-  const [maxFrequency, setMaxFrequency, maxFrequencyRef] = useState(27)
-  const [minOldFrequency, setMinOldFrequency, minOldFrequencyRef] = useState(0)
+  const [minFrequency, setMinFrequency, minFrequencyRef] = useState(averageLowestDetectableFrequency/frequencyRange)
+  const [maxFrequency, setMaxFrequency, maxFrequencyRef] = useState(frequencyLength)
+  const [minOldFrequency, setMinOldFrequency, minOldFrequencyRef] = useState(averageLowestDetectableFrequency/frequencyRange)
   const [maxOldFrequency, setMaxOldFrequency, maxOldFrequencyRef] = useState(frequencyLength)
   const [silenceStarted, setSilenceStarted, silenceStartedRef] = useState(true)
   const [allFactors, setAllFactors, allFactorsRef] = useState([0,0,0,0])
@@ -184,8 +188,7 @@ export default function ListenVisual({ live }) {
         setMinFrequency(minFrequencyLocal)
       }
       if(maxFrequencyRef.current < maxFrequencyLocal) {
-        console.log(maxFrequencyLocal)
-        // console.log('changing high frequency to: '+maxFrequencyLocal)
+        // console.log('changing high frequency to: '+maxFrequencyLocal*3)
         setMaxFrequency(maxFrequencyLocal + frequencyBoundariesThreshold > Math.trunc(127 / frequencyRange) ? Math.trunc(127 / frequencyRange) : maxFrequencyLocal + frequencyBoundariesThreshold);
       }
 
@@ -289,7 +292,7 @@ export default function ListenVisual({ live }) {
   }, [])
 
   const adaptBoundaries = (first=false) => {
-    // console.log('Adapting boundaries')
+    if(highTransitionRef.current === true) return;
     // console.log('MAX: ' + maxFrequencyRef.current + ' MIN: ' + minFrequencyRef.current)
 
     const totalRange = maxFrequencyRef.current - minFrequencyRef.current;
@@ -310,7 +313,12 @@ export default function ListenVisual({ live }) {
 
     // If this if triggered onload
     if(first) setLettersOldHigh(newHighs)
-
+    if(newHighs === lettersOldHighRef.current) {
+      // console.log('NO CHANGE')
+      setMinFrequency(Math.trunc(127 / frequencyRange))
+      setMaxFrequency(0)
+      return;
+    }
     // If this is a readaptation
     else {
       // Make a transition between old and new
@@ -321,8 +329,12 @@ export default function ListenVisual({ live }) {
       setTimeout(() => {
         setHighTransition(false)
         setLettersOldHigh(newHighs)
-      }, 5000)
-      highIntervalRef.current = setInterval(() => setHighTransitionIndex((highTransitionIndex) => highTransitionIndex - 0.02), 100)
+        clearInterval(highIntervalRef.current)
+      }, 5100)
+      highIntervalRef.current = setInterval(() => {
+        // console.log(highTransitionIndexRef.current)
+        setHighTransitionIndex((highTransitionIndex) => (highTransitionIndex - 0.02).toFixed(2))
+      }, 100)
     }
 
     setMinOldFrequency(minFrequencyRef.current)
@@ -351,15 +363,18 @@ export default function ListenVisual({ live }) {
 
   const returnSumBase = (time, index) => {
     let newValue;
+    // console.log(lettersHigh[index].totalRangeItem);
+    const extraBaseValueLocal = lettersHigh[index].totalRangeItem > 4 ? extraBaseValue : 0;
 
     // Transition between old value and new value
     if(highTransitionRef.current === true) {
-      newValue = ((1 - highTransitionIndexRef.current) * (allHighsRef.current.slice(lettersHigh[index].min, lettersHigh[index].min + lettersHigh[index].length).reduce((acc, curr, i) => acc = acc + curr, 0) / lettersHigh[index].totalRangeItem)) + (highTransitionIndexRef.current * (allHighsRef.current.slice(lettersOldHigh[index].min, lettersOldHigh[index].min + lettersOldHigh[index].length).reduce((acc, curr, i) => acc = acc + curr, 0) / lettersOldHigh[index].totalRangeItem))
+      // transitionFactor * allBase frequencies added together / how many frequencies there are on the base
+      newValue = ((1 - highTransitionIndexRef.current) * (allHighsRef.current.slice(lettersHigh[index].min, lettersHigh[index].min + lettersHigh[index].length + extraBaseValueLocal).reduce((acc, curr, i) => acc = acc + curr, 0) / lettersHigh[index].totalRangeItem)) + (highTransitionIndexRef.current * (allHighsRef.current.slice(lettersOldHigh[index].min, lettersOldHigh[index].min + lettersOldHigh[index].length + extraBaseValueLocal).reduce((acc, curr, i) => acc = acc + curr, 0) / lettersOldHigh[index].totalRangeItem))
     }
 
     // New value only
     else {
-      newValue = allHighsRef.current.slice(lettersHigh[index].min, lettersHigh[index].min + lettersHigh[index].length).reduce((acc, curr, i) => acc = acc + curr, 0) / lettersHigh[index].totalRangeItem
+      newValue = allHighsRef.current.slice(lettersHigh[index].min, lettersHigh[index].min + lettersHigh[index].length + extraBaseValueLocal).reduce((acc, curr, i) => acc = acc + curr, 0) / lettersHigh[index].totalRangeItem
     }
 
     return newValue;

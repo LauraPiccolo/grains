@@ -87,14 +87,14 @@ export default function Info({ factorsIndex, letters, minFrequency, maxFrequency
                 <br />
                 <hr />
                 <br />
-                <div className="console__mode">
+                {/* <div className="console__mode">
                     <h2>CURRENTLY IN {live ? "LIVE" : "PLAYLIST"} MODE</h2>
                     <Link href={live ? '/playlist':'/live'}>
                         <button className="mode_switch">
                             Switch to {!live ? "LIVE" : "PLAYLIST"} Mode
                         </button>
                     </Link>
-                </div>
+                </div> */}
             </div>
         </header>
     )
