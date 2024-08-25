@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import useState from 'react-usestateref';
 import "./glsl/raf.js";
-import Clubber from "clubber";
 import { AudioContext } from "standardized-audio-context";
 import Letter from "./letter.js";
 import Info from "./info.js";
@@ -15,21 +14,14 @@ let numPoints;
 let frequencyData;
 let now = 0;
 let then = 0;
-let fftSize = 128;
-let clubber;
-let bands = {};
-let bandList = []
+let fftSize = 512;
 
 // Extra base value is added to the length of the base frequency to make it stronger if the range of frequenciey is very wise
 const extraBaseValue = 1;
-const allIMusic = [];
-const flickeringThreshold = 0.005;
-const alphabet = 'abcdefghijklmnopqrstuvwxyz';
+const flickeringThreshold = 1;
 const frequencyRange = 3;
-const frequencyLength = Math.trunc(127 / frequencyRange)
+const frequencyLength = fftSize / 2;
 const totalRangeAmount = 7;
-// const frequencyBoundariesThreshold = Math.round((127 / frequencyRange) / 20);
-const frequencyBoundariesThreshold = 1;
 const positiveValues = [true, true, true, true];
 const durationList = [100, 50, 50, 100];
 const timingStartList = [25000, 40000, 50000, 10000];
@@ -64,8 +56,7 @@ export default function ListenVisual({ live }) {
   const [consoleOpen, setConsoleOpen] = useState(false)
 
   // REFS
-  const fps = 48;
-  // const fps = live ? 48:24;
+  const fps = 30;
   let interval = 1000 / fps;
   const silenceTimeOut = useRef(null)
   const silenceTimeOut2 = useRef(null)
@@ -79,16 +70,6 @@ export default function ListenVisual({ live }) {
     let newAllHighs = []
     let newLettersHigh = []
     for (let i = 0; i < frequencyLength; i++) {
-      bandList[i] = {
-        key: alphabet[i],
-        content: {
-          template: "01234",
-          from: i * frequencyRange + 1,
-          to: (i + 1) * frequencyRange + 1,
-        }
-      }
-
-      allIMusic[i] = [0.0, 0.0, 0.0, 0.0];
       newAllHighs[i] = 0;
       newLettersHigh[i] = {
         min: 0, length: frequencyRange / totalRangeAmount
@@ -112,6 +93,7 @@ export default function ListenVisual({ live }) {
 
   const avoidFlickering = (currentValue, newValue) => {
     const difference = currentValue - newValue;
+    // console.log(difference)
     return (difference > flickeringThreshold || difference < -flickeringThreshold)
   }
 
@@ -121,7 +103,7 @@ export default function ListenVisual({ live }) {
 
     // Check all frequencies
     for(let i = 0; i < arrayIValues.length; i++) {
-      if(arrayIValues[i][3] > 0.1) {
+      if(arrayIValues[i] > 1) {
         isSilence = false
       }
     }
@@ -153,47 +135,55 @@ export default function ListenVisual({ live }) {
     
   }
 
+  function sumPositiveValuesInRange(array, startIndex, endIndex) {
+    // Ensure indices are within bounds
+    startIndex = Math.max(0, startIndex);
+    endIndex = Math.min(array.length - 1, endIndex);
+  
+    // Extract the relevant portion of the array
+    const subArray = array.slice(startIndex, endIndex + 1);
+  
+    // Sum only positive values in the sub-array
+    const sum = subArray.reduce((accumulator, currentValue) => {
+      return currentValue > 0 ? accumulator + currentValue : accumulator;
+    }, 0);
+  
+    return sum;
+  }
+
   // ANALYSE + UPDATE FREQUENCIES
   const render = () => {
-    if (clubber) {
-      analyser.getByteFrequencyData(frequencyData);
-      clubber.update(null, frequencyData, false);
+      // Fill the frequencyData array with the frequency data from the analyser
+    analyser.getByteFrequencyData(frequencyData);
 
-      let minFrequencyLocal = 0;
-      let maxFrequencyLocal = 0;
+    let minFrequencyLocal = 0;
+    let maxFrequencyLocal = 0;
 
-      let newAllHighs = [...allHighsRef.current];
+    let newAllHighs = [...allHighsRef.current];
 
-      for (let i = 0; i < frequencyLength; i++) {
-        bands[alphabet[i]](allIMusic[i])
-
-        if (avoidFlickering(allIMusic[i][3], allHighsRef.current[i])) {
-          newAllHighs[i] = allIMusic[i][3]
-        }
-        // console.log(i, allIMusic[i][3])
-        if (allIMusic[i][3] > 0.01) {
-          // console.log(i)
-          if (minFrequencyLocal === 0) {
-            minFrequencyLocal = i;
-          }
-          else maxFrequencyLocal = i;
-        }
+    console.log(frequencyData[0])
+    for (let i = 0; i < frequencyLength; i++) {
+      if (avoidFlickering(frequencyData[i], newAllHighs[i])) {
+        newAllHighs[i] = frequencyData[i] - 90
       }
-
-      // Condition avoids changing state for nothing
-      if(newAllHighs !== allHighsRef.current) setAllHighs(newAllHighs)
-
+      if (frequencyData[i] > 110) {
+        if (minFrequencyLocal === 0) {
+          minFrequencyLocal = i;
+        }
+        else maxFrequencyLocal = i;
+      }
+      
       if(minFrequencyRef.current > minFrequencyLocal && minFrequencyLocal !== 0) {
-        // console.log('changing low frequency to: '+minFrequencyLocal)
-        setMinFrequency(minFrequencyLocal)
+        setMinFrequency(minFrequencyLocal);
       }
       if(maxFrequencyRef.current < maxFrequencyLocal) {
-        // console.log('changing high frequency to: '+maxFrequencyLocal*3)
-        setMaxFrequency(maxFrequencyLocal + frequencyBoundariesThreshold > Math.trunc(127 / frequencyRange) ? Math.trunc(127 / frequencyRange) : maxFrequencyLocal + frequencyBoundariesThreshold);
+        setMaxFrequency(maxFrequencyLocal);
       }
-
-      checkIfSilence(allIMusic)
+      
     }
+    
+    setAllHighs(newAllHighs)
+    checkIfSilence(newAllHighs)
   };
 
   // CONNECT TRACK
@@ -218,28 +208,16 @@ export default function ListenVisual({ live }) {
     try {
       mic.connect(analyser);
 
-      if(!live) analyser.connect(audioContext.destination);
-      clubber = new Clubber({
-        context: audioContext,
-        analyser: analyser,
-        size: fftSize,
-        mute: true,
-        latency: 0
-      });
+      const oscillator = audioContext.createOscillator();
+      oscillator.type = 'sine';
+      oscillator.frequency.setValueAtTime(440, audioContext.currentTime); // A4 note
+      oscillator.connect(analyser);  // Connect the oscillator to the analyser
 
-      // bands.total = clubber.band({
-      //   template: "769",
-      //   from: 0,
-      //   to: 127,
-      //   low: 1, // Low velocity/power threshold
-      //   high: 128, // High velocity/power threshold
-      // })
+      // Connect the analyser to the destination (the speakers)
+      analyser.connect(audioContext.destination);
 
-      bandList.map((freq, index) => {
-        bands[freq.key] = clubber.band(freq.content)
-      })
-
-
+      // Start the oscillator
+      oscillator.start();
 
     } catch (err) {
       console.error(err);
@@ -292,6 +270,7 @@ export default function ListenVisual({ live }) {
   }, [])
 
   const adaptBoundaries = (first=false) => {
+    // console.log('ADAPTING BOUNDARIES')
     if(highTransitionRef.current === true) return;
     // console.log('MAX: ' + maxFrequencyRef.current + ' MIN: ' + minFrequencyRef.current)
 
@@ -299,7 +278,7 @@ export default function ListenVisual({ live }) {
     const totalRangeItem = Math.round(totalRange / totalRangeAmount);
     const newHighs = []
 
-    const unusedFrequencies = Math.trunc(127 / frequencyRange) - maxFrequencyRef.current
+    const unusedFrequencies = frequencyLength - maxFrequencyRef.current
 
     for (let i = 0; i < totalRangeAmount; i++) {
       newHighs[i] = {
@@ -315,7 +294,7 @@ export default function ListenVisual({ live }) {
     if(first) setLettersOldHigh(newHighs)
     if(newHighs === lettersOldHighRef.current) {
       // console.log('NO CHANGE')
-      setMinFrequency(Math.trunc(127 / frequencyRange))
+      setMinFrequency(frequencyLength)
       setMaxFrequency(0)
       return;
     }
@@ -339,7 +318,7 @@ export default function ListenVisual({ live }) {
 
     setMinOldFrequency(minFrequencyRef.current)
     setMaxOldFrequency(maxFrequencyRef.current)
-    setMinFrequency(Math.trunc(127 / frequencyRange))
+    setMinFrequency(frequencyLength)
     setMaxFrequency(0)
   }
 
@@ -386,6 +365,8 @@ export default function ListenVisual({ live }) {
 
     // console.log('calculating Height '+index+' — '+time);
     let newValue = allFactors[factorsIndex[index].factor] * returnSum(lettersHigh[index + 1], lettersOldHigh[index + 1]) + (1 - allFactors[factorsIndex[index].factor]) * returnSum(lettersHigh[factorsIndex[index].linkedTo + 1], lettersOldHigh[factorsIndex[index].linkedTo + 1])
+
+    // console.log('NEW VALUE: '+newValue)
 
     return newValue;
   }
@@ -504,8 +485,8 @@ export default function ListenVisual({ live }) {
               <Letter
                 letter={letter}
                 factor={index}
-                base={50 * sensitivity * baseValue}
-                height={highValues[index] * 25 * sensitivity}
+                base={0.05 * sensitivity * baseValue}
+                height={highValues[index] * 0.7 * sensitivity}
                 variation={allFactors[3]}
                 textColor={textColor}
               />
@@ -514,8 +495,8 @@ export default function ListenVisual({ live }) {
                 letter={'.'}
                 factor={index}
                 variation={allFactors[3]}
-                height={50 * sensitivity * baseValue}
-                base={highValues[4] * 25 * sensitivity}
+                height={0.7 * sensitivity * baseValue}
+                base={highValues[4] * 0.05 * sensitivity}
                 textColor={textColor}
               />
               )}

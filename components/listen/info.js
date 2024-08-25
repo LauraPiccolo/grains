@@ -57,8 +57,8 @@ export default function Info({ factorsIndex, letters, minFrequency, maxFrequency
                 </ul>
                 <h3>Boundaries</h3>
                 <p>TOTAL: min: 0 / max: 127</p>
-                <p>CURRENT: min: {minOldFrequency*3} / max: {maxOldFrequency*3}
-                <br/>NEW: min: {minFrequency*3} / max: {maxFrequency*3}</p>
+                <p>CURRENT: min: {minOldFrequency} / max: {maxOldFrequency}
+                <br/>NEW: min: {minFrequency} / max: {maxFrequency}</p>
                 <p style={{color: 'yellow'}}>{highTransition && "Recalculating boundaries"}.</p>
                 <br />
                 <hr />
