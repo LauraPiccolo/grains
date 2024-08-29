@@ -17,9 +17,9 @@ let then = 0;
 let fftSize = 512;
 
 // Extra base value is added to the length of the base frequency to make it stronger if the range of frequenciey is very wise
-const flickeringThreshold = 10;
+const flickeringThreshold = 5;
 const minHeightValue = 1;
-const sumHighDivider = 1.2;
+const sumHighDivider = 1.1;
 const sumBaseDivider = 2.3;
 const silenceThreshold = 10;
 // Smoothing factor (lower reduces delay, but makes it more flickery)
@@ -27,6 +27,7 @@ const smoothingFactor = 0.3;
 // Base decibel values
 const baseMinDecibels = -90; // The minimum base value
 const baseMaxDecibels = -10; // The maximum base value
+const minimumSilenceValue = 20;
 
 const frequencyLength = fftSize / 2;
 const totalRangeAmount = 7;
@@ -110,7 +111,7 @@ export default function ListenVisual({ live }) {
     // Check all frequencies
     for(let i = 0; i < arrayIValues.length; i++) {
       if(arrayIValues[i] > silenceThreshold) {
-        isSilence = false
+        if(i > minimumSilenceValue) isSilence = false;
       }
     }
 
@@ -136,22 +137,6 @@ export default function ListenVisual({ live }) {
       }
     }
     
-  }
-
-  function sumPositiveValuesInRange(array, startIndex, endIndex) {
-    // Ensure indices are within bounds
-    startIndex = Math.max(0, startIndex);
-    endIndex = Math.min(array.length - 1, endIndex);
-  
-    // Extract the relevant portion of the array
-    const subArray = array.slice(startIndex, endIndex + 1);
-  
-    // Sum only positive values in the sub-array
-    const sum = subArray.reduce((accumulator, currentValue) => {
-      return currentValue > 0 ? accumulator + currentValue : accumulator;
-    }, 0);
-  
-    return sum;
   }
 
   // ANALYSE + UPDATE FREQUENCIES
