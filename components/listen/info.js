@@ -43,14 +43,14 @@ export default function Info({ factorsIndex, letters, minFrequency, maxFrequency
                 </ul>
                 <h3>Frequencies</h3>
                 <ul>
-                    <li>Base  — {Math.trunc(baseValue * 50 * sensitivity)}</li>
+                    <li>Base  — {Math.trunc(baseValue * sensitivity)}</li>
                     <li>Variation  — {variation}</li>
                     <br/>
                     {
                         lettersHigh.length > 1 && letters.map((letter, index) => {
                             let i = lettersOrder[index]
                             return (
-                                <li key={`high--${index}`}>{letter.toUpperCase()}  = {i + 1}, frequencies [ {lettersHigh[i + 1].min * 3} — {(lettersHigh[i + 1].min + lettersHigh[i + 1].length) * 3} ]: {Math.trunc(highValues[i] * 20 * sensitivity)}</li>
+                                <li key={`high--${index}`}>{letter.toUpperCase()}  = {i + 1}, frequencies [ {lettersHigh[i + 1].min} — {(lettersHigh[i + 1].min + lettersHigh[i + 1].length)} ]: {Math.trunc(highValues[i] * sensitivity)}</li>
                             )
                         })
                     }

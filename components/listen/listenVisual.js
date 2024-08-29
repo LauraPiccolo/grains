@@ -17,9 +17,17 @@ let then = 0;
 let fftSize = 512;
 
 // Extra base value is added to the length of the base frequency to make it stronger if the range of frequenciey is very wise
-const extraBaseValue = 1;
-const flickeringThreshold = 1;
-const frequencyRange = 3;
+const flickeringThreshold = 10;
+const minHeightValue = 1;
+const sumHighDivider = 1.2;
+const sumBaseDivider = 2.3;
+const silenceThreshold = 10;
+// Smoothing factor (lower reduces delay, but makes it more flickery)
+const smoothingFactor = 0.3;
+// Base decibel values
+const baseMinDecibels = -90; // The minimum base value
+const baseMaxDecibels = -10; // The maximum base value
+
 const frequencyLength = fftSize / 2;
 const totalRangeAmount = 7;
 const positiveValues = [true, true, true, true];
@@ -27,7 +35,6 @@ const durationList = [100, 50, 50, 100];
 const timingStartList = [25000, 40000, 50000, 10000];
 const valuesToAdd = [0.01, 0.01, 0.02, 1];
 const letters = ['g', 'r', 'a', 'i', 'n', 's'];
-const averageLowestDetectableFrequency = 27;
 
 export default function ListenVisual({ live }) {
 
@@ -41,9 +48,9 @@ export default function ListenVisual({ live }) {
   const [lettersOrder, setLettersOrder] = useState([0,1,2,3,4,5])
   const [factorsIndex, setFactorsIndex] = useState([])
   const [sensitivity, setSensitivity] = useState(5);
-  const [minFrequency, setMinFrequency, minFrequencyRef] = useState(averageLowestDetectableFrequency/frequencyRange)
+  const [minFrequency, setMinFrequency, minFrequencyRef] = useState(1)
   const [maxFrequency, setMaxFrequency, maxFrequencyRef] = useState(frequencyLength)
-  const [minOldFrequency, setMinOldFrequency, minOldFrequencyRef] = useState(averageLowestDetectableFrequency/frequencyRange)
+  const [minOldFrequency, setMinOldFrequency, minOldFrequencyRef] = useState(1)
   const [maxOldFrequency, setMaxOldFrequency, maxOldFrequencyRef] = useState(frequencyLength)
   const [silenceStarted, setSilenceStarted, silenceStartedRef] = useState(true)
   const [allFactors, setAllFactors, allFactorsRef] = useState([0,0,0,0])
@@ -53,7 +60,7 @@ export default function ListenVisual({ live }) {
   const router = useRouter()
   const [backgroundColor, setBackgroundColor] = useState(router.query.backgroundColor || '#202203')
   const [textColor, setTextColor] = useState(router.query.textColor ||'#ffed00')
-  const [consoleOpen, setConsoleOpen] = useState(false)
+  const [consoleOpen, setConsoleOpen] = useState(true)
 
   // REFS
   const fps = 30;
@@ -72,7 +79,7 @@ export default function ListenVisual({ live }) {
     for (let i = 0; i < frequencyLength; i++) {
       newAllHighs[i] = 0;
       newLettersHigh[i] = {
-        min: 0, length: frequencyRange / totalRangeAmount
+        min: 0, length: frequencyLength/ totalRangeAmount
        };
     }
     setAllHighs(newAllHighs)
@@ -93,7 +100,6 @@ export default function ListenVisual({ live }) {
 
   const avoidFlickering = (currentValue, newValue) => {
     const difference = currentValue - newValue;
-    // console.log(difference)
     return (difference > flickeringThreshold || difference < -flickeringThreshold)
   }
 
@@ -103,13 +109,14 @@ export default function ListenVisual({ live }) {
 
     // Check all frequencies
     for(let i = 0; i < arrayIValues.length; i++) {
-      if(arrayIValues[i] > 1) {
+      if(arrayIValues[i] > silenceThreshold) {
         isSilence = false
       }
     }
 
     // If all frequencies are silent
     if(isSilence) {
+      console.log('SILENCE DETECTED')
       if(silenceTimeOut.current) clearTimeout(silenceTimeOut.current);
       if(silenceTimeOut2.current) clearTimeout(silenceTimeOut2.current);
 
@@ -123,10 +130,6 @@ export default function ListenVisual({ live }) {
       // If sound is detected and silence was true until now
       if(silenceStartedRef.current === true) {
         setSilenceStarted(false)
-        // Reinitialise default state for begining of track
-        // if(!live) {
-        //   adaptBoundaries(true)
-        // }
         // Call adapt boundaries twice, after 8 seconds and after 30 seconds
         silenceTimeOut.current = setTimeout(() => adaptBoundaries(), 10000)
         silenceTimeOut.current = setTimeout(() => adaptBoundaries(), 30000)
@@ -161,12 +164,12 @@ export default function ListenVisual({ live }) {
 
     let newAllHighs = [...allHighsRef.current];
 
-    console.log(frequencyData[0])
+    // console.log(frequencyData[0])
     for (let i = 0; i < frequencyLength; i++) {
       if (avoidFlickering(frequencyData[i], newAllHighs[i])) {
-        newAllHighs[i] = frequencyData[i] - 90
+        newAllHighs[i] = (smoothingFactor * frequencyData[i]) + ((1 - smoothingFactor) * (newAllHighs[i] || 0));
       }
-      if (frequencyData[i] > 110) {
+      if (frequencyData[i] > minHeightValue) {
         if (minFrequencyLocal === 0) {
           minFrequencyLocal = i;
         }
@@ -197,11 +200,12 @@ export default function ListenVisual({ live }) {
   const callback = (stream) => {
     const sampleRate = stream.getAudioTracks()[0].getSettings().sampleRate;
     audioContext = new AudioContext({
-      latencyHint: 0,
+      latencyHint: "interactive",
       sampleRate
     });
     mic = audioContext.createMediaStreamSource(stream);
     analyser = audioContext.createAnalyser();
+    calculateDecibelRange(sensitivity)
     analyser.fftSize = fftSize;
     numPoints = analyser.frequencyBinCount;
     frequencyData = new Uint8Array(numPoints);
@@ -212,9 +216,6 @@ export default function ListenVisual({ live }) {
       oscillator.type = 'sine';
       oscillator.frequency.setValueAtTime(440, audioContext.currentTime); // A4 note
       oscillator.connect(analyser);  // Connect the oscillator to the analyser
-
-      // Connect the analyser to the destination (the speakers)
-      analyser.connect(audioContext.destination);
 
       // Start the oscillator
       oscillator.start();
@@ -270,9 +271,7 @@ export default function ListenVisual({ live }) {
   }, [])
 
   const adaptBoundaries = (first=false) => {
-    // console.log('ADAPTING BOUNDARIES')
     if(highTransitionRef.current === true) return;
-    // console.log('MAX: ' + maxFrequencyRef.current + ' MIN: ' + minFrequencyRef.current)
 
     const totalRange = maxFrequencyRef.current - minFrequencyRef.current;
     const totalRangeItem = Math.round(totalRange / totalRangeAmount);
@@ -293,7 +292,6 @@ export default function ListenVisual({ live }) {
     // If this if triggered onload
     if(first) setLettersOldHigh(newHighs)
     if(newHighs === lettersOldHighRef.current) {
-      // console.log('NO CHANGE')
       setMinFrequency(frequencyLength)
       setMaxFrequency(0)
       return;
@@ -311,7 +309,6 @@ export default function ListenVisual({ live }) {
         clearInterval(highIntervalRef.current)
       }, 5100)
       highIntervalRef.current = setInterval(() => {
-        // console.log(highTransitionIndexRef.current)
         setHighTransitionIndex((highTransitionIndex) => (highTransitionIndex - 0.02).toFixed(2))
       }, 100)
     }
@@ -325,7 +322,6 @@ export default function ListenVisual({ live }) {
   const returnSum = (letterHigh, letterOldHigh, index) => {
     // console.log('calculating HEIGHT'+index)
     let newValue;
-    // console.log('3: '+Date.now())
 
     // Transition between old value and new value
     if(highTransitionRef.current === true) {
@@ -342,33 +338,29 @@ export default function ListenVisual({ live }) {
 
   const returnSumBase = (time, index) => {
     let newValue;
-    // console.log(lettersHigh[index].totalRangeItem);
-    const extraBaseValueLocal = lettersHigh[index].totalRangeItem > 4 ? extraBaseValue : 0;
 
     // Transition between old value and new value
     if(highTransitionRef.current === true) {
       // transitionFactor * allBase frequencies added together / how many frequencies there are on the base
-      newValue = ((1 - highTransitionIndexRef.current) * (allHighsRef.current.slice(lettersHigh[index].min, lettersHigh[index].min + lettersHigh[index].length + extraBaseValueLocal).reduce((acc, curr, i) => acc = acc + curr, 0) / lettersHigh[index].totalRangeItem)) + (highTransitionIndexRef.current * (allHighsRef.current.slice(lettersOldHigh[index].min, lettersOldHigh[index].min + lettersOldHigh[index].length + extraBaseValueLocal).reduce((acc, curr, i) => acc = acc + curr, 0) / lettersOldHigh[index].totalRangeItem))
+      newValue = ((1 - highTransitionIndexRef.current) * (allHighsRef.current.slice(lettersHigh[index].min, lettersHigh[index].min + lettersHigh[index].length).reduce((acc, curr, i) => acc = acc + curr, 0) / lettersHigh[index].totalRangeItem)) + (highTransitionIndexRef.current * (allHighsRef.current.slice(lettersOldHigh[index].min, lettersOldHigh[index].min + lettersOldHigh[index].length).reduce((acc, curr, i) => acc = acc + curr, 0) / lettersOldHigh[index].totalRangeItem))
     }
 
     // New value only
     else {
-      newValue = allHighsRef.current.slice(lettersHigh[index].min, lettersHigh[index].min + lettersHigh[index].length + extraBaseValueLocal).reduce((acc, curr, i) => acc = acc + curr, 0) / lettersHigh[index].totalRangeItem
+      newValue = allHighsRef.current.slice(lettersHigh[index].min, lettersHigh[index].min + lettersHigh[index].length).reduce((acc, curr, i) => acc = acc + curr, 0) / lettersHigh[index].totalRangeItem
     }
 
-    return newValue;
+    return newValue < 0 ? 0 : newValue / sumBaseDivider;
+    // return 1;
   }
 
   const returnSumHeight = (time, indexx) => {
 
     const index = lettersOrder[indexx]
 
-    // console.log('calculating Height '+index+' — '+time);
     let newValue = allFactors[factorsIndex[index].factor] * returnSum(lettersHigh[index + 1], lettersOldHigh[index + 1]) + (1 - allFactors[factorsIndex[index].factor]) * returnSum(lettersHigh[factorsIndex[index].linkedTo + 1], lettersOldHigh[factorsIndex[index].linkedTo + 1])
 
-    // console.log('NEW VALUE: '+newValue)
-
-    return newValue;
+    return newValue < 0 ? 0 : newValue / sumHighDivider;
   }
 
   const shuffle = (array, setState) => {
@@ -430,7 +422,6 @@ export default function ListenVisual({ live }) {
     if(lettersHigh.length > 1) {
       setBaseValue(returnSumBase(t, 0))
       setHighValues([returnSumHeight(t, 1),returnSumHeight(t, 2),returnSumHeight(t, 3),returnSumHeight(t, 4),returnSumHeight(t, 1),returnSumHeight(t, 5)])
-      // console.log('Updating State: '+Date.now())
     }
   }, [t])
 
@@ -449,6 +440,24 @@ export default function ListenVisual({ live }) {
       undefined, { shallow: true }
     )
   }, [backgroundColor, textColor])
+
+  const calculateDecibelRange = (sensitivity) => {
+    
+    // Adjust ranges based on sensitivity
+    // At sensitivity 1, minDecibels is -30 and maxDecibels is -50
+    // At sensitivity 10, minDecibels is -90 and maxDecibels is 0
+    const minDecibels = baseMinDecibels + (5 - sensitivity) * 6; // Example calculation
+    const maxDecibels = baseMaxDecibels + (5 - sensitivity) * 4; // Example calculation
+
+    if(analyser) {
+      analyser.minDecibels = minDecibels;
+      analyser.maxDecibels = maxDecibels;
+    }
+}
+
+  useEffect(() => {
+    calculateDecibelRange(sensitivity)
+  }, [sensitivity])
 
   return (
     <div>
@@ -485,8 +494,8 @@ export default function ListenVisual({ live }) {
               <Letter
                 letter={letter}
                 factor={index}
-                base={0.05 * sensitivity * baseValue}
-                height={highValues[index] * 0.7 * sensitivity}
+                base={baseValue}
+                height={highValues[index]}
                 variation={allFactors[3]}
                 textColor={textColor}
               />
@@ -495,8 +504,8 @@ export default function ListenVisual({ live }) {
                 letter={'.'}
                 factor={index}
                 variation={allFactors[3]}
-                height={0.7 * sensitivity * baseValue}
-                base={highValues[4] * 0.05 * sensitivity}
+                height={baseValue}
+                base={highValues[4]}
                 textColor={textColor}
               />
               )}
